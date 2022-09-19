@@ -4,15 +4,15 @@ namespace ConsoleApp1.friend;
 
 public class Friend : IFriend
 {
-    private IHallForFriend HallForFriend;
+    private readonly IHallForFriend _hallForFriend;
 
     public Friend(IHallForFriend hallForFriend)
     {
-        HallForFriend = hallForFriend;
+        _hallForFriend = hallForFriend;
     }
 
     public int IsFirstBetterThenSecond(int first, int second)
     {
-        return HallForFriend.IsFirstBetterThenSecond(first, second);
+        return _hallForFriend.IsFirstBetterThenSecond(first, second);
     }
 }
