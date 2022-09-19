@@ -2,17 +2,29 @@
 using ConsoleApp1.hall;
 using ConsoleApp1.princess;
 
-const int maxNumberOfContenders = 100;
-const double iterNumber = 100;
-double sum = 0;
-for (double i = 0; i < iterNumber; i++)
-{
-    var hall = new Hall(maxNumberOfContenders);
-    var friend = new Friend(hall);
-    var princess = new Princess(hall, friend);
-    var result = princess.FindPrince();
-    sum += result;
-    Thread.Sleep(50);
-}
+namespace ConsoleApp1;
 
-Console.WriteLine("Average for " + iterNumber + " iterations = " + sum / iterNumber);
+public static class Program
+{
+    private const int MaxNumberOfContenders = 100;
+    private const double IterNumber = 100;
+
+    public static void Main(string[] args)
+    {
+        const int skip = 12;
+        const int percent = 93;
+        double sum = 0;
+        for (double i = 0; i < IterNumber; i++)
+        {
+            var hall = new Hall(MaxNumberOfContenders);
+            var friend = new Friend(hall);
+            var princess = new Princess(hall, friend);
+            var localResult = princess.FindPrince(skip, percent);
+            sum += localResult;
+            Thread.Sleep(2);
+        }
+
+        var result = sum / IterNumber;
+        Console.WriteLine("Average result = " + result);
+    }
+}

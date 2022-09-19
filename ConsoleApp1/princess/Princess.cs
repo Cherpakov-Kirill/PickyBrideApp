@@ -31,11 +31,13 @@ public class Princess
             {
                 low = mid + 1;
             }
+
             if (resOfCompare == 0)
             {
                 high = mid - 1;
             }
         }
+
         resOfCompare = Friend.IsFirstBetterThenSecond(princeId, contenders[low]);
         return resOfCompare switch
         {
@@ -52,9 +54,9 @@ public class Princess
         return idx;
     }
 
-    public int FindPrince()
+    public int FindPrince(int skip, int percent)
     {
-        for (var i = 0; i < 5; i++)
+        for (var i = 0; i < skip; i++)
         {
             var princeId = Hall.GetNextContender();
             AddNewPrince(princeId);
@@ -62,16 +64,12 @@ public class Princess
 
         var idx = 0;
         var res = 0;
-        while (idx < contenders.Count - 1 || contenders.Count >= 50)
+        while (idx < contenders.Count * percent / 100)
         {
-            if (contenders.Count == 100)
-            {
-                res = -1;
-                break;
-            }
             var princeId = Hall.GetNextContender();
             idx = AddNewPrince(princeId);
             res = contenders[idx];
+            if (contenders.Count == 49) break;
         }
 
         return Hall.ChooseAPrince(res);
