@@ -18,17 +18,4 @@ public class Contender
         if (obj is not Contender contender) return false;
         return Prettiness > contender.Prettiness;
     }
-
-    public override bool Equals(object? obj)
-    {
-        if (obj is not Contender contender) return false;
-        if (!Name.Equals(contender.Name)) return false;
-        if (!Patronymic.Equals(contender.Patronymic)) return false;
-        return Prettiness == contender.Prettiness;
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Name, Patronymic, Prettiness);
-    }
 }
