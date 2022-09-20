@@ -7,7 +7,6 @@ namespace ConsoleApp1;
 public static class Program
 {
     private const int MaxNumberOfContenders = 100;
-    private const int NumberOfSkippingContenders = 50;
 
     public static void Main()
     {
@@ -15,6 +14,6 @@ public static class Program
         hall.GenerateContenders(MaxNumberOfContenders);
         var friend = new Friend(hall);
         var princess = new Princess(hall, friend);
-        princess.FindPrince(NumberOfSkippingContenders);
+        princess.FindContender();
     }
 }

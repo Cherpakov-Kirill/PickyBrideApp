@@ -22,11 +22,15 @@ public class Hall : IHallForFriend, IHallForPrincess
         _random = new Random(DateTime.Now.Millisecond);
     }
 
+    /// <summary>
+    /// Generates list of contenders.
+    /// </summary>
+    /// <param name="maxNumberOfContenders">number of contenders for generation</param>
     public void GenerateContenders(int maxNumberOfContenders)
     {
         _waitingContenders = _generator.GetContenders(maxNumberOfContenders);
     }
-
+    
     public int GetNextContenderId()
     {
         if (_waitingContenders.Count == 0) return -1;
@@ -40,27 +44,17 @@ public class Hall : IHallForFriend, IHallForPrincess
 
         return currentNumber;
     }
-
-    private void PrintAllVisitedContenders()
-    {
-        for (var princeId = 1; princeId <= _visitedContenders.Count; princeId++)
-        {
-            var contender = _visitedContenders[princeId];
-            Console.WriteLine("#{0} : {1} {2} : {3}",
-                princeId, contender.Name, contender.Patronymic, contender.Prettiness);
-        }
-    }
-
-    public int TakeAPrince(int princeId)
+    
+    public int TakeAContender(int contenderId)
     {
         PrintAllVisitedContenders();
-        if (princeId == -1)
+        if (contenderId == -1)
         {
             Console.WriteLine("Result : " + NotTakenResult);
             return 10;
         }
 
-        var takenContender = _visitedContenders[princeId];
+        var takenContender = _visitedContenders[contenderId];
 
         if (takenContender.Prettiness <= DefeatThreshold)
         {
@@ -73,7 +67,7 @@ public class Hall : IHallForFriend, IHallForPrincess
             takenContender.Patronymic, takenContender.Prettiness);
         return takenContender.Prettiness;
     }
-
+    
     public Contender GetVisitedContender(int contenderId)
     {
         if (!_visitedContenders.ContainsKey(contenderId))
@@ -82,5 +76,15 @@ public class Hall : IHallForFriend, IHallForPrincess
         }
 
         return _visitedContenders[contenderId];
+    }
+
+    private void PrintAllVisitedContenders()
+    {
+        for (var contenderId = 1; contenderId <= _visitedContenders.Count; contenderId++)
+        {
+            var contender = _visitedContenders[contenderId];
+            Console.WriteLine("#{0} : {1} {2} : {3}",
+                contenderId, contender.Name, contender.Patronymic, contender.Prettiness);
+        }
     }
 }

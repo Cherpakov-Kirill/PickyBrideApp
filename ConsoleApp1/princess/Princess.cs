@@ -5,6 +5,7 @@ namespace ConsoleApp1.princess;
 
 public class Princess
 {
+    private const int NumberOfSkippingContenders = 50;
     private readonly IHallForPrincess _hall;
     private readonly IFriend _friend;
     private readonly List<int> _contenders;
@@ -16,30 +17,34 @@ public class Princess
         _contenders = new List<int>();
     }
 
-    private int AddNewPrince(int princeId)
+    /// <summary>
+    /// Find a contender for marriage.
+    /// </summary>
+    public void FindContender()
     {
-        _contenders.Add(princeId);
-        _contenders.Sort((i1, i2) => _friend.IsFirstBetterThenSecond(i1, i2));
-        return _contenders.IndexOf(princeId);
-    }
-
-    public void FindPrince(int skip)
-    {
-        for (var i = 0; i < skip; i++)
+        for (var i = 0; i < NumberOfSkippingContenders; i++)
         {
-            var princeId = _hall.GetNextContenderId();
-            AddNewPrince(princeId);
+            var contenderId = _hall.GetNextContenderId();
+            AddNewContender(contenderId);
         }
 
         var idx = 0;
         var res = 0;
         while (idx < _contenders.Count - 1)
         {
-            var princeId = _hall.GetNextContenderId();
-            idx = AddNewPrince(princeId);
+            var contenderId = _hall.GetNextContenderId();
+            idx = AddNewContender(contenderId);
             res = _contenders[idx];
         }
 
-        _hall.TakeAPrince(res);
+        _hall.TakeAContender(res);
+    }
+
+    private int AddNewContender(int contenderId)
+    {
+        _contenders.Add(contenderId);
+        _contenders.Sort((firstContenderId, secondContenderId) =>
+            _friend.IsFirstBetterThenSecond(firstContenderId, secondContenderId));
+        return _contenders.IndexOf(contenderId);
     }
 }
