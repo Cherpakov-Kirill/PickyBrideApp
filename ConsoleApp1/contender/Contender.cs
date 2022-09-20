@@ -1,6 +1,6 @@
 namespace ConsoleApp1.contender;
 
-public class Contender
+public class Contender : IComparable
 {
     public string Name { get; }
     public string Patronymic { get; }
@@ -13,9 +13,10 @@ public class Contender
         Prettiness = prettiness;
     }
 
-    public bool IsBetter(object? obj)
+    public int CompareTo(object? obj)
     {
-        if (obj is not Contender contender) return false;
-        return Prettiness > contender.Prettiness;
+        if (obj is Contender otherContender)
+            return Prettiness.CompareTo(otherContender.Prettiness);
+        throw new ArgumentException("Object is not a Contender");
     }
 }

@@ -11,8 +11,10 @@ public class Friend : IFriend
         _hallForFriend = hallForFriend;
     }
 
-    public int IsFirstBetterThenSecond(int first, int second)
+    public int IsFirstBetterThenSecond(int firstContenderId, int secondContenderId)
     {
-        return _hallForFriend.IsFirstBetterThenSecond(first, second);
+        var firstContender = _hallForFriend.GetVisitedContender(firstContenderId);
+        var secondContender = _hallForFriend.GetVisitedContender(secondContenderId);
+        return firstContender.CompareTo(secondContender);
     }
 }

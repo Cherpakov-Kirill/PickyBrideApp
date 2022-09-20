@@ -5,73 +5,41 @@ namespace ConsoleApp1.princess;
 
 public class Princess
 {
-    private IHallForPrincess Hall;
-    private IFriend Friend;
-    private List<int> contenders;
+    private readonly IHallForPrincess _hall;
+    private readonly IFriend _friend;
+    private readonly List<int> _contenders;
 
     public Princess(IHallForPrincess hall, IFriend friend)
     {
-        Hall = hall;
-        Friend = friend;
-        contenders = new List<int>();
-    }
-
-    private int FindPosition(int princeId)
-    {
-        if (contenders.Count == 0) return 0;
-        var low = 0;
-        var high = contenders.Count - 1;
-        var resOfCompare = 0;
-        while (low < high)
-        {
-            var mid = (low + high) / 2;
-            var midPrinceId = contenders[mid];
-            resOfCompare = Friend.IsFirstBetterThenSecond(princeId, midPrinceId);
-            if (resOfCompare == 1)
-            {
-                low = mid + 1;
-            }
-
-            if (resOfCompare == 0)
-            {
-                high = mid - 1;
-            }
-        }
-
-        resOfCompare = Friend.IsFirstBetterThenSecond(princeId, contenders[low]);
-        return resOfCompare switch
-        {
-            1 => low + 1,
-            0 => low,
-            _ => -1
-        };
+        _hall = hall;
+        _friend = friend;
+        _contenders = new List<int>();
     }
 
     private int AddNewPrince(int princeId)
     {
-        var idx = FindPosition(princeId);
-        contenders.Insert(idx, princeId);
-        return idx;
+        _contenders.Add(princeId);
+        _contenders.Sort((i1, i2) => _friend.IsFirstBetterThenSecond(i1, i2));
+        return _contenders.IndexOf(princeId);
     }
 
-    public int FindPrince(int skip, int percent)
+    public void FindPrince(int skip)
     {
         for (var i = 0; i < skip; i++)
         {
-            var princeId = Hall.GetNextContender();
+            var princeId = _hall.GetNextContenderId();
             AddNewPrince(princeId);
         }
 
         var idx = 0;
         var res = 0;
-        while (idx < contenders.Count * percent / 100)
+        while (idx < _contenders.Count - 1)
         {
-            var princeId = Hall.GetNextContender();
+            var princeId = _hall.GetNextContenderId();
             idx = AddNewPrince(princeId);
-            res = contenders[idx];
-            if (contenders.Count == 49) break;
+            res = _contenders[idx];
         }
 
-        return Hall.ChooseAPrince(res);
+        _hall.TakeAPrince(res);
     }
 }

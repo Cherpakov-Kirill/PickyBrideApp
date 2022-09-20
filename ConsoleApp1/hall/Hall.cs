@@ -4,26 +4,40 @@ namespace ConsoleApp1.hall;
 
 public class Hall : IHallForFriend, IHallForPrincess
 {
-    private readonly List<Contender> _waitingContenders;
+    private const int DefeatThreshold = 50;
+    private const int DefeatResult = 0;
+    private const int NotTakenResult = 10;
+
+
+    private List<Contender> _waitingContenders;
     private readonly Dictionary<int, Contender> _visitedContenders;
     private readonly Random _random;
+    private readonly ContenderGenerator _generator;
 
-    public Hall(int maxNumberOfContenders)
+    public Hall()
     {
-        var generator = new ContenderGenerator();
-        _waitingContenders = generator.GetContenders(maxNumberOfContenders);
+        _waitingContenders = new List<Contender>();
+        _generator = new ContenderGenerator();
         _visitedContenders = new Dictionary<int, Contender>();
         _random = new Random(DateTime.Now.Millisecond);
     }
 
-    public int GetNextContender()
+    public void GenerateContenders(int maxNumberOfContenders)
+    {
+        _waitingContenders = _generator.GetContenders(maxNumberOfContenders);
+    }
+
+    public int GetNextContenderId()
     {
         if (_waitingContenders.Count == 0) return -1;
+
         var randomValue = _random.Next(0, _waitingContenders.Count - 1);
         var contender = _waitingContenders[randomValue];
+
         _waitingContenders.Remove(contender);
         var currentNumber = _visitedContenders.Count + 1;
         _visitedContenders.Add(currentNumber, contender);
+
         return currentNumber;
     }
 
@@ -32,33 +46,41 @@ public class Hall : IHallForFriend, IHallForPrincess
         for (var princeId = 1; princeId <= _visitedContenders.Count; princeId++)
         {
             var contender = _visitedContenders[princeId];
-            Console.WriteLine("#" + princeId + " : " + contender.Name + " " + contender.Patronymic + " : " +
-                              contender.Prettiness);
+            Console.WriteLine("#{0} : {1} {2} : {3}",
+                princeId, contender.Name, contender.Patronymic, contender.Prettiness);
         }
     }
 
-    public int ChooseAPrince(int princeId)
+    public int TakeAPrince(int princeId)
     {
-        //PrintAllVisitedContenders();
+        PrintAllVisitedContenders();
         if (princeId == -1)
         {
-            Console.WriteLine("Result : " + 10);
+            Console.WriteLine("Result : " + NotTakenResult);
             return 10;
         }
-        if (_visitedContenders.Count >= 50)
+
+        var takenContender = _visitedContenders[princeId];
+
+        if (takenContender.Prettiness <= DefeatThreshold)
         {
-            Console.WriteLine("Result : " + 0);
+            Console.WriteLine("Result : " + DefeatResult);
             return 0;
         }
-        Console.WriteLine("Chosen contender id = " + princeId + " : " + _visitedContenders[princeId].Prettiness);
-        return _visitedContenders[princeId].Prettiness;
+
+
+        Console.WriteLine("Taken contender : {0} {1} | Prettiness : {2}", takenContender.Name,
+            takenContender.Patronymic, takenContender.Prettiness);
+        return takenContender.Prettiness;
     }
 
-    public int IsFirstBetterThenSecond(int first, int second)
+    public Contender GetVisitedContender(int contenderId)
     {
-        if (!_visitedContenders.ContainsKey(first) || !_visitedContenders.ContainsKey(second)) return -1;
-        var firstContender = _visitedContenders[first];
-        var secondContender = _visitedContenders[second];
-        return firstContender.IsBetter(secondContender) ? 1 : 0;
+        if (!_visitedContenders.ContainsKey(contenderId))
+        {
+            throw new ApplicationException("This contender is not visited the Princess");
+        }
+
+        return _visitedContenders[contenderId];
     }
 }
