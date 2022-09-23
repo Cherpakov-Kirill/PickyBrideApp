@@ -1,4 +1,4 @@
-namespace ConsoleApp1.contender;
+namespace PickyBride.contender;
 
 public interface IContenderGenerator
 {

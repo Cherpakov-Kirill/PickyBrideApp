@@ -2,7 +2,7 @@ using PickyBride.contender;
 
 namespace PickyBride.hall;
 
-public interface IHallForPrincess
+public interface IHall
 {
     /// <summary>
     /// Returns unique id of next contender in queue for coming to princess.
