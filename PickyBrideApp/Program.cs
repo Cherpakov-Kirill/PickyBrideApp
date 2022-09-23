@@ -1,8 +1,8 @@
-﻿using ConsoleApp1.friend;
-using ConsoleApp1.hall;
-using ConsoleApp1.princess;
+﻿using PickyBride.princess;
+using PickyBride.friend;
+using PickyBride.hall;
 
-namespace ConsoleApp1;
+namespace PickyBride;
 
 public static class Program
 {

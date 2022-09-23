@@ -1,4 +1,4 @@
-namespace ConsoleApp1.friend;
+namespace PickyBride.friend;
 
 public interface IFriend
 {

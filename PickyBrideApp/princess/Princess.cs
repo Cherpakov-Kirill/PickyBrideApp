@@ -1,7 +1,7 @@
-using ConsoleApp1.friend;
-using ConsoleApp1.hall;
+using PickyBride.friend;
+using PickyBride.hall;
 
-namespace ConsoleApp1.princess;
+namespace PickyBride.princess;
 
 public class Princess
 {
