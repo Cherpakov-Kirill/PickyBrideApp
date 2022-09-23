@@ -2,20 +2,19 @@ namespace ConsoleApp1.contender;
 
 public class ContenderGenerator
 {
-    private static readonly string[] Names = new string[15]
-        { "Виктор", "Владимир", "Владислав", "Петр", "Абрам", "Аввакум", "Август", "Аверьян", "Никифор", "Родион", 
-            "Кирилл", "Максим", "Артём", "Роман", "Семён"};
+    private static readonly string[] Names = { "Виктор", "Владимир", "Владислав", "Петр", "Абрам", "Аввакум", "Август", 
+        "Аверьян", "Никифор", "Родион", "Кирилл", "Максим", "Артём", "Роман", "Семён"};
 
-    private readonly Random Random;
+    private readonly Random _random;
 
     public ContenderGenerator()
     {
-        Random = new Random(DateTime.Now.Millisecond);
+        _random = new Random(DateTime.Now.Millisecond);
     }
 
     private string GetRandomName()
     {
-        return Names[Random.Next(0, Names.Length - 1)];
+        return Names[_random.Next(0, Names.Length - 1)];
     }
 
     private string GetPatronymic()
