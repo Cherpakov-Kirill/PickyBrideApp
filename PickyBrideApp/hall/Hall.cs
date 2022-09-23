@@ -1,6 +1,6 @@
-using ConsoleApp1.contender;
+using PickyBride.contender;
 
-namespace ConsoleApp1.hall;
+namespace PickyBride.hall;
 
 public class Hall : IHallForFriend, IHallForPrincess
 {

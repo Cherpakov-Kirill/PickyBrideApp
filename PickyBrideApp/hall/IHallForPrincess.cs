@@ -1,4 +1,4 @@
-namespace ConsoleApp1.hall;
+namespace PickyBride.hall;
 
 public interface IHallForPrincess
 {

@@ -1,6 +1,6 @@
-using ConsoleApp1.hall;
+using PickyBride.hall;
 
-namespace ConsoleApp1.friend;
+namespace PickyBride.friend;
 
 public class Friend : IFriend
 {
