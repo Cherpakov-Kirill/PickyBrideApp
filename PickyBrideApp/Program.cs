@@ -1,19 +1,30 @@
-﻿using PickyBride.princess;
+using Microsoft.Extensions.Hosting;
+using PickyBride.contender;
 using PickyBride.friend;
 using PickyBride.hall;
+using PickyBride.princess;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PickyBride;
 
 public static class Program
 {
-    private const int MaxNumberOfContenders = 100;
+    public const int MaxNumberOfContenders = 100;
 
-    public static void Main()
+    public static void Main(string[] args)
     {
-        var hall = new Hall();
-        hall.GenerateContenders(MaxNumberOfContenders);
-        var friend = new Friend(hall);
-        var princess = new Princess(hall, friend);
-        princess.FindContender();
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    private static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        return Host.CreateDefaultBuilder(args)
+            .ConfigureServices((_, services) =>
+            {
+                services.AddHostedService<Princess>();
+                services.AddScoped<IHall, Hall>();
+                services.AddScoped<IFriend, Friend>();
+                services.AddScoped<IContenderGenerator, ContenderGenerator>();
+            });
     }
 }

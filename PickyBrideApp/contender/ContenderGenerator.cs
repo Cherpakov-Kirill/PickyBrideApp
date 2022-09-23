@@ -1,14 +1,20 @@
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
 namespace PickyBride.contender;
 
-public class ContenderGenerator
+public class ContenderGenerator : IContenderGenerator, IHostedService
 {
     private static readonly string[] Names = { "Виктор", "Владимир", "Владислав", "Петр", "Абрам", "Аввакум", "Август", 
         "Аверьян", "Никифор", "Родион", "Кирилл", "Максим", "Артём", "Роман", "Семён"};
 
     private readonly Random _random;
+    
+    private readonly ILogger<ContenderGenerator> _logger;
 
-    public ContenderGenerator()
+    public ContenderGenerator(ILogger<ContenderGenerator> logger)
     {
+        _logger = logger;
         _random = new Random(DateTime.Now.Millisecond);
     }
 
@@ -39,5 +45,17 @@ public class ContenderGenerator
             contenders.Add(new Contender(name, patronymic, i));
         }
         return contenders;
+    }
+
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("ContenderGenerator : StartAsync has been called.");
+        return Task.CompletedTask;
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("ContenderGenerator : StopAsync has been called.");
+        return Task.CompletedTask;
     }
 }

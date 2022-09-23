@@ -1,26 +1,52 @@
 using PickyBride.friend;
 using PickyBride.hall;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace PickyBride.princess;
 
-public class Princess
+public class Princess : IHostedService
 {
     private const int NumberOfSkippingContenders = 50;
-    private readonly IHallForPrincess _hall;
+    private readonly IHall _hall;
     private readonly IFriend _friend;
     private readonly List<int> _contenders;
+    
+    private readonly ILogger<Princess> _logger;
+    private readonly IHostApplicationLifetime _appLifetime;
 
-    public Princess(IHallForPrincess hall, IFriend friend)
+    public Princess(ILogger<Princess> logger,
+        IHostApplicationLifetime appLifetime, IHall hall, IFriend friend)
     {
+        _logger = logger;
+        _appLifetime = appLifetime;
+        _appLifetime.ApplicationStarted.Register(OnStarted);
         _hall = hall;
         _friend = friend;
         _contenders = new List<int>();
+    }
+    
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Princess : StartAsync has been called.");
+        return Task.CompletedTask;
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Princess : StopAsync has been called.");
+        return Task.CompletedTask;
+    }
+
+    private void OnStarted()
+    {
+        FindContender();
     }
 
     /// <summary>
     /// Find a contender for marriage.
     /// </summary>
-    public void FindContender()
+    private void FindContender()
     {
         for (var i = 0; i < NumberOfSkippingContenders; i++)
         {
@@ -38,6 +64,7 @@ public class Princess
         }
 
         _hall.ComputePrincessHappiness(res);
+        _appLifetime.StopApplication();
     }
 
     private int AddNewContender(int contenderId)

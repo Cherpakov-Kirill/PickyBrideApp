@@ -2,34 +2,26 @@ using PickyBride.contender;
 
 namespace PickyBride.hall;
 
-public class Hall : IHallForFriend, IHallForPrincess
+public class Hall : IHall, IHostedService
 {
     private const int DefeatThreshold = 50;
     private const int DefeatResult = 0;
     private const int NotTakenResult = 10;
-
-    private List<Contender> _waitingContenders;
+    
+    private readonly List<Contender> _waitingContenders;
     private readonly Dictionary<int, Contender> _visitedContenders;
     private readonly Random _random;
-    private readonly ContenderGenerator _generator;
+    
+    private readonly ILogger<Hall> _logger;
 
-    public Hall()
+    public Hall(ILogger<Hall> logger, IContenderGenerator contenderGenerator)
     {
-        _waitingContenders = new List<Contender>();
-        _generator = new ContenderGenerator();
+        _logger = logger;
+        _waitingContenders = contenderGenerator.GetContenders(Program.MaxNumberOfContenders);
         _visitedContenders = new Dictionary<int, Contender>();
         _random = new Random(DateTime.Now.Millisecond);
     }
-
-    /// <summary>
-    /// Generates list of contenders.
-    /// </summary>
-    /// <param name="maxNumberOfContenders">number of contenders for generation</param>
-    public void GenerateContenders(int maxNumberOfContenders)
-    {
-        _waitingContenders = _generator.GetContenders(maxNumberOfContenders);
-    }
-
+    
     public int GetNextContenderId()
     {
         if (_waitingContenders.Count == 0) return -1;
@@ -85,5 +77,17 @@ public class Hall : IHallForFriend, IHallForPrincess
             Console.WriteLine("#{0} : {1} {2} : {3}",
                 contenderId, contender.Name, contender.Patronymic, contender.Prettiness);
         }
+    }
+
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Hall : StartAsync has been called.");
+        return Task.CompletedTask;
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Hall : StopAsync has been called.");
+        return Task.CompletedTask;
     }
 }
