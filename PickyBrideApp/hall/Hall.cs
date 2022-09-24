@@ -7,8 +7,7 @@ public class Hall : IHallForFriend, IHallForPrincess
     private const int DefeatThreshold = 50;
     private const int DefeatResult = 0;
     private const int NotTakenResult = 10;
-
-
+    
     private List<Contender> _waitingContenders;
     private readonly Dictionary<int, Contender> _visitedContenders;
     private readonly Random _random;
@@ -51,7 +50,7 @@ public class Hall : IHallForFriend, IHallForPrincess
         if (contenderId == -1)
         {
             Console.WriteLine("Result : " + NotTakenResult);
-            return 10;
+            return NotTakenResult;
         }
 
         var takenContender = _visitedContenders[contenderId];
@@ -59,10 +58,9 @@ public class Hall : IHallForFriend, IHallForPrincess
         if (takenContender.Prettiness <= DefeatThreshold)
         {
             Console.WriteLine("Result : " + DefeatResult);
-            return 0;
+            return DefeatResult;
         }
-
-
+        
         Console.WriteLine("Taken contender : {0} {1} | Prettiness : {2}", takenContender.Name,
             takenContender.Patronymic, takenContender.Prettiness);
         return takenContender.Prettiness;
