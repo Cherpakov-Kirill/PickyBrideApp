@@ -53,7 +53,7 @@ public class Hall : IHallForFriend, IHallForPrincess
             return NotTakenResult;
         }
 
-        var takenContender = _visitedContenders[contenderId];
+        var takenContender = GetVisitedContender(contenderId);
 
         if (takenContender.Prettiness <= DefeatThreshold)
         {
