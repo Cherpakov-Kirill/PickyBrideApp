@@ -44,12 +44,13 @@ public class Hall : IHallForFriend, IHallForPrincess
         return currentNumber;
     }
 
-    public void TakeAContenderAndPrintPrincessHappiness(int contenderId)
+    public int ComputePrincessHappiness(int contenderId)
     {
         PrintAllVisitedContenders();
         if (contenderId == -1)
         {
             Console.WriteLine("Princess could not choose any contender. Princess happiness : " + NotTakenResult);
+            return NotTakenResult;
         }
 
         var takenContender = _visitedContenders[contenderId];
@@ -58,10 +59,12 @@ public class Hall : IHallForFriend, IHallForPrincess
         {
             Console.WriteLine("Princess choose contender with prettiness = {0}  Princess happiness : {1}",
                 takenContender.Prettiness, DefeatResult);
+            return DefeatResult;
         }
 
         Console.WriteLine("Taken contender : {0} {1} | Princess happiness : {2}", takenContender.Name,
             takenContender.Patronymic, takenContender.Prettiness);
+        return takenContender.Prettiness;
     }
 
     public Contender GetVisitedContender(int contenderId)

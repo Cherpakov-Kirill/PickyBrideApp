@@ -17,5 +17,8 @@ public interface IHallForPrincess
     /// unique contender id that got from GetNextContenderId().
     /// (contenderId == -1) means that princess did not choose a contender.
     /// </param>
-    public void TakeAContenderAndPrintPrincessHappiness(int contenderId);
+    /// <returns>
+    /// Princess happiness after choosing a contender.
+    /// </returns>
+    public int ComputePrincessHappiness(int contenderId);
 }
