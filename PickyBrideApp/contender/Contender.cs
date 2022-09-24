@@ -18,32 +18,7 @@ public class Contender : IComparable
     /// </summary>
     /// <param name="obj">instance of Contender</param>
     /// <returns>
-    /// <list type="table">
-    /// <item>
-    /// <term><b>Returns</b></term>
-    /// <description>
-    /// <b>Description</b>
-    /// </description>
-    /// </item>
-    /// <item>
-    /// <term>Less than zero</term>
-    /// <description>
-    /// First contender is worse than second contender.
-    /// </description>
-    /// </item>
-    /// <item>
-    /// <term>Zero</term>
-    /// <description>
-    /// First contender is equal to second contender.
-    /// </description>
-    /// </item>
-    /// <item>
-    /// <term>Greater than zero</term>
-    /// <description>
-    /// First contender is better than second contender.
-    /// </description>
-    /// </item>
-    /// </list>
+    /// result of calling firstContenderPrettiness.CompareTo(secondContenderPrettiness)
     /// </returns>
     /// <exception cref="ArgumentException">Object is not a Contender</exception>
     public int CompareTo(object? obj)
