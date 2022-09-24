@@ -37,7 +37,7 @@ public class Princess
             res = _contenders[idx];
         }
 
-        _hall.TakeAContender(res);
+        _hall.TakeAContenderAndPrintPrincessHappiness(res);
     }
 
     private int AddNewContender(int contenderId)

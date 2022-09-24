@@ -11,14 +11,11 @@ public interface IHallForPrincess
     public int GetNextContenderId();
 
     /// <summary>
-    /// This method choose a contender by unique contender id.
+    /// This method choose a contender by unique contender id, prints happiness level of princess.
     /// </summary>
     /// <param name="contenderId">
     /// unique contender id that got from GetNextContenderId().
     /// (contenderId == -1) means that princess did not choose a contender.
     /// </param>
-    /// <returns>
-    /// Prettiness of the taken contender.
-    /// </returns>
-    public int TakeAContender(int contenderId);
+    public void TakeAContenderAndPrintPrincessHappiness(int contenderId);
 }

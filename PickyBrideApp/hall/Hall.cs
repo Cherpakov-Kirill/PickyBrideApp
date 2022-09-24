@@ -7,7 +7,7 @@ public class Hall : IHallForFriend, IHallForPrincess
     private const int DefeatThreshold = 50;
     private const int DefeatResult = 0;
     private const int NotTakenResult = 10;
-    
+
     private List<Contender> _waitingContenders;
     private readonly Dictionary<int, Contender> _visitedContenders;
     private readonly Random _random;
@@ -29,7 +29,7 @@ public class Hall : IHallForFriend, IHallForPrincess
     {
         _waitingContenders = _generator.GetContenders(maxNumberOfContenders);
     }
-    
+
     public int GetNextContenderId()
     {
         if (_waitingContenders.Count == 0) return -1;
@@ -43,29 +43,27 @@ public class Hall : IHallForFriend, IHallForPrincess
 
         return currentNumber;
     }
-    
-    public int TakeAContender(int contenderId)
+
+    public void TakeAContenderAndPrintPrincessHappiness(int contenderId)
     {
         PrintAllVisitedContenders();
         if (contenderId == -1)
         {
-            Console.WriteLine("Result : " + NotTakenResult);
-            return NotTakenResult;
+            Console.WriteLine("Princess could not choose any contender. Princess happiness : " + NotTakenResult);
         }
 
         var takenContender = _visitedContenders[contenderId];
 
         if (takenContender.Prettiness <= DefeatThreshold)
         {
-            Console.WriteLine("Result : " + DefeatResult);
-            return DefeatResult;
+            Console.WriteLine("Princess choose contender with prettiness = {0}  Princess happiness : {1}",
+                takenContender.Prettiness, DefeatResult);
         }
-        
-        Console.WriteLine("Taken contender : {0} {1} | Prettiness : {2}", takenContender.Name,
+
+        Console.WriteLine("Taken contender : {0} {1} | Princess happiness : {2}", takenContender.Name,
             takenContender.Patronymic, takenContender.Prettiness);
-        return takenContender.Prettiness;
     }
-    
+
     public Contender GetVisitedContender(int contenderId)
     {
         if (!_visitedContenders.ContainsKey(contenderId))
