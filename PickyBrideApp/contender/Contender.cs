@@ -18,7 +18,7 @@ public class Contender : IComparable
     /// </summary>
     /// <param name="obj">instance of Contender</param>
     /// <returns>
-    /// result of calling firstContenderPrettiness.CompareTo(secondContenderPrettiness)
+    /// Result of calling firstContenderPrettiness.CompareTo(secondContenderPrettiness)
     /// </returns>
     /// <exception cref="ArgumentException">Object is not a Contender</exception>
     public int CompareTo(object? obj)
