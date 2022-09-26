@@ -41,6 +41,7 @@ public class Princess : IHostedService
     private void OnStarted()
     {
         FindContender();
+        _appLifetime.StopApplication();
     }
 
     /// <summary>
@@ -64,7 +65,6 @@ public class Princess : IHostedService
         }
 
         _hall.ComputePrincessHappiness(res);
-        _appLifetime.StopApplication();
     }
 
     private int AddNewContender(int contenderId)

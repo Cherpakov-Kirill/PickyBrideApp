@@ -4,7 +4,7 @@ using PickyBride.hall;
 
 namespace PickyBride.friend;
 
-public class Friend : IFriend, IHostedService
+public class Friend : IFriend
 {
     private readonly IHall _hallForFriend;
     
@@ -21,19 +21,5 @@ public class Friend : IFriend, IHostedService
         var firstContender = _hallForFriend.GetVisitedContender(firstContenderId);
         var secondContender = _hallForFriend.GetVisitedContender(secondContenderId);
         return firstContender.CompareTo(secondContender);
-    }
-
-    public Task StartAsync(CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("Friend : StartAsync has been called.");
-
-        return Task.CompletedTask;
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("Friend : StopAsync has been called.");
-
-        return Task.CompletedTask;
     }
 }

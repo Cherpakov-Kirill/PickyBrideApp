@@ -1,10 +1,9 @@
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PickyBride.contender;
 
 namespace PickyBride.hall;
 
-public class Hall : IHall, IHostedService
+public class Hall : IHall
 {
     private const int DefeatThreshold = 50;
     private const int DefeatResult = 0;
@@ -79,17 +78,5 @@ public class Hall : IHall, IHostedService
             Console.WriteLine("#{0} : {1} {2} : {3}",
                 contenderId, contender.Name, contender.Patronymic, contender.Prettiness);
         }
-    }
-
-    public Task StartAsync(CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("Hall : StartAsync has been called.");
-        return Task.CompletedTask;
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("Hall : StopAsync has been called.");
-        return Task.CompletedTask;
     }
 }
