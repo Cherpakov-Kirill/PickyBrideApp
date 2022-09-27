@@ -1,35 +1,28 @@
+using Microsoft.Extensions.Logging;
 using PickyBride.contender;
 
 namespace PickyBride.hall;
 
-public class Hall : IHallForFriend, IHallForPrincess
+public class Hall : IHall
 {
     private const int DefeatThreshold = 50;
     private const int DefeatResult = 0;
     private const int NotTakenResult = 10;
-
-    private List<Contender> _waitingContenders;
+    
+    private readonly List<Contender> _waitingContenders;
     private readonly Dictionary<int, Contender> _visitedContenders;
     private readonly Random _random;
-    private readonly ContenderGenerator _generator;
+    
+    private readonly ILogger<Hall> _logger;
 
-    public Hall()
+    public Hall(ILogger<Hall> logger, IContenderGenerator contenderGenerator)
     {
-        _waitingContenders = new List<Contender>();
-        _generator = new ContenderGenerator();
+        _logger = logger;
+        _waitingContenders = contenderGenerator.GetContenders(Program.MaxNumberOfContenders);
         _visitedContenders = new Dictionary<int, Contender>();
         _random = new Random(DateTime.Now.Millisecond);
     }
-
-    /// <summary>
-    /// Generates list of contenders.
-    /// </summary>
-    /// <param name="maxNumberOfContenders">number of contenders for generation</param>
-    public void GenerateContenders(int maxNumberOfContenders)
-    {
-        _waitingContenders = _generator.GetContenders(maxNumberOfContenders);
-    }
-
+    
     public int GetNextContenderId()
     {
         if (_waitingContenders.Count == 0) return -1;
