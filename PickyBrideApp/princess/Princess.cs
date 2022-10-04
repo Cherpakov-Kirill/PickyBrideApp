@@ -12,15 +12,22 @@ public class Princess : IHostedService
     private readonly IFriend _friend;
     private readonly List<int> _contenders;
     
-    private readonly ILogger<Princess> _logger;
-    private readonly IHostApplicationLifetime _appLifetime;
+    private readonly ILogger<Princess>? _logger;
+    private readonly IHostApplicationLifetime? _appLifetime;
 
-    public Princess(ILogger<Princess> logger,
-        IHostApplicationLifetime appLifetime, IHall hall, IFriend friend)
+    public Princess(ILogger<Princess>? logger,
+        IHostApplicationLifetime? appLifetime, IHall hall, IFriend friend)
     {
         _logger = logger;
         _appLifetime = appLifetime;
-        _appLifetime.ApplicationStarted.Register(OnStarted);
+        _appLifetime?.ApplicationStarted.Register(OnStarted);
+        _hall = hall;
+        _friend = friend;
+        _contenders = new List<int>();
+    }
+    
+    public Princess(IHall hall, IFriend friend)
+    {
         _hall = hall;
         _friend = friend;
         _contenders = new List<int>();
@@ -28,26 +35,26 @@ public class Princess : IHostedService
     
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Princess : StartAsync has been called.");
+        _logger?.LogInformation("Princess : StartAsync has been called.");
         return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Princess : StopAsync has been called.");
+        _logger?.LogInformation("Princess : StopAsync has been called.");
         return Task.CompletedTask;
     }
 
     private void OnStarted()
     {
         FindContender();
-        _appLifetime.StopApplication();
+        _appLifetime?.StopApplication();
     }
 
     /// <summary>
     /// Find a contender for marriage.
     /// </summary>
-    private void FindContender()
+    public int FindContender()
     {
         for (var i = 0; i < NumberOfSkippingContenders; i++)
         {
@@ -64,7 +71,7 @@ public class Princess : IHostedService
             res = _contenders[idx];
         }
 
-        _hall.ComputePrincessHappiness(res);
+        return _hall.ComputePrincessHappiness(res);
     }
 
     private int AddNewContender(int contenderId)
