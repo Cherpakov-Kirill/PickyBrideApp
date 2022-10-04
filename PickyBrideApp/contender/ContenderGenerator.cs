@@ -24,6 +24,7 @@ public class ContenderGenerator : IContenderGenerator
 
     public List<Contender> GetContenders(int numberOfContenders)
     {
+        if (numberOfContenders <= 0) throw new ApplicationException("numberOfContenders should be more then zero");
         var contenders = new List<Contender>();
         var usedNames = new HashSet<string>();
         for (var i = 1; i <= numberOfContenders; i++)

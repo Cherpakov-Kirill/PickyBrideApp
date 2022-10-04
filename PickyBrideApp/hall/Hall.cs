@@ -21,7 +21,10 @@ public class Hall : IHall
     
     public int GetNextContenderId()
     {
-        if (_waitingContenders.Count == 0) return -1;
+        if (_waitingContenders.Count == 0)
+        {
+            throw new ApplicationException("There are no new contenders for the princess in the hall");
+        }
 
         var randomValue = _random.Next(0, _waitingContenders.Count - 1);
         var contender = _waitingContenders[randomValue];
