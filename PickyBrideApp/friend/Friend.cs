@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using PickyBride.hall;
 
 namespace PickyBride.friend;
@@ -7,12 +5,9 @@ namespace PickyBride.friend;
 public class Friend : IFriend
 {
     private readonly IHall _hallForFriend;
-    
-    private readonly ILogger<Friend> _logger;
 
-    public Friend(ILogger<Friend> logger, IHall hallForFriend)
+    public Friend(IHall hallForFriend)
     {
-        _logger = logger;
         _hallForFriend = hallForFriend;
     }
 

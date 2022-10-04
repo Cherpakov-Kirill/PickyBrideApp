@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using PickyBride.contender;
 
 namespace PickyBride.hall;
@@ -12,12 +11,9 @@ public class Hall : IHall
     private readonly List<Contender> _waitingContenders;
     private readonly Dictionary<int, Contender> _visitedContenders;
     private readonly Random _random;
-    
-    private readonly ILogger<Hall> _logger;
 
-    public Hall(ILogger<Hall> logger, IContenderGenerator contenderGenerator)
+    public Hall(IContenderGenerator contenderGenerator)
     {
-        _logger = logger;
         _waitingContenders = contenderGenerator.GetContenders(Program.MaxNumberOfContenders);
         _visitedContenders = new Dictionary<int, Contender>();
         _random = new Random(DateTime.Now.Millisecond);

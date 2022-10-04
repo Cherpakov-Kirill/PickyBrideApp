@@ -1,6 +1,3 @@
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
 namespace PickyBride.contender;
 
 public class ContenderGenerator : IContenderGenerator
@@ -9,12 +6,9 @@ public class ContenderGenerator : IContenderGenerator
         "Аверьян", "Никифор", "Родион", "Кирилл", "Максим", "Артём", "Роман", "Семён"};
 
     private readonly Random _random;
-    
-    private readonly ILogger<ContenderGenerator> _logger;
 
-    public ContenderGenerator(ILogger<ContenderGenerator> logger)
+    public ContenderGenerator()
     {
-        _logger = logger;
         _random = new Random(DateTime.Now.Millisecond);
     }
 
