@@ -15,7 +15,8 @@ public class PrincessTests
     private Hall _hall;
     private Princess _princess;
 
-    private void SetUpClassStack()
+    [SetUp]
+    public void SetUpClassStack()
     {
         _generator = new ContenderGenerator();
         _hall = new Hall(_generator);
@@ -23,28 +24,13 @@ public class PrincessTests
         _princess = new Princess(_hall, _friend);
     }
 
-    private void SetUpMockedClassStack()
-    {
-        var mockedHall = new MockedHall();
-        _friend = new Friend(mockedHall);
-        _princess = new Princess(mockedHall, _friend);
-    }
-
     [Test]
     public void ShouldCorrectlyChoosesContenderWithHighPrettiness()
     {
-        SetUpClassStack();
+        //This test validates princess algorithm.
+        //Algorithm relies on random order of contenders in queue.
+        //Princess should get happiness greater than 95 at least.
         var happiness = _princess.FindContender();
         happiness.Should().BeGreaterThan(95);
-    }
-
-    [Test]
-    public void ShouldThrowsErrorWhenNoNewContendersInTheHall()
-    {
-        SetUpMockedClassStack();
-        _princess.Invoking(y => y.FindContender())
-            .Should()
-            .Throw<ApplicationException>()
-            .WithMessage("There are no new contenders for the princess in the mocked hall");
     }
 }

@@ -7,15 +7,16 @@ namespace PickyBride.princess;
 
 public class Princess : IHostedService
 {
+    public const int NotTakenResult = 10;
     private const int DefeatThreshold = 50;
     private const int DefeatResult = 0;
-    private const int NotTakenResult = 10;
-    
+    private const int PrincessDidNotTakeAnyOne = -1;
+
     private const int NumberOfSkippingContenders = 50;
     private readonly IHall _hall;
     private readonly IFriend _friend;
     private readonly List<int> _contenders;
-    
+
     private readonly ILogger<Princess>? _logger;
     private readonly IHostApplicationLifetime? _appLifetime;
 
@@ -29,14 +30,14 @@ public class Princess : IHostedService
         _friend = friend;
         _contenders = new List<int>();
     }
-    
+
     public Princess(IHall hall, IFriend friend)
     {
         _hall = hall;
         _friend = friend;
         _contenders = new List<int>();
     }
-    
+
     public Task StartAsync(CancellationToken cancellationToken)
     {
         _logger?.LogInformation("Princess : StartAsync has been called.");
@@ -71,6 +72,8 @@ public class Princess : IHostedService
         var res = 0;
         while (idx < _contenders.Count - 1)
         {
+            if (_contenders.Count == Program.MaxNumberOfContenders)
+                return ComputePrincessHappiness(PrincessDidNotTakeAnyOne);
             var contenderId = _hall.GetNextContenderId();
             idx = AddNewContender(contenderId);
             res = _contenders[idx];
@@ -78,10 +81,10 @@ public class Princess : IHostedService
 
         return ComputePrincessHappiness(res);
     }
-    
+
     private int ComputePrincessHappiness(int contenderId)
     {
-        if (contenderId == -1)
+        if (contenderId == PrincessDidNotTakeAnyOne)
         {
             Console.WriteLine("Princess could not choose any contender. Princess happiness : " + NotTakenResult);
             return NotTakenResult;
@@ -90,7 +93,7 @@ public class Princess : IHostedService
         var chosenContenderPrettiness = _hall.GetContenderPrettiness(contenderId);
 
         if (chosenContenderPrettiness > DefeatThreshold) return chosenContenderPrettiness;
-        
+
         Console.WriteLine("Princess choose contender with prettiness = {0}  Princess happiness : {1}",
             chosenContenderPrettiness, DefeatResult);
         return DefeatResult;
