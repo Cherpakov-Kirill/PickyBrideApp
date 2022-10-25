@@ -6,18 +6,19 @@ namespace PickyBrideTests;
 
 public class MockedHall : IHall
 {
-    private const int DefeatThreshold = 50;
-    private const int DefeatResult = 0;
-    private const int NotTakenResult = 10;
-    
-    private readonly List<Contender> _waitingContenders;
-    private readonly Dictionary<int, Contender> _visitedContenders;
+    private readonly List<int> _waitingContenders;
+    private readonly Dictionary<int, int> _visitedContenders;
 
-    public MockedHall(IContenderGenerator contenderGenerator)
+    private void GenerateContenderList()
     {
-        _waitingContenders = contenderGenerator.GetContenders(Program.MaxNumberOfContenders);
-        _waitingContenders.Sort((x, y) => y.CompareTo(x));
-        _visitedContenders = new Dictionary<int, Contender>();
+        for (var i = Program.MaxNumberOfContenders; i >= 1; i--) _waitingContenders.Add(i);
+    }
+
+    public MockedHall()
+    {
+        _waitingContenders = new List<int>();
+        GenerateContenderList();
+        _visitedContenders = new Dictionary<int, int>();
     }
 
     public int GetNextContenderId()
@@ -36,25 +37,9 @@ public class MockedHall : IHall
         return currentNumber;
     }
 
-    public int ComputePrincessHappiness(int contenderId)
+    public int GetContenderPrettiness(int contenderId)
     {
-        if (contenderId == -1)
-        {
-            Console.WriteLine("Princess could not choose any contender. Princess happiness : " + NotTakenResult);
-            return NotTakenResult;
-        }
-
         var takenContender = GetVisitedContender(contenderId);
-
-        if (takenContender.Prettiness <= DefeatThreshold)
-        {
-            Console.WriteLine("Princess choose contender with prettiness = {0}  Princess happiness : {1}",
-                takenContender.Prettiness, DefeatResult);
-            return DefeatResult;
-        }
-
-        Console.WriteLine("Taken contender : {0} {1} | Princess happiness : {2}", takenContender.Name,
-            takenContender.Patronymic, takenContender.Prettiness);
         return takenContender.Prettiness;
     }
 
@@ -65,6 +50,6 @@ public class MockedHall : IHall
             throw new ApplicationException("This contender is not visited the Princess");
         }
 
-        return _visitedContenders[contenderId];
+        return new Contender($"MockedContenderName{contenderId}", $"MockedContenderPatronymic{contenderId}", _visitedContenders[contenderId]);
     }
 }

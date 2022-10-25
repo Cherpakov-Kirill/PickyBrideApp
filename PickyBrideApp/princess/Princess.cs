@@ -7,6 +7,10 @@ namespace PickyBride.princess;
 
 public class Princess : IHostedService
 {
+    private const int DefeatThreshold = 50;
+    private const int DefeatResult = 0;
+    private const int NotTakenResult = 10;
+    
     private const int NumberOfSkippingContenders = 50;
     private readonly IHall _hall;
     private readonly IFriend _friend;
@@ -72,7 +76,24 @@ public class Princess : IHostedService
             res = _contenders[idx];
         }
 
-        return _hall.ComputePrincessHappiness(res);
+        return ComputePrincessHappiness(res);
+    }
+    
+    private int ComputePrincessHappiness(int contenderId)
+    {
+        if (contenderId == -1)
+        {
+            Console.WriteLine("Princess could not choose any contender. Princess happiness : " + NotTakenResult);
+            return NotTakenResult;
+        }
+
+        var chosenContenderPrettiness = _hall.GetContenderPrettiness(contenderId);
+
+        if (chosenContenderPrettiness > DefeatThreshold) return chosenContenderPrettiness;
+        
+        Console.WriteLine("Princess choose contender with prettiness = {0}  Princess happiness : {1}",
+            chosenContenderPrettiness, DefeatResult);
+        return DefeatResult;
     }
 
     private int AddNewContender(int contenderId)

@@ -25,8 +25,7 @@ public class PrincessTests
 
     private void SetUpMockedClassStack()
     {
-        _generator = new ContenderGenerator();
-        var mockedHall = new MockedHall(_generator);
+        var mockedHall = new MockedHall();
         _friend = new Friend(mockedHall);
         _princess = new Princess(mockedHall, _friend);
     }
