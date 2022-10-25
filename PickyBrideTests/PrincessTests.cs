@@ -31,7 +31,7 @@ public class PrincessTests
     }
 
     [Test]
-    public void Princess_ShouldCorrectlyChooseContenderWithHighPrettiness()
+    public void ShouldCorrectlyChoosesContenderWithHighPrettiness()
     {
         SetUpClassStack();
         var happiness = _princess.FindContender();
@@ -39,7 +39,7 @@ public class PrincessTests
     }
 
     [Test]
-    public void Princess_ShouldThrowsError_WhenNoNewContendersInTheHall()
+    public void ShouldThrowsErrorWhenNoNewContendersInTheHall()
     {
         SetUpMockedClassStack();
         _princess.Invoking(y => y.FindContender())

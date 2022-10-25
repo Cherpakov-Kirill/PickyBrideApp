@@ -12,7 +12,7 @@ public class ContenderGeneratorTests
     [TestCase(1)]
     [TestCase(50)]
     [TestCase(100)]
-    public void ContenderGenerator_ShouldReturnsListWithNeedingSize(int numberOfContenders)
+    public void ShouldReturnsListWithNeedingSize(int numberOfContenders)
     {
         var generator = new ContenderGenerator();
         var contenders = generator.GetContenders(numberOfContenders);
@@ -21,7 +21,7 @@ public class ContenderGeneratorTests
 
     [TestCase(-1)]
     [TestCase(0)]
-    public void ContenderGenerator_ShouldThrowsError_WhenNumberOfContendersLessThenOne(int numberOfContenders)
+    public void ShouldThrowsErrorWhenNumberOfContendersLessThenOne(int numberOfContenders)
     {
         var generator = new ContenderGenerator();
         generator.Invoking(y => y.GetContenders(numberOfContenders))
@@ -32,7 +32,7 @@ public class ContenderGeneratorTests
     }
 
     [Test]
-    public void ContenderGenerator_ShouldReturnsUniqueNames()
+    public void ShouldReturnsUniqueNames()
     {
         var generator = new ContenderGenerator();
         var contenders = generator.GetContenders(NumberOfContenders);

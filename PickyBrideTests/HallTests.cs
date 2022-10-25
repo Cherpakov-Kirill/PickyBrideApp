@@ -18,7 +18,7 @@ public class HallTests
     }
     
     [Test]
-    public void Hall_ShouldThrowsError_WhenNoNewContendersInTheHall()
+    public void ShouldThrowsErrorWhenNoNewContendersInTheHall()
     {
         for (var i = 0; i < Program.MaxNumberOfContenders; i++)
         {
@@ -32,7 +32,7 @@ public class HallTests
     }
     
     [Test]
-    public void Hall_ShouldReturnsNextContender()
+    public void ShouldReturnsNextContender()
     {
         var contenderId = _hall.GetNextContenderId();
         contenderId.Should().Be(1);
