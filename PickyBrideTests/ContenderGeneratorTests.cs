@@ -20,9 +20,8 @@ public class ContenderGeneratorTests
     }
 
     [TestCase(-1)]
-    [TestCase(-50)]
-    [TestCase(-100)]
-    public void ContenderGenerator_ShouldThrowsError_WhenNumberOfContendersLessThenZero(int numberOfContenders)
+    [TestCase(0)]
+    public void ContenderGenerator_ShouldThrowsError_WhenNumberOfContendersLessThenOne(int numberOfContenders)
     {
         var generator = new ContenderGenerator();
         generator.Invoking(y => y.GetContenders(numberOfContenders))
@@ -37,6 +36,6 @@ public class ContenderGeneratorTests
     {
         var generator = new ContenderGenerator();
         var contenders = generator.GetContenders(NumberOfContenders);
-        contenders.Should().OnlyHaveUniqueItems(x => x.Name + " " + x.Patronymic);
+        contenders.Should().OnlyHaveUniqueItems(x => $"{x.Name} {x.Patronymic}");
     }
 }

@@ -54,6 +54,7 @@ public class Princess : IHostedService
     /// <summary>
     /// Find a contender for marriage.
     /// </summary>
+    /// <returns>Level of princess happiness after choose of prince.</returns>
     public int FindContender()
     {
         for (var i = 0; i < NumberOfSkippingContenders; i++)
