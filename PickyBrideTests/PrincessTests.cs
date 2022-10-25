@@ -10,7 +10,7 @@ namespace PickyBrideTests;
 [TestFixture]
 public class PrincessTests
 {
-    private ContenderGenerator _generator;
+    private IContenderGenerator _generator;
     private Friend _friend;
     private Hall _hall;
     private Princess _princess;
