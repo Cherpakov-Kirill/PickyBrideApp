@@ -35,6 +35,32 @@ public class HallTests
     public void ShouldReturnsNextContender()
     {
         var contenderId = _hall.GetNextContenderId();
-        contenderId.Should().Be(1);
+        const int expectedContenderId = 1;
+        contenderId.Should().Be(expectedContenderId);
+    }
+    
+    [Test]
+    public void ShouldReturnsVisitedContenderData()
+    {
+        var contenderId = _hall.GetNextContenderId();
+        _hall.Invoking(y => y.GetVisitedContender(contenderId)).Should().NotThrow<ApplicationException>();
+    }
+    
+    [Test]
+    public void ShouldThrowsErrorWhenContenderDidNotVisitPrincess()
+    {
+        const int contenderId = 1;
+        _hall.Invoking(y => y.GetVisitedContender(contenderId))
+            .Should()
+            .Throw<ApplicationException>()
+            .WithMessage("This contender is not visited the Princess");
+    }
+    
+    [Test]
+    public void ShouldReturnsCorrectContenderPrettiness()
+    {
+        var contenderId = _hall.GetNextContenderId();
+        var contender = _hall.GetVisitedContender(contenderId);
+        contender.Prettiness.Should().Be(_hall.GetContenderPrettiness(contenderId));
     }
 }
