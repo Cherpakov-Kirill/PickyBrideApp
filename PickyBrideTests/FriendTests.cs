@@ -32,11 +32,12 @@ public class FriendTests
     [Test]
     public void ShouldThrowsErrorWhenOneOfContenderDidNotVisitedThePrincess()
     {
-        var сontender = _hall.GetNextContenderId();
-        _friend.Invoking(y => y.IsFirstBetterThenSecond(сontender, 500))
+        var contender = _hall.GetNextContenderId();
+        var notVisitedContender = contender + 1;
+        _friend.Invoking(y => y.IsFirstBetterThenSecond(contender, notVisitedContender))
             .Should()
             .Throw<ApplicationException>()
-            .WithMessage("This contender is not visited the Princess");
+            .WithMessage("This contender did not visit the Princess");
     }
 
     [Test]

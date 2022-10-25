@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="princess_could_not_choose_any_contender_result" xml:space="preserve">
+        <value>Princess could not choose any contender. Princess happiness : </value>
+    </data>
+    <data name="princess_chose_the_prince_result" xml:space="preserve">
+        <value>Princess chose contender with prettiness = {0}  Princess happiness : {1}</value>
+    </data>
+    <data name="chosen_contender_info" xml:space="preserve">
+        <value>Taken contender : {0} {1} | Princess happiness : {2}</value>
+    </data>
+    <data name="this_contender_did_not_visit" xml:space="preserve">
+        <value>This contender did not visit the Princess</value>
+    </data>
+    <data name="contender_info" xml:space="preserve">
+        <value>#{0} : {1} {2} : {3}</value>
+    </data>
+    <data name="no_new_contender" xml:space="preserve">
+        <value>There are no new contenders for the princess in the hall</value>
+    </data>
+</root>

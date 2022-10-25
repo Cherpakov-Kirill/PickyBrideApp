@@ -53,7 +53,7 @@ public class HallTests
         _hall.Invoking(y => y.GetVisitedContender(contenderId))
             .Should()
             .Throw<ApplicationException>()
-            .WithMessage("This contender is not visited the Princess");
+            .WithMessage("This contender did not visit the Princess");
     }
     
     [Test]

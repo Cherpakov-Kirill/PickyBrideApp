@@ -19,7 +19,7 @@ public class Hall : IHall
     {
         if (_waitingContenders.Count == 0)
         {
-            throw new ApplicationException("There are no new contenders for the princess in the hall");
+            throw new ApplicationException(resources.no_new_contender);
         }
 
         var randomValue = _random.Next(0, _waitingContenders.Count - 1);
@@ -36,7 +36,7 @@ public class Hall : IHall
     {
         PrintAllVisitedContenders();
         var takenContender = GetVisitedContender(contenderId);
-        Console.WriteLine("Taken contender : {0} {1} | Princess happiness : {2}", takenContender.Name,
+        Console.WriteLine(resources.chosen_contender_info, takenContender.Name,
             takenContender.Patronymic, takenContender.Prettiness);
         return takenContender.Prettiness;
     }
@@ -45,7 +45,7 @@ public class Hall : IHall
     {
         if (!_visitedContenders.ContainsKey(contenderId))
         {
-            throw new ApplicationException("This contender is not visited the Princess");
+            throw new ApplicationException(resources.this_contender_did_not_visit);
         }
 
         return _visitedContenders[contenderId];
@@ -56,7 +56,7 @@ public class Hall : IHall
         for (var contenderId = 1; contenderId <= _visitedContenders.Count; contenderId++)
         {
             var contender = _visitedContenders[contenderId];
-            Console.WriteLine("#{0} : {1} {2} : {3}",
+            Console.WriteLine(resources.contender_info,
                 contenderId, contender.Name, contender.Patronymic, contender.Prettiness);
         }
     }
