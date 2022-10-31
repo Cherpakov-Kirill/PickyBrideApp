@@ -62,63 +62,63 @@ namespace PickyBride {
         /// <summary>
         ///   Looks up a localized string similar to Taken contender : {0} {1} | Princess happiness : {2}.
         /// </summary>
-        public static string chosen_contender_info {
+        public static string ChosenContenderInfo {
             get {
-                return ResourceManager.GetString("chosen_contender_info", resourceCulture);
+                return ResourceManager.GetString("ChosenContenderInfo", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to #{0} : {1} {2} : {3}.
         /// </summary>
-        public static string contender_info {
+        public static string ContenderInfo {
             get {
-                return ResourceManager.GetString("contender_info", resourceCulture);
+                return ResourceManager.GetString("ContenderInfo", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to There are no new contenders for the princess in the hall.
         /// </summary>
-        public static string no_new_contender {
+        public static string NoNewContender {
             get {
-                return ResourceManager.GetString("no_new_contender", resourceCulture);
+                return ResourceManager.GetString("NoNewContender", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to numberOfContenders should be more then zero.
         /// </summary>
-        public static string number_of_contenders_should_be_more_then_zero {
+        public static string NumberOfContendersShouldBeMoreThenZero {
             get {
-                return ResourceManager.GetString("number_of_contenders_should_be_more_then_zero", resourceCulture);
+                return ResourceManager.GetString("NumberOfContendersShouldBeMoreThenZero", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Princess chose contender with prettiness = {0}  Princess happiness : {1}.
         /// </summary>
-        public static string princess_chose_the_prince_result {
+        public static string PrincessChoseThePrinceResult_ {
             get {
-                return ResourceManager.GetString("princess_chose_the_prince_result", resourceCulture);
+                return ResourceManager.GetString("PrincessChoseThePrinceResult ", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Princess could not choose any contender. Princess happiness : .
         /// </summary>
-        public static string princess_could_not_choose_any_contender_result {
+        public static string PrincessCouldNotChooseAnyContenderResult {
             get {
-                return ResourceManager.GetString("princess_could_not_choose_any_contender_result", resourceCulture);
+                return ResourceManager.GetString("PrincessCouldNotChooseAnyContenderResult", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to This contender did not visit the Princess.
         /// </summary>
-        public static string this_contender_did_not_visit {
+        public static string ThisContenderDidNotVisit {
             get {
-                return ResourceManager.GetString("this_contender_did_not_visit", resourceCulture);
+                return ResourceManager.GetString("ThisContenderDidNotVisit", resourceCulture);
             }
         }
     }

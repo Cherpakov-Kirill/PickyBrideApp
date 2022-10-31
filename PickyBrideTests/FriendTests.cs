@@ -37,7 +37,7 @@ public class FriendTests
         _friend.Invoking(y => y.IsFirstBetterThenSecond(contender, notVisitedContender))
             .Should()
             .Throw<ApplicationException>()
-            .WithMessage(PickyBride.resources.this_contender_did_not_visit);
+            .WithMessage(PickyBride.resources.ThisContenderDidNotVisit);
     }
 
     [Test]

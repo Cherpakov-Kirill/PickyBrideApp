@@ -10,17 +10,18 @@ namespace PickyBrideTests;
 public class HallTests
 {
     private Hall _hall;
+    private const int NumberOfContenders = 2;
 
     [SetUp]
     public void SetUp()
     {
-        _hall = new Hall(new ContenderGenerator());
+        _hall = new Hall(new ContenderGenerator(), NumberOfContenders);
     }
     
     [Test]
     public void ShouldThrowsErrorWhenNoNewContendersInTheHall()
     {
-        for (var i = 0; i < Program.MaxNumberOfContenders; i++)
+        for (var i = 0; i < NumberOfContenders; i++)
         {
             _hall.GetNextContenderId();
         }
@@ -28,7 +29,7 @@ public class HallTests
         _hall.Invoking(y => y.GetNextContenderId())
             .Should()
             .Throw<ApplicationException>()
-            .WithMessage(PickyBride.resources.no_new_contender);
+            .WithMessage(PickyBride.resources.NoNewContender);
     }
     
     [Test]
@@ -53,7 +54,7 @@ public class HallTests
         _hall.Invoking(y => y.GetVisitedContender(contenderId))
             .Should()
             .Throw<ApplicationException>()
-            .WithMessage(PickyBride.resources.this_contender_did_not_visit);
+            .WithMessage(PickyBride.resources.ThisContenderDidNotVisit);
     }
     
     [Test]

@@ -15,11 +15,18 @@ public class Hall : IHall
         _random = new Random(DateTime.Now.Millisecond);
     }
     
+    public Hall(IContenderGenerator contenderGenerator, int numberOfContenders)
+    {
+        _waitingContenders = contenderGenerator.GetContenders(numberOfContenders);
+        _visitedContenders = new Dictionary<int, Contender>();
+        _random = new Random(DateTime.Now.Millisecond);
+    }
+    
     public int GetNextContenderId()
     {
         if (_waitingContenders.Count == 0)
         {
-            throw new ApplicationException(resources.no_new_contender);
+            throw new ApplicationException(resources.NoNewContender);
         }
 
         var randomValue = _random.Next(0, _waitingContenders.Count - 1);
@@ -36,7 +43,7 @@ public class Hall : IHall
     {
         PrintAllVisitedContenders();
         var takenContender = GetVisitedContender(contenderId);
-        Console.WriteLine(resources.chosen_contender_info, takenContender.Name,
+        Console.WriteLine(resources.ChosenContenderInfo, takenContender.Name,
             takenContender.Patronymic, takenContender.Prettiness);
         return takenContender.Prettiness;
     }
@@ -45,7 +52,7 @@ public class Hall : IHall
     {
         if (!_visitedContenders.ContainsKey(contenderId))
         {
-            throw new ApplicationException(resources.this_contender_did_not_visit);
+            throw new ApplicationException(resources.ThisContenderDidNotVisit);
         }
 
         return _visitedContenders[contenderId];
@@ -56,7 +63,7 @@ public class Hall : IHall
         for (var contenderId = 1; contenderId <= _visitedContenders.Count; contenderId++)
         {
             var contender = _visitedContenders[contenderId];
-            Console.WriteLine(resources.contender_info,
+            Console.WriteLine(resources.ContenderInfo,
                 contenderId, contender.Name, contender.Patronymic, contender.Prettiness);
         }
     }

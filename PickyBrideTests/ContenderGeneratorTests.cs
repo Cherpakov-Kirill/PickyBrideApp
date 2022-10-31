@@ -27,7 +27,7 @@ public class ContenderGeneratorTests
         generator.Invoking(y => y.GetContenders(numberOfContenders))
             .Should()
             .Throw<ApplicationException>()
-            .WithMessage(PickyBride.resources.number_of_contenders_should_be_more_then_zero);
+            .WithMessage(PickyBride.resources.NumberOfContendersShouldBeMoreThenZero);
         ;
     }
 

@@ -86,7 +86,7 @@ public class Princess : IHostedService
     {
         if (contenderId == PrincessDidNotTakeAnyOne)
         {
-            Console.WriteLine(resources.princess_could_not_choose_any_contender_result + NotTakenResult);
+            Console.WriteLine(resources.PrincessCouldNotChooseAnyContenderResult + NotTakenResult);
             return NotTakenResult;
         }
 
@@ -94,7 +94,7 @@ public class Princess : IHostedService
 
         if (chosenContenderPrettiness > DefeatThreshold) return chosenContenderPrettiness;
 
-        Console.WriteLine(resources.princess_chose_the_prince_result,
+        Console.WriteLine(resources.PrincessChoseThePrinceResult_,
             chosenContenderPrettiness, DefeatResult);
         return DefeatResult;
     }
