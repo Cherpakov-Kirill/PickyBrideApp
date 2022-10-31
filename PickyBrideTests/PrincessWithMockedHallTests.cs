@@ -22,9 +22,15 @@ public class PrincessWithMockedHallTests
         _friend = new Friend(mockedHall);
         _princess = new Princess(mockedHall, _friend);
     }
+    
+    /// <summary>
+    /// Mocked hall gives contenders ordered in descending order of the prettiness.
+    /// According to the princess algorithm: she takes first best contender after NumberOfSkippingContenders.
+    /// But no one contender can be better then previous contenders in this MockedHall.
+    /// </summary>
 
     [Test]
-    public void ShouldThrowsErrorWhenNoNewContendersInTheHall()
+    public void ShouldThrowsErrorWhenContendersVisitsThePrincessInDescendingOrderOfThePrettiness()
     {
         _princess.FindContender().Should().Be(Princess.NotTakenResult);
     }
