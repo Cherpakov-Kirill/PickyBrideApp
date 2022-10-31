@@ -36,7 +36,7 @@ public class HallTests
     public void ShouldReturnsNextContender()
     {
         var contenderId = _hall.LetTheNextContenderGoToThePrincess();
-        const int expectedContenderId = 1;
+        const int expectedContenderId = 1; //hall gives ordering number of visiting contender: from 1 till maxNumberOfContender
         contenderId.Should().Be(expectedContenderId);
     }
     
