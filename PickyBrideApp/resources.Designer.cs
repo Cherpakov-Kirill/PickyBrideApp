@@ -105,7 +105,7 @@ namespace PickyBride {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Princess could not choose any contender. Princess happiness : .
+        ///   Looks up a localized string similar to Princess could not choose any contender. Princess happiness : {0}.
         /// </summary>
         public static string PrincessCouldNotChooseAnyContenderResult {
             get {

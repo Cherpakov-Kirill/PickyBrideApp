@@ -86,7 +86,7 @@ public class Princess : IHostedService
     {
         if (contenderId == PrincessDidNotTakeAnyOne)
         {
-            Console.WriteLine(resources.PrincessCouldNotChooseAnyContenderResult + NotTakenResult);
+            Console.WriteLine(resources.PrincessCouldNotChooseAnyContenderResult, NotTakenResult);
             return NotTakenResult;
         }
 

@@ -19,7 +19,7 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="PrincessCouldNotChooseAnyContenderResult" xml:space="preserve">
-        <value>Princess could not choose any contender. Princess happiness : </value>
+        <value>Princess could not choose any contender. Princess happiness : {0}</value>
     </data>
     <data name="PrincessChoseThePrinceResult " xml:space="preserve">
         <value>Princess chose contender with prettiness = {0}  Princess happiness : {1}</value>
