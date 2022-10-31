@@ -22,7 +22,7 @@ public class Hall : IHall
         _random = new Random(DateTime.Now.Millisecond);
     }
     
-    public int GetNextContenderId()
+    public int LetTheNextContenderGoToThePrincess()
     {
         if (_waitingContenders.Count == 0)
         {

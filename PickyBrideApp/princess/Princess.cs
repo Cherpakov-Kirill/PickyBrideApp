@@ -64,7 +64,7 @@ public class Princess : IHostedService
     {
         for (var i = 0; i < NumberOfSkippingContenders; i++)
         {
-            var contenderId = _hall.GetNextContenderId();
+            var contenderId = _hall.LetTheNextContenderGoToThePrincess();
             AddNewContender(contenderId);
         }
 
@@ -74,7 +74,7 @@ public class Princess : IHostedService
         {
             if (_contenders.Count == Program.MaxNumberOfContenders)
                 return ComputePrincessHappiness(PrincessDidNotTakeAnyOne);
-            var contenderId = _hall.GetNextContenderId();
+            var contenderId = _hall.LetTheNextContenderGoToThePrincess();
             idx = AddNewContender(contenderId);
             res = _contenders[idx];
         }

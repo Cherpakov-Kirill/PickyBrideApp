@@ -23,10 +23,10 @@ public class HallTests
     {
         for (var i = 0; i < NumberOfContenders; i++)
         {
-            _hall.GetNextContenderId();
+            _hall.LetTheNextContenderGoToThePrincess();
         }
 
-        _hall.Invoking(y => y.GetNextContenderId())
+        _hall.Invoking(y => y.LetTheNextContenderGoToThePrincess())
             .Should()
             .Throw<ApplicationException>()
             .WithMessage(PickyBride.resources.NoNewContender);
@@ -35,7 +35,7 @@ public class HallTests
     [Test]
     public void ShouldReturnsNextContender()
     {
-        var contenderId = _hall.GetNextContenderId();
+        var contenderId = _hall.LetTheNextContenderGoToThePrincess();
         const int expectedContenderId = 1;
         contenderId.Should().Be(expectedContenderId);
     }
@@ -43,7 +43,7 @@ public class HallTests
     [Test]
     public void ShouldReturnsVisitedContenderData()
     {
-        var contenderId = _hall.GetNextContenderId();
+        var contenderId = _hall.LetTheNextContenderGoToThePrincess();
         _hall.Invoking(y => y.GetVisitedContender(contenderId)).Should().NotThrow<ApplicationException>();
     }
     
@@ -60,7 +60,7 @@ public class HallTests
     [Test]
     public void ShouldReturnsCorrectContenderPrettiness()
     {
-        var contenderId = _hall.GetNextContenderId();
+        var contenderId = _hall.LetTheNextContenderGoToThePrincess();
         var contender = _hall.GetVisitedContender(contenderId);
         contender.Prettiness.Should().Be(_hall.GetContenderPrettiness(contenderId));
     }

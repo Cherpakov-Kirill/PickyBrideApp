@@ -21,7 +21,7 @@ public class MockedHall : IHall
         GenerateContenderList();
     }
 
-    public int GetNextContenderId()
+    public int LetTheNextContenderGoToThePrincess()
     {
         _lastVisitedContenderIdx++;
         return _lastVisitedContenderIdx;

@@ -22,8 +22,8 @@ public class FriendTests
     [Test]
     public void ShouldNotThrowsErrorWhenBothContendersVisitedThePrincess()
     {
-        var firstContender = _hall.GetNextContenderId();
-        var secondContender = _hall.GetNextContenderId();
+        var firstContender = _hall.LetTheNextContenderGoToThePrincess();
+        var secondContender = _hall.LetTheNextContenderGoToThePrincess();
         _friend.Invoking(y => y.IsFirstBetterThenSecond(firstContender, secondContender))
             .Should()
             .NotThrow();
@@ -32,7 +32,7 @@ public class FriendTests
     [Test]
     public void ShouldThrowsErrorWhenOneOfContenderDidNotVisitedThePrincess()
     {
-        var contender = _hall.GetNextContenderId();
+        var contender = _hall.LetTheNextContenderGoToThePrincess();
         var notVisitedContender = contender + 1;
         _friend.Invoking(y => y.IsFirstBetterThenSecond(contender, notVisitedContender))
             .Should()
@@ -43,8 +43,8 @@ public class FriendTests
     [Test]
     public void ShouldCorrectlyComparesOfContenders()
     {
-        var firstContenderId = _hall.GetNextContenderId();
-        var secondContenderId = _hall.GetNextContenderId();
+        var firstContenderId = _hall.LetTheNextContenderGoToThePrincess();
+        var secondContenderId = _hall.LetTheNextContenderGoToThePrincess();
         var firstContender = _hall.GetVisitedContender(firstContenderId);
         var secondContender = _hall.GetVisitedContender(secondContenderId);
         var result = _friend.IsFirstBetterThenSecond(firstContenderId, secondContenderId);

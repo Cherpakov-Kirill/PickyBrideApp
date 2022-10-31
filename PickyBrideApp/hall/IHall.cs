@@ -10,7 +10,7 @@ public interface IHall
     /// <returns>
     /// Contender id of next contender.
     /// </returns>
-    public int GetNextContenderId();
+    public int LetTheNextContenderGoToThePrincess();
 
     /// <summary>
     /// Method returns chosen contender prettiness.
