@@ -36,4 +36,7 @@
     <data name="no_new_contender" xml:space="preserve">
         <value>There are no new contenders for the princess in the hall</value>
     </data>
+    <data name="number_of_contenders_should_be_more_then_zero" xml:space="preserve">
+        <value>numberOfContenders should be more then zero</value>
+    </data>
 </root>

@@ -28,7 +28,7 @@ public class HallTests
         _hall.Invoking(y => y.GetNextContenderId())
             .Should()
             .Throw<ApplicationException>()
-            .WithMessage("There are no new contenders for the princess in the hall");
+            .WithMessage(PickyBride.resources.no_new_contender);
     }
     
     [Test]
@@ -53,7 +53,7 @@ public class HallTests
         _hall.Invoking(y => y.GetVisitedContender(contenderId))
             .Should()
             .Throw<ApplicationException>()
-            .WithMessage("This contender did not visit the Princess");
+            .WithMessage(PickyBride.resources.this_contender_did_not_visit);
     }
     
     [Test]

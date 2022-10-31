@@ -21,7 +21,7 @@ namespace PickyBride {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class resources {
+    public class resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace PickyBride {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PickyBride.resources", typeof(resources).Assembly);
@@ -50,7 +50,7 @@ namespace PickyBride {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -62,7 +62,7 @@ namespace PickyBride {
         /// <summary>
         ///   Looks up a localized string similar to Taken contender : {0} {1} | Princess happiness : {2}.
         /// </summary>
-        internal static string chosen_contender_info {
+        public static string chosen_contender_info {
             get {
                 return ResourceManager.GetString("chosen_contender_info", resourceCulture);
             }
@@ -71,7 +71,7 @@ namespace PickyBride {
         /// <summary>
         ///   Looks up a localized string similar to #{0} : {1} {2} : {3}.
         /// </summary>
-        internal static string contender_info {
+        public static string contender_info {
             get {
                 return ResourceManager.GetString("contender_info", resourceCulture);
             }
@@ -80,16 +80,25 @@ namespace PickyBride {
         /// <summary>
         ///   Looks up a localized string similar to There are no new contenders for the princess in the hall.
         /// </summary>
-        internal static string no_new_contender {
+        public static string no_new_contender {
             get {
                 return ResourceManager.GetString("no_new_contender", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to numberOfContenders should be more then zero.
+        /// </summary>
+        public static string number_of_contenders_should_be_more_then_zero {
+            get {
+                return ResourceManager.GetString("number_of_contenders_should_be_more_then_zero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Princess chose contender with prettiness = {0}  Princess happiness : {1}.
         /// </summary>
-        internal static string princess_chose_the_prince_result {
+        public static string princess_chose_the_prince_result {
             get {
                 return ResourceManager.GetString("princess_chose_the_prince_result", resourceCulture);
             }
@@ -98,7 +107,7 @@ namespace PickyBride {
         /// <summary>
         ///   Looks up a localized string similar to Princess could not choose any contender. Princess happiness : .
         /// </summary>
-        internal static string princess_could_not_choose_any_contender_result {
+        public static string princess_could_not_choose_any_contender_result {
             get {
                 return ResourceManager.GetString("princess_could_not_choose_any_contender_result", resourceCulture);
             }
@@ -107,7 +116,7 @@ namespace PickyBride {
         /// <summary>
         ///   Looks up a localized string similar to This contender did not visit the Princess.
         /// </summary>
-        internal static string this_contender_did_not_visit {
+        public static string this_contender_did_not_visit {
             get {
                 return ResourceManager.GetString("this_contender_did_not_visit", resourceCulture);
             }
