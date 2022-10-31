@@ -30,11 +30,33 @@ public class FriendTests
     }
 
     [Test]
-    public void ShouldThrowsErrorWhenOneOfContenderDidNotVisitedThePrincess()
+    public void ShouldThrowsErrorWhenFirstContenderDidNotVisitedThePrincess()
+    {
+        var contender = _hall.LetTheNextContenderGoToThePrincess();
+        var notVisitedContender = contender + 1;
+        _friend.Invoking(y => y.IsFirstBetterThenSecond(notVisitedContender, contender))
+            .Should()
+            .Throw<ApplicationException>()
+            .WithMessage(PickyBride.resources.ThisContenderDidNotVisit);
+    }
+    
+    [Test]
+    public void ShouldThrowsErrorWhenSecondContenderDidNotVisitedThePrincess()
     {
         var contender = _hall.LetTheNextContenderGoToThePrincess();
         var notVisitedContender = contender + 1;
         _friend.Invoking(y => y.IsFirstBetterThenSecond(contender, notVisitedContender))
+            .Should()
+            .Throw<ApplicationException>()
+            .WithMessage(PickyBride.resources.ThisContenderDidNotVisit);
+    }
+    
+    [Test]
+    public void ShouldThrowsErrorWhenBothContendersDidNotVisitedThePrincess()
+    {
+        const int firstContendersWithoutVisit = 1;
+        const int secondContendersWithoutVisit = firstContendersWithoutVisit + 1;
+        _friend.Invoking(y => y.IsFirstBetterThenSecond(secondContendersWithoutVisit, firstContendersWithoutVisit))
             .Should()
             .Throw<ApplicationException>()
             .WithMessage(PickyBride.resources.ThisContenderDidNotVisit);
