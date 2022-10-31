@@ -28,7 +28,6 @@ public class ContenderGeneratorTests
             .Should()
             .Throw<ApplicationException>()
             .WithMessage(PickyBride.resources.NumberOfContendersShouldBeMoreThenZero);
-        ;
     }
 
     [Test]
