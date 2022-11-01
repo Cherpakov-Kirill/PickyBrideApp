@@ -1,31 +1,33 @@
-using Microsoft.Extensions.Logging;
 using PickyBride.contender;
 
 namespace PickyBride.hall;
 
 public class Hall : IHall
 {
-    private const int DefeatThreshold = 50;
-    private const int DefeatResult = 0;
-    private const int NotTakenResult = 10;
-    
     private readonly List<Contender> _waitingContenders;
     private readonly Dictionary<int, Contender> _visitedContenders;
     private readonly Random _random;
-    
-    private readonly ILogger<Hall> _logger;
 
-    public Hall(ILogger<Hall> logger, IContenderGenerator contenderGenerator)
+    public Hall(IContenderGenerator contenderGenerator)
     {
-        _logger = logger;
         _waitingContenders = contenderGenerator.GetContenders(Program.MaxNumberOfContenders);
         _visitedContenders = new Dictionary<int, Contender>();
         _random = new Random(DateTime.Now.Millisecond);
     }
     
-    public int GetNextContenderId()
+    public Hall(IContenderGenerator contenderGenerator, int numberOfContenders)
     {
-        if (_waitingContenders.Count == 0) return -1;
+        _waitingContenders = contenderGenerator.GetContenders(numberOfContenders);
+        _visitedContenders = new Dictionary<int, Contender>();
+        _random = new Random(DateTime.Now.Millisecond);
+    }
+    
+    public int LetTheNextContenderGoToThePrincess()
+    {
+        if (_waitingContenders.Count == 0)
+        {
+            throw new ApplicationException(resources.NoNewContender);
+        }
 
         var randomValue = _random.Next(0, _waitingContenders.Count - 1);
         var contender = _waitingContenders[randomValue];
@@ -37,25 +39,11 @@ public class Hall : IHall
         return currentNumber;
     }
 
-    public int ComputePrincessHappiness(int contenderId)
+    public int GetContenderPrettiness(int contenderId)
     {
         PrintAllVisitedContenders();
-        if (contenderId == -1)
-        {
-            Console.WriteLine("Princess could not choose any contender. Princess happiness : " + NotTakenResult);
-            return NotTakenResult;
-        }
-
         var takenContender = GetVisitedContender(contenderId);
-
-        if (takenContender.Prettiness <= DefeatThreshold)
-        {
-            Console.WriteLine("Princess choose contender with prettiness = {0}  Princess happiness : {1}",
-                takenContender.Prettiness, DefeatResult);
-            return DefeatResult;
-        }
-
-        Console.WriteLine("Taken contender : {0} {1} | Princess happiness : {2}", takenContender.Name,
+        Console.WriteLine(resources.ChosenContenderInfo, takenContender.Name,
             takenContender.Patronymic, takenContender.Prettiness);
         return takenContender.Prettiness;
     }
@@ -64,7 +52,7 @@ public class Hall : IHall
     {
         if (!_visitedContenders.ContainsKey(contenderId))
         {
-            throw new ApplicationException("This contender is not visited the Princess");
+            throw new ApplicationException(resources.ThisContenderDidNotVisit);
         }
 
         return _visitedContenders[contenderId];
@@ -75,7 +63,7 @@ public class Hall : IHall
         for (var contenderId = 1; contenderId <= _visitedContenders.Count; contenderId++)
         {
             var contender = _visitedContenders[contenderId];
-            Console.WriteLine("#{0} : {1} {2} : {3}",
+            Console.WriteLine(resources.ContenderInfo,
                 contenderId, contender.Name, contender.Patronymic, contender.Prettiness);
         }
     }
