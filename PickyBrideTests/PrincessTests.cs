@@ -1,6 +1,9 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using PickyBride;
 using PickyBride.contender;
+using PickyBride.database;
+using PickyBride.database.context;
 using PickyBride.friend;
 using PickyBride.hall;
 using PickyBride.princess;
@@ -18,7 +21,8 @@ public class PrincessTests
     [SetUp]
     public void SetUpClassStack()
     {
-        _generator = new ContenderGenerator();
+        var dbController = new DbController(new InMemoryDbContext());
+        _generator = new ContenderGenerator(dbController, Program.MaxNumberOfContenders);
         _hall = new Hall(_generator);
         _friend = new Friend(_hall);
         _princess = new Princess(_hall, _friend);

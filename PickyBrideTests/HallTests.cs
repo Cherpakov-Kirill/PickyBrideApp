@@ -1,7 +1,8 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using PickyBride;
 using PickyBride.contender;
+using PickyBride.database;
+using PickyBride.database.context;
 using PickyBride.hall;
 
 namespace PickyBrideTests;
@@ -15,7 +16,9 @@ public class HallTests
     [SetUp]
     public void SetUp()
     {
-        _hall = new Hall(new ContenderGenerator(), NumberOfContenders);
+        var dbController = new DbController(new InMemoryDbContext());
+        var generator = new ContenderGenerator(dbController, NumberOfContenders);
+        _hall = new Hall(generator, NumberOfContenders);
     }
     
     [Test]

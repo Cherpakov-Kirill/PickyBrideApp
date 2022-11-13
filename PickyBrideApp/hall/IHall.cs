@@ -30,4 +30,9 @@ public interface IHall
     /// </returns>
     /// <exception cref="ApplicationException">throws when contender with this id had not visit the princess yet.</exception>
     public Contender GetVisitedContender(int contenderId);
+
+    /// <summary>
+    /// Reinitialize all hall's data for restarting
+    /// </summary>
+    void Reinitialize();
 }

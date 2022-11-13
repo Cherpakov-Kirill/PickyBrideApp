@@ -41,4 +41,9 @@ public class MockedHall : IHall
             _waitingContenders[contenderId]
         );
     }
+
+    public void Reinitialize()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using PickyBride.contender;
+using PickyBride.database;
+using PickyBride.database.context;
 using PickyBride.friend;
 using PickyBride.hall;
 
@@ -9,13 +11,16 @@ namespace PickyBrideTests;
 [TestFixture]
 public class FriendTests
 {
+    private const int NumberOfContenders = 2;
     private Friend _friend;
     private Hall _hall;
 
     [SetUp]
     public void SetUp()
     {
-        _hall = new Hall(new ContenderGenerator());
+        var dbController = new DbController(new InMemoryDbContext());
+        var generator = new ContenderGenerator(dbController, NumberOfContenders);
+        _hall = new Hall(generator);
         _friend = new Friend(_hall);
     }
 

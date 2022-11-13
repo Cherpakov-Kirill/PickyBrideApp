@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using PickyBride.contender;
+using PickyBride.database;
+using PickyBride.database.context;
 
 namespace PickyBrideTests;
 
@@ -14,8 +16,9 @@ public class ContenderGeneratorTests
     [TestCase(100)]
     public void ShouldReturnsListWithNeedingSize(int numberOfContenders)
     {
-        var generator = new ContenderGenerator();
-        var contenders = generator.GetContenders(numberOfContenders);
+        var dbController = new DbController(new InMemoryDbContext());
+        var generator = new ContenderGenerator(dbController, numberOfContenders);
+        var contenders = generator.GetContenders(1);
         contenders.Count.Should().Be(numberOfContenders);
     }
 
@@ -23,7 +26,8 @@ public class ContenderGeneratorTests
     [TestCase(0)]
     public void ShouldThrowsErrorWhenNumberOfContendersLessThenOne(int numberOfContenders)
     {
-        var generator = new ContenderGenerator();
+        var dbController = new DbController(new InMemoryDbContext());
+        var generator = new ContenderGenerator(dbController, numberOfContenders);
         generator.Invoking(y => y.GetContenders(numberOfContenders))
             .Should()
             .Throw<ApplicationException>()
@@ -33,7 +37,8 @@ public class ContenderGeneratorTests
     [Test]
     public void ShouldReturnsUniqueNames()
     {
-        var generator = new ContenderGenerator();
+        var dbController = new DbController(new InMemoryDbContext());
+        var generator = new ContenderGenerator(dbController, NumberOfContenders);
         var contenders = generator.GetContenders(NumberOfContenders);
         contenders.Should().OnlyHaveUniqueItems(x => $"{x.Name} {x.Patronymic}");
     }
