@@ -34,5 +34,6 @@ public interface IHall
     /// <summary>
     /// Reinitialize all hall's data for restarting
     /// </summary>
-    void Reinitialize();
+    /// <param name="newNumberOfAttempt">new number of attempt</param>
+    void Reinitialize(int newNumberOfAttempt);
 }

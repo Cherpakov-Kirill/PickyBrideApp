@@ -51,9 +51,9 @@ public class Hall : IHall
         return _visitedContenders[contenderId];
     }
 
-    public void Reinitialize()
+    public void Reinitialize(int newNumberOfAttempt)
     {
-        _attemptNumber++;
+        _attemptNumber = newNumberOfAttempt;
         _waitingContenders = _contenderGenerator.GetContenders(_attemptNumber);
         _visitedContenders.Clear();
     }

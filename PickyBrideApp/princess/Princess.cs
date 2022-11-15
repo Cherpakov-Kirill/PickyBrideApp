@@ -54,7 +54,7 @@ public class Princess : IHostedService
             sum += FindContender();
             if (currentAttemptNumber == _numberOfRuns) continue;
             _contenders.Clear();
-            _hall.Reinitialize();
+            _hall.Reinitialize(currentAttemptNumber + 1);
         }
         var avg = sum / _numberOfRuns;
         Console.WriteLine(resources.AvgOfPrincessHappiness, avg);
