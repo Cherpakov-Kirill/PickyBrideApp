@@ -7,32 +7,36 @@ namespace PickyBride.database;
 
 public class DbController : IDbController
 {
-    private readonly AbstractDbContext _dbContext;
+    private readonly BaseDbContext _dbContext;
     
-    public DbController(AbstractDbContext dbContext)
+    public DbController(BaseDbContext dbContext)
     {
         _dbContext = dbContext;
         _dbContext.Database.EnsureCreated();
         _dbContext.Dispose();
     }
 
-    public List<AttemptStepEntity> GetAllByAttemptNumber(int attemptNumber)
+    public async Task<List<AttemptStepEntity>> GetAllByAttemptNumber(int attemptNumber)
     {
-        using var context = _dbContext.GetDbContext();
-        return context.AttemptSteps.Include("Contender").Where(entity => entity.AttemptNumber.Equals(attemptNumber)).ToList();
+        await using var context = _dbContext.GetDbContext();
+        return await (context.AttemptSteps.Include("Contender").Where(entity => entity.AttemptNumber == attemptNumber).ToListAsync());
     }
 
-    public void Add(Contender contender, int attemptNumber, int contenderPosition)
+    public async Task SaveAllContendersToDb(List<Contender> contenders, int attemptNumber)
     {
-        using var context = _dbContext.GetDbContext();
-        var newRecord = new AttemptStepEntity()
+        await using var context = _dbContext.GetDbContext();
+        var contenderPosition = 1;
+        foreach (var newRecord in contenders.Select(contender => new AttemptStepEntity()
+                 {
+                     Contender = new ContenderEntity()
+                         { Name = contender.Name, Patronymic = contender.Patronymic, Prettiness = contender.Prettiness },
+                     AttemptNumber = attemptNumber,
+                     ContenderPosition = contenderPosition
+                 }))
         {
-            Contender = new ContenderEntity()
-                { Name = contender.Name, Patronymic = contender.Patronymic, Prettiness = contender.Prettiness },
-            AttemptNumber = attemptNumber,
-            ContenderPosition = contenderPosition
-        };
-        context.AttemptSteps.Add(newRecord);
-        context.SaveChanges();
+            context.AttemptSteps.Add(newRecord);
+            contenderPosition++;
+        }
+        await context.SaveChangesAsync();
     }
 }

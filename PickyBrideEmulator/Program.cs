@@ -26,7 +26,7 @@ public static class Program
             .ConfigureServices((_, services) =>
             {
                 services.AddHostedService<Princess>();
-                services.AddScoped<AbstractDbContext, PostgresqlDbContext>();
+                services.AddScoped<BaseDbContext, PostgresqlDbContext>();
                 services.AddScoped<IDbController, DbController>();
                 services.AddScoped<IContenderGenerator, DbContenderLoader>();
                 services.AddScoped<IHall, Hall>(provider =>

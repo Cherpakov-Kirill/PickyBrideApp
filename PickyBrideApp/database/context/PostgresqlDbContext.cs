@@ -1,15 +1,16 @@
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+
 namespace PickyBride.database.context;
 
-public class PostgresqlDbContext : AbstractDbContext
+public class PostgresqlDbContext : BaseDbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(@"Server=localhost;Database=picky-bride;
-                		User Id=picky-bride;Password=1234567890");
+        optionsBuilder.UseNpgsql(ConfigurationManager.AppSettings["PostgreSQLConnectionString"]);
     }
     
-    public override AbstractDbContext GetDbContext()
+    public override BaseDbContext GetDbContext()
     {
         return new PostgresqlDbContext();
     }

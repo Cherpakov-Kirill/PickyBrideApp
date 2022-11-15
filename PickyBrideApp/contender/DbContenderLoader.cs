@@ -13,7 +13,7 @@ public class DbContenderLoader : IContenderGenerator
 
     public List<Contender> GetContenders(int attemptNumber)
     {
-        var attemptSteps = _dbController.GetAllByAttemptNumber(attemptNumber);
+        var attemptSteps = _dbController.GetAllByAttemptNumber(attemptNumber).Result;
         attemptSteps.Sort((firstAttemptStep, secondAttemptStep) =>
             firstAttemptStep.ContenderPosition.CompareTo(secondAttemptStep.ContenderPosition));
         return attemptSteps.ConvertAll(attemptStep => attemptStep.Contender.ToContender());

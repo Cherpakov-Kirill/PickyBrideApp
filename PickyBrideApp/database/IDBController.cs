@@ -10,15 +10,17 @@ public interface IDbController
     /// </summary>
     /// <param name="attemptNumber">number of searched attempt</param>
     /// <returns>
-    /// Enumerator with records with attemptNumber from DB
+    /// Async task with Enumerator with records with attemptNumber from DB
     /// </returns>
-    public List<AttemptStepEntity> GetAllByAttemptNumber(int attemptNumber);
+    public Task<List<AttemptStepEntity>> GetAllByAttemptNumber(int attemptNumber);
 
     /// <summary>
-    /// Adds new record about contender for current attempt to DB : 
+    /// Adds list of new records about contender for current attempt to DB
     /// </summary>
-    /// <param name="contender">contender object</param>
+    /// <param name="contenders">list of contender object</param>
     /// <param name="attemptNumber">attempt number for contender</param>
-    /// <param name="contenderPosition">order number of contender</param>
-    public void Add(Contender contender, int attemptNumber, int contenderPosition);
+    /// <returns>
+    /// Async task
+    /// </returns>
+    public Task SaveAllContendersToDb(List<Contender> contenders, int attemptNumber);
 }

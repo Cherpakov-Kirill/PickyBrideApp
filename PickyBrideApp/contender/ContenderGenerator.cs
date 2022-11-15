@@ -29,14 +29,6 @@ public class ContenderGenerator : IContenderGenerator
         return GetRandomName() + "ович";
     }
 
-    private void SaveToDb(IReadOnlyList<Contender> contenders, int attemptNumber)
-    {
-        for (var i = 0; i < contenders.Count; i++)
-        {
-            _dbController.Add(contenders[i], attemptNumber, i + 1);
-        }
-    }
-
     public List<Contender> GetContenders(int attemptNumber)
     {
         if (_numberOfContenders <= 0) throw new ApplicationException(resources.NumberOfContendersShouldBeMoreThenZero);
@@ -58,7 +50,7 @@ public class ContenderGenerator : IContenderGenerator
 
         var random = new Random();
         contenders = contenders.OrderBy(x => random.Next(1, _numberOfContenders)).ToList();
-        SaveToDb(contenders, attemptNumber);
+        _dbController.SaveAllContendersToDb(contenders, attemptNumber);
         return contenders;
     }
 }

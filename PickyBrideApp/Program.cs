@@ -29,7 +29,7 @@ public static class Program
                     provider.GetRequiredService<IHall>(),
                     provider.GetRequiredService<IFriend>(),
                     NumberOfAttempts));
-                services.AddScoped<AbstractDbContext, PostgresqlDbContext>();
+                services.AddScoped<BaseDbContext, PostgresqlDbContext>();
                 services.AddScoped<IDbController, DbController>();
                 services.AddScoped<IContenderGenerator, ContenderGenerator>(provider =>
                     new ContenderGenerator(provider.GetRequiredService<IDbController>(), MaxNumberOfContenders));

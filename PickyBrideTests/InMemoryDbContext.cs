@@ -1,14 +1,16 @@
 using Microsoft.EntityFrameworkCore;
-namespace PickyBride.database.context;
+using PickyBride.database.context;
 
-public class InMemoryDbContext : AbstractDbContext
+namespace PickyBrideTests;
+
+public class InMemoryDbContext : BaseDbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseInMemoryDatabase(databaseName: "picky-bride");
     }
 
-    public override AbstractDbContext GetDbContext()
+    public override BaseDbContext GetDbContext()
     {
         return new InMemoryDbContext();
     }
