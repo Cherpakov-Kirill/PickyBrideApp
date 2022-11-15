@@ -9,6 +9,23 @@ public class AttemptStepEntity
 
     public override string ToString()
     {
-        return $"{{Id={Id} ContenderPosition={ContenderPosition} AttemptNumber={AttemptNumber} ContenderData={Contender.ToString()}}}";
+        return
+            $"{{Id={Id} ContenderPosition={ContenderPosition} AttemptNumber={AttemptNumber} ContenderData={Contender.ToString()}}}";
     }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is AttemptStepEntity entity)
+        {
+            return Id == entity.Id &&
+                   AttemptNumber == entity.AttemptNumber &&
+                   ContenderPosition == entity.ContenderPosition &&
+                   Contender.Equals(entity.Contender);
+        }
+
+        return false;
+    }
+
+    public override int GetHashCode() => Id.GetHashCode() + AttemptNumber.GetHashCode() +
+                                         ContenderPosition.GetHashCode() + Contender.GetHashCode();
 }

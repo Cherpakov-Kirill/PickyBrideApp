@@ -31,11 +31,10 @@ public class DbController : IDbController
                      Contender = new ContenderEntity()
                          { Name = contender.Name, Patronymic = contender.Patronymic, Prettiness = contender.Prettiness },
                      AttemptNumber = attemptNumber,
-                     ContenderPosition = contenderPosition
+                     ContenderPosition = contenderPosition++
                  }))
         {
             context.AttemptSteps.Add(newRecord);
-            contenderPosition++;
         }
         await context.SaveChangesAsync();
     }

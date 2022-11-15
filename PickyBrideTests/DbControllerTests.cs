@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using PickyBride.contender;
 using PickyBride.database;
+using PickyBride.database.entity;
 
 namespace PickyBrideTests;
 
@@ -16,8 +17,6 @@ public class DbControllerTests
     }
 
     [TestCase(0)]
-    [TestCase(1)]
-    [TestCase(50)]
     [TestCase(100)]
     public async Task ShouldAddAndGetListWithNeedingSize(int numberOfContenders)
     {
@@ -27,21 +26,28 @@ public class DbControllerTests
         var contenders = Enumerable.Repeat(contender, numberOfContenders).ToList();
         await dbController.SaveAllContendersToDb(contenders,attemptNumber);
         
-        var records = dbController.GetAllByAttemptNumber(attemptNumber).Result;
-        records.Count.Should().Be(numberOfContenders);
-        for(var num = 0; num < numberOfContenders; num++)
+        var position = 1;
+        var expectedRecords = contenders.Select(contenderFromList => new AttemptStepEntity()
         {
-            var position = num + 1;
-            var record = records[num];
-            
-            record.Id.Should().Be(position);
-            record.AttemptNumber.Should().Be(attemptNumber);
-            record.ContenderPosition.Should().Be(position);
-            
-            record.Contender.Name.Should().Be(contender.Name);
-            record.Contender.Patronymic.Should().Be(contender.Patronymic);
-            record.Contender.Prettiness.Should().Be(contender.Prettiness);
-        }
+            Id = position,
+            Contender = new ContenderEntity()
+                { Id = position, Name = contenderFromList.Name, Patronymic = contenderFromList.Patronymic, Prettiness = contenderFromList.Prettiness },
+            AttemptNumber = attemptNumber,
+            ContenderPosition = position++
+        });
+        
+        var records = dbController.GetAllByAttemptNumber(attemptNumber).Result;
+        records.Should().Equal(expectedRecords);
+    }
+
+    [Test]
+    public Task ShouldGetEmptyRecordListWhenNoData()
+    {
+        const int attemptNumber = 1;
+        var dbController = new DbController(new InMemoryDbContext());
+        var attemptRecords = dbController.GetAllByAttemptNumber(attemptNumber).Result;
+        attemptRecords.Count.Should().Be(0);
+        return Task.CompletedTask;
     }
 
     [Test]
@@ -49,28 +55,39 @@ public class DbControllerTests
     {
         var dbController = new DbController(new InMemoryDbContext());
         var firstContender = new Contender("Kirill", "Maksimovich", 100);
+        var firstContenders = new List<Contender> { firstContender };
         var secondContender = new Contender("Artem", "Maksimovich", 100);
+        var secondContenders = new List<Contender> { secondContender };
         const int firstAttemptNumber = 1;
         const int secondAttemptNumber = 2;
         const int thirdAttemptNumber = 3;
-        const int contenderPosition = 1;
 
-        await dbController.SaveAllContendersToDb(new List<Contender> { firstContender }, firstAttemptNumber);
-        await dbController.SaveAllContendersToDb(new List<Contender> { secondContender }, secondAttemptNumber);
-        
+        await dbController.SaveAllContendersToDb(firstContenders, firstAttemptNumber);
+        await dbController.SaveAllContendersToDb(secondContenders, secondAttemptNumber);
+
+        var id = 1;
+        var position = 1;
+        var firstAttemptExpectedRecords = firstContenders.Select(contenderFromList => new AttemptStepEntity()
+        {
+            Id = id,
+            Contender = new ContenderEntity()
+                { Id = id++, Name = contenderFromList.Name, Patronymic = contenderFromList.Patronymic, Prettiness = contenderFromList.Prettiness },
+            AttemptNumber = firstAttemptNumber,
+            ContenderPosition = position++
+        });
         var firstAttemptRecords = dbController.GetAllByAttemptNumber(firstAttemptNumber).Result;
-        firstAttemptRecords.Count.Should().Be(1);
-        firstAttemptRecords[0].Contender.Name.Should().Be(firstContender.Name);
-        firstAttemptRecords[0].Contender.Patronymic.Should().Be(firstContender.Patronymic);
-        firstAttemptRecords[0].Contender.Prettiness.Should().Be(firstContender.Prettiness);
+        firstAttemptRecords.Should().Equal(firstAttemptExpectedRecords);
         
+        position = 1;
+        var secondAttemptExpectedRecords = secondContenders.Select(contenderFromList => new AttemptStepEntity()
+        {
+            Id = id,
+            Contender = new ContenderEntity()
+                { Id = id++, Name = contenderFromList.Name, Patronymic = contenderFromList.Patronymic, Prettiness = contenderFromList.Prettiness },
+            AttemptNumber = secondAttemptNumber,
+            ContenderPosition = position++
+        });
         var secondAttemptRecords = dbController.GetAllByAttemptNumber(secondAttemptNumber).Result;
-        secondAttemptRecords.Count.Should().Be(1);
-        secondAttemptRecords[0].Contender.Name.Should().Be(secondContender.Name);
-        secondAttemptRecords[0].Contender.Patronymic.Should().Be(secondContender.Patronymic);
-        secondAttemptRecords[0].Contender.Prettiness.Should().Be(secondContender.Prettiness);
-        
-        var thirdAttemptRecords = dbController.GetAllByAttemptNumber(thirdAttemptNumber).Result;
-        thirdAttemptRecords.Count.Should().Be(0);
+        secondAttemptRecords.Should().Equal(secondAttemptExpectedRecords);
     }
 }

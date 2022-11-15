@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using PickyBride.contender;
 using PickyBride.database;
-using PickyBride.database.context;
 
 namespace PickyBrideTests;
 

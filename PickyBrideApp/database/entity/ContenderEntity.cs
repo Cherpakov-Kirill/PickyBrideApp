@@ -18,4 +18,20 @@ public class ContenderEntity
     {
         return new Contender(Name, Patronymic, Prettiness);
     }
+    
+    public override bool Equals(object? obj)
+    {
+        if (obj is ContenderEntity entity)
+        {
+            return Id == entity.Id &&
+                   Name == entity.Name &&
+                   Patronymic == entity.Patronymic &&
+                   Prettiness == entity.Prettiness;
+        }
+
+        return false;
+    }
+
+    public override int GetHashCode() => Id.GetHashCode() + Name.GetHashCode() +
+                                         Patronymic.GetHashCode() + Prettiness.GetHashCode();
 }

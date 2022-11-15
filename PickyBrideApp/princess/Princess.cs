@@ -13,6 +13,7 @@ public class Princess : IHostedService
     private const int PrincessDidNotTakeAnyOne = -1;
 
     private const int NumberOfSkippingContenders = 37;
+    private const int NumberOfTheBestContendersInTheEndOfSortedList = 4;
     private readonly int _numberOfRuns;
     private readonly IHall _hall;
     private readonly IFriend _friend;
@@ -75,7 +76,7 @@ public class Princess : IHostedService
 
         var idx = 0;
         var res = 0;
-        while (idx < _contenders.Count - 4)
+        while (idx < _contenders.Count - NumberOfTheBestContendersInTheEndOfSortedList)
         {
             if (_contenders.Count == Program.MaxNumberOfContenders)
                 return ComputePrincessHappiness(PrincessDidNotTakeAnyOne);
