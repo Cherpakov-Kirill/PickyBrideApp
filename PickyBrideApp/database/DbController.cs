@@ -26,13 +26,14 @@ public class DbController : IDbController
     {
         await using var context = _dbContext.GetDbContext();
         var contenderPosition = 1;
-        foreach (var newRecord in contenders.Select(contender => new AttemptStepEntity()
-                 {
-                     Contender = new ContenderEntity()
-                         { Name = contender.Name, Patronymic = contender.Patronymic, Prettiness = contender.Prettiness },
-                     AttemptNumber = attemptNumber,
-                     ContenderPosition = contenderPosition++
-                 }))
+        var attemptStepEntities = contenders.Select(contender => new AttemptStepEntity()
+        {
+            Contender = new ContenderEntity()
+                { Name = contender.Name, Patronymic = contender.Patronymic, Prettiness = contender.Prettiness },
+            AttemptNumber = attemptNumber,
+            ContenderPosition = contenderPosition++
+        });
+        foreach (var newRecord in attemptStepEntities)
         {
             context.AttemptSteps.Add(newRecord);
         }

@@ -50,6 +50,10 @@ public class DbControllerTests
         return Task.CompletedTask;
     }
 
+    
+    /// <summary>
+    /// Test checks right get attempt records by attempt number
+    /// </summary>
     [Test]
     public async Task ShouldGetRecordListWithRightAttemptNumber()
     {
@@ -60,7 +64,6 @@ public class DbControllerTests
         var secondContenders = new List<Contender> { secondContender };
         const int firstAttemptNumber = 1;
         const int secondAttemptNumber = 2;
-        const int thirdAttemptNumber = 3;
 
         await dbController.SaveAllContendersToDb(firstContenders, firstAttemptNumber);
         await dbController.SaveAllContendersToDb(secondContenders, secondAttemptNumber);
