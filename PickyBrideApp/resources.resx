@@ -21,11 +21,11 @@
     <data name="PrincessCouldNotChooseAnyContenderResult" xml:space="preserve">
         <value>Princess could not choose any contender. Princess happiness : {0}</value>
     </data>
-    <data name="PrincessChoseThePrinceResult " xml:space="preserve">
+    <data name="PrincessChoseThePrinceResult" xml:space="preserve">
         <value>Princess chose contender with prettiness = {0}  Princess happiness : {1}</value>
     </data>
     <data name="ChosenContenderInfo" xml:space="preserve">
-        <value>AttemptNum {0} | Taken contender : id = {1}, name = "{2} {3}" | Princess happiness : {4}</value>
+        <value>AttemptNum {0} | Taken contender : id = {1}, name = "{2} {3}", prettiness = {4} | </value>
     </data>
     <data name="ThisContenderDidNotVisit" xml:space="preserve">
         <value>This contender did not visit the Princess</value>
@@ -41,5 +41,8 @@
     </data>
     <data name="AvgOfPrincessHappiness" xml:space="preserve">
         <value>The average value of the princess's happiness = {0}</value>
+    </data>
+    <data name="PrincessHappinessIs" xml:space="preserve">
+        <value>Princess happiness = {0}</value>
     </data>
 </root>

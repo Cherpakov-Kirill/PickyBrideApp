@@ -1,7 +1,6 @@
 using PickyBride.friend;
 using PickyBride.hall;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace PickyBride.princess;
 
@@ -80,7 +79,7 @@ public class Princess : IHostedService
     /// <returns>Level of princess happiness after choose of prince.</returns>
     public int FindContender()
     {
-        for (var i = 0; i < NumberOfSkippingContenders; i++)
+        for (var i = 0; i < 45; i++)
         {
             var contenderId = _hall.LetTheNextContenderGoToThePrincess();
             AddNewContender(contenderId);
@@ -110,11 +109,15 @@ public class Princess : IHostedService
 
         var chosenContenderPrettiness = _hall.GetContenderPrettiness(contenderId);
 
-        if (chosenContenderPrettiness > DefeatThreshold) return chosenContenderPrettiness;
-
-        Console.WriteLine(resources.PrincessChoseThePrinceResult_,
-            chosenContenderPrettiness, DefeatResult);
-        return DefeatResult;
+        var princessHappiness = chosenContenderPrettiness switch
+        {
+            100 => 20,  // if contender prettiness = 100, then princess happiness = 20
+            98 => 50,   // if contender prettiness = 98, then princess happiness = 50 
+            96 => 100,  // if contender prettiness = 96, then princess happiness = 100
+            _ => 0      // otherwise princess happiness = 0
+        };
+        Console.WriteLine(resources.PrincessHappinessIs, princessHappiness);
+        return princessHappiness;
     }
 
     private int AddNewContender(int contenderId)

@@ -69,7 +69,7 @@ namespace PickyBride {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AttemptNum {0} | Taken contender : id = {1}, name = &quot;{2} {3}&quot; | Princess happiness : {4}.
+        ///   Looks up a localized string similar to AttemptNum {0} | Taken contender : id = {1}, name = &quot;{2} {3}&quot;, prettiness = {4} | .
         /// </summary>
         public static string ChosenContenderInfo {
             get {
@@ -107,9 +107,9 @@ namespace PickyBride {
         /// <summary>
         ///   Looks up a localized string similar to Princess chose contender with prettiness = {0}  Princess happiness : {1}.
         /// </summary>
-        public static string PrincessChoseThePrinceResult_ {
+        public static string PrincessChoseThePrinceResult {
             get {
-                return ResourceManager.GetString("PrincessChoseThePrinceResult ", resourceCulture);
+                return ResourceManager.GetString("PrincessChoseThePrinceResult", resourceCulture);
             }
         }
         
@@ -119,6 +119,15 @@ namespace PickyBride {
         public static string PrincessCouldNotChooseAnyContenderResult {
             get {
                 return ResourceManager.GetString("PrincessCouldNotChooseAnyContenderResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Princess happiness = {0}.
+        /// </summary>
+        public static string PrincessHappinessIs {
+            get {
+                return ResourceManager.GetString("PrincessHappinessIs", resourceCulture);
             }
         }
         
