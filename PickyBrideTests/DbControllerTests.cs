@@ -36,18 +36,17 @@ public class DbControllerTests
             ContenderPosition = position++
         });
         
-        var records = dbController.GetAllByAttemptNumber(attemptNumber).Result;
+        var records = await dbController.GetAllByAttemptNumber(attemptNumber);
         records.Should().Equal(expectedRecords);
     }
 
     [Test]
-    public Task ShouldGetEmptyRecordListWhenNoData()
+    public async Task ShouldGetEmptyRecordListWhenNoData()
     {
         const int attemptNumber = 1;
         var dbController = new DbController(new InMemoryDbContext());
-        var attemptRecords = dbController.GetAllByAttemptNumber(attemptNumber).Result;
+        var attemptRecords = await dbController.GetAllByAttemptNumber(attemptNumber);
         attemptRecords.Count.Should().Be(0);
-        return Task.CompletedTask;
     }
 
     
@@ -78,7 +77,7 @@ public class DbControllerTests
             AttemptNumber = firstAttemptNumber,
             ContenderPosition = position++
         });
-        var firstAttemptRecords = dbController.GetAllByAttemptNumber(firstAttemptNumber).Result;
+        var firstAttemptRecords = await dbController.GetAllByAttemptNumber(firstAttemptNumber);
         firstAttemptRecords.Should().Equal(firstAttemptExpectedRecords);
         
         position = 1;
@@ -90,7 +89,7 @@ public class DbControllerTests
             AttemptNumber = secondAttemptNumber,
             ContenderPosition = position++
         });
-        var secondAttemptRecords = dbController.GetAllByAttemptNumber(secondAttemptNumber).Result;
+        var secondAttemptRecords = await dbController.GetAllByAttemptNumber(secondAttemptNumber);
         secondAttemptRecords.Should().Equal(secondAttemptExpectedRecords);
     }
 }
