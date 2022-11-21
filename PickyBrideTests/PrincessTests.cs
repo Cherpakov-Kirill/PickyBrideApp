@@ -13,6 +13,7 @@ namespace PickyBrideTests;
 [TestFixture]
 public class PrincessTests
 {
+    private const int NumberOfAttempt = 1;
     private IContenderGenerator _generator;
     private Friend _friend;
     private Hall _hall;
@@ -24,6 +25,7 @@ public class PrincessTests
         var dbController = new DbController(new InMemoryDbContext());
         _generator = new ContenderGenerator(dbController, Program.MaxNumberOfContenders);
         _hall = new Hall(_generator);
+        _hall.Initialize(NumberOfAttempt);
         _friend = new Friend(_hall);
         _princess = new Princess(_hall, _friend);
     }

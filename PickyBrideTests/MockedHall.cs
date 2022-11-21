@@ -42,7 +42,7 @@ public class MockedHall : IHall
         );
     }
 
-    public void Reinitialize(int newNumberOfAttempt)
+    public void Initialize(int newNumberOfAttempt)
     {
         throw new NotImplementedException();
     }

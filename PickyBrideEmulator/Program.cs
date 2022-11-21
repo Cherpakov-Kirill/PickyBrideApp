@@ -25,15 +25,18 @@ public static class Program
         return Host.CreateDefaultBuilder(args)
             .ConfigureServices((_, services) =>
             {
-                services.AddHostedService<Princess>();
+                services.AddHostedService<Princess>(provider =>
+                    new Princess(
+                    provider.GetRequiredService<IHostApplicationLifetime>(),
+                    provider.GetRequiredService<IHall>(),
+                    provider.GetRequiredService<IFriend>(),
+                    1,int.Parse(args[0])
+                    )
+                );
                 services.AddScoped<BaseDbContext, PostgresqlDbContext>();
                 services.AddScoped<IDbController, DbController>();
                 services.AddScoped<IContenderGenerator, DbContenderLoader>();
-                services.AddScoped<IHall, Hall>(provider =>
-                    new Hall(
-                        provider.GetRequiredService<IContenderGenerator>(),
-                        int.Parse(args[0]))
-                );
+                services.AddScoped<IHall, Hall>();
                 services.AddScoped<IFriend, Friend>();
             });
     }

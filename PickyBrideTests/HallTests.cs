@@ -12,13 +12,15 @@ public class HallTests
 {
     private Hall _hall;
     private const int NumberOfContenders = 2;
+    private const int NumberOfAttempt = 1;
 
     [SetUp]
     public void SetUp()
     {
         var dbController = new DbController(new InMemoryDbContext());
         var generator = new ContenderGenerator(dbController, NumberOfContenders);
-        _hall = new Hall(generator, NumberOfContenders);
+        _hall = new Hall(generator);
+        _hall.Initialize(NumberOfAttempt);
     }
     
     [Test]

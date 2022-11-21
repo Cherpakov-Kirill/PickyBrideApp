@@ -32,8 +32,8 @@ public interface IHall
     public Contender GetVisitedContender(int contenderId);
 
     /// <summary>
-    /// Reinitialize all hall's data for restarting
+    /// Initialize all hall's data for starting new attempt
     /// </summary>
     /// <param name="newNumberOfAttempt">new number of attempt</param>
-    void Reinitialize(int newNumberOfAttempt);
+    void Initialize(int newNumberOfAttempt);
 }

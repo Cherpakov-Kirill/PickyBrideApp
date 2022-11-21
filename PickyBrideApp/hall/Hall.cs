@@ -9,12 +9,11 @@ public class Hall : IHall
     private readonly Dictionary<int, Contender> _visitedContenders;
     private int _attemptNumber;
 
-    public Hall(IContenderGenerator contenderGenerator, int attemptNumber = 1)
+    public Hall(IContenderGenerator contenderGenerator)
     {
         _contenderGenerator = contenderGenerator;
-        _waitingContenders = _contenderGenerator.GetContenders(attemptNumber);
         _visitedContenders = new Dictionary<int, Contender>();
-        _attemptNumber = attemptNumber;
+        _waitingContenders = new List<Contender>();
     }
 
     public int LetTheNextContenderGoToThePrincess()
@@ -51,7 +50,7 @@ public class Hall : IHall
         return _visitedContenders[contenderId];
     }
 
-    public void Reinitialize(int newNumberOfAttempt)
+    public void Initialize(int newNumberOfAttempt)
     {
         _attemptNumber = newNumberOfAttempt;
         _waitingContenders = _contenderGenerator.GetContenders(_attemptNumber);

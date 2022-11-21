@@ -15,12 +15,14 @@ public class Princess : IHostedService
     private const int NumberOfSkippingContenders = 37;
     private const int NumberOfTheBestContendersInTheEndOfSortedList = 4;
     private readonly int _numberOfRuns;
+    private readonly int _emulationAttemptNumber;
     private readonly IHall _hall;
     private readonly IFriend _friend;
     private readonly List<int> _contenders;
     private readonly IHostApplicationLifetime? _appLifetime;
 
-    public Princess(IHostApplicationLifetime? appLifetime, IHall hall, IFriend friend, int numberOfRuns = 1)
+    public Princess(IHostApplicationLifetime? appLifetime, IHall hall, IFriend friend, int numberOfRuns = 1,
+        int emulationAttemptNumber = 1)
     {
         _appLifetime = appLifetime;
         _appLifetime?.ApplicationStarted.Register(OnStarted);
@@ -28,6 +30,7 @@ public class Princess : IHostedService
         _friend = friend;
         _contenders = new List<int>();
         _numberOfRuns = numberOfRuns;
+        _emulationAttemptNumber = emulationAttemptNumber;
     }
 
     public Princess(IHall hall, IFriend friend)
@@ -49,16 +52,25 @@ public class Princess : IHostedService
 
     private void OnStarted()
     {
-        var sum = 0L;
-        for (var currentAttemptNumber = 1; currentAttemptNumber <= _numberOfRuns; currentAttemptNumber++)
+        if (_numberOfRuns == 1)
         {
-            sum += FindContender();
-            if (currentAttemptNumber == _numberOfRuns) continue;
-            _contenders.Clear();
-            _hall.Reinitialize(currentAttemptNumber + 1);
+            _hall.Initialize(_emulationAttemptNumber);
+            FindContender();
         }
-        var avg = sum / _numberOfRuns;
-        Console.WriteLine(resources.AvgOfPrincessHappiness, avg);
+        else
+        {
+            var sum = 0.0;
+            for (var currentAttemptNumber = 1; currentAttemptNumber <= _numberOfRuns; currentAttemptNumber++)
+            {
+                _contenders.Clear();
+                _hall.Initialize(currentAttemptNumber);
+                sum += FindContender();
+            }
+
+            var avg = Math.Round(sum / (float)_numberOfRuns, 2);
+            Console.WriteLine(resources.AvgOfPrincessHappiness, avg);
+        }
+
         _appLifetime?.StopApplication();
     }
 

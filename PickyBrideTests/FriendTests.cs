@@ -12,6 +12,7 @@ namespace PickyBrideTests;
 public class FriendTests
 {
     private const int NumberOfContenders = 2;
+    private const int NumberOfAttempt = 1;
     private Friend _friend;
     private Hall _hall;
 
@@ -21,6 +22,7 @@ public class FriendTests
         var dbController = new DbController(new InMemoryDbContext());
         var generator = new ContenderGenerator(dbController, NumberOfContenders);
         _hall = new Hall(generator);
+        _hall.Initialize(NumberOfAttempt);
         _friend = new Friend(_hall);
     }
 
