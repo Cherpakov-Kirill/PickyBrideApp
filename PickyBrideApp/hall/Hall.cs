@@ -53,7 +53,7 @@ public class Hall : IHall
     public void Initialize(int newNumberOfAttempt)
     {
         _attemptNumber = newNumberOfAttempt;
-        _waitingContenders = _contenderGenerator.GetContenders(_attemptNumber);
+        _waitingContenders = _contenderGenerator.GetContenders(_attemptNumber).Result;
         _visitedContenders.Clear();
     }
 }

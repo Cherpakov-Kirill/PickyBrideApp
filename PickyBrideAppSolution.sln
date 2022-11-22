@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickyBrideApp", "PickyBride
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickyBrideTests", "PickyBrideTests\PickyBrideTests.csproj", "{2F7033F6-6BC5-4FB9-B1ED-2ECC69CDDFB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickyBrideEmulator", "PickyBrideEmulator\PickyBrideEmulator.csproj", "{740E0CB2-D04F-466B-85F3-49AA1E8FB24F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickyBrideAttemptGenerator", "PickyBrideAttemptGenerator\PickyBrideAttemptGenerator.csproj", "{740E0CB2-D04F-466B-85F3-49AA1E8FB24F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

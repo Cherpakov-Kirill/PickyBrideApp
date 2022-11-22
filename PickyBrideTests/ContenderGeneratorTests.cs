@@ -17,7 +17,7 @@ public class ContenderGeneratorTests
     {
         var dbController = new DbController(new InMemoryDbContext());
         var generator = new ContenderGenerator(dbController, numberOfContenders);
-        var contenders = generator.GetContenders(1);
+        var contenders = generator.GetContenders(1).Result;
         contenders.Count.Should().Be(numberOfContenders);
     }
 
@@ -27,7 +27,7 @@ public class ContenderGeneratorTests
     {
         var dbController = new DbController(new InMemoryDbContext());
         var generator = new ContenderGenerator(dbController, numberOfContenders);
-        generator.Invoking(y => y.GetContenders(numberOfContenders))
+        generator.Invoking(y => y.GetContenders(numberOfContenders).Result)
             .Should()
             .Throw<ApplicationException>()
             .WithMessage(PickyBride.resources.NumberOfContendersShouldBeMoreThenZero);
@@ -38,7 +38,7 @@ public class ContenderGeneratorTests
     {
         var dbController = new DbController(new InMemoryDbContext());
         var generator = new ContenderGenerator(dbController, NumberOfContenders);
-        var contenders = generator.GetContenders(NumberOfContenders);
+        var contenders = generator.GetContenders(NumberOfContenders).Result;
         contenders.Should().OnlyHaveUniqueItems(x => $"{x.Name} {x.Patronymic}");
     }
 }

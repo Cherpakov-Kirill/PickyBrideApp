@@ -12,7 +12,7 @@ namespace PickyBride;
 public static class Program
 {
     public const int MaxNumberOfContenders = 100;
-    private const int NumberOfAttempts = 100;
+    public const int NumberOfAttempts = 100;
 
     public static void Main(string[] args)
     {
@@ -31,8 +31,7 @@ public static class Program
                     NumberOfAttempts));
                 services.AddScoped<BaseDbContext, PostgresqlDbContext>();
                 services.AddScoped<IDbController, DbController>();
-                services.AddScoped<IContenderGenerator, ContenderGenerator>(provider =>
-                    new ContenderGenerator(provider.GetRequiredService<IDbController>(), MaxNumberOfContenders));
+                services.AddScoped<IContenderGenerator, DbContenderLoader>();
                 services.AddScoped<IHall, Hall>();
                 services.AddScoped<IFriend, Friend>();
             });

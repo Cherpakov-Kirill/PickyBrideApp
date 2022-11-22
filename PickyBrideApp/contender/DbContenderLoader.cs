@@ -11,9 +11,9 @@ public class DbContenderLoader : IContenderGenerator
         _dbController = dbController;
     }
 
-    public List<Contender> GetContenders(int attemptNumber)
+    public async Task<List<Contender>> GetContenders(int attemptNumber)
     {
-        var attemptSteps = _dbController.GetAllByAttemptNumber(attemptNumber).Result;
+        var attemptSteps = await _dbController.GetAllByAttemptNumber(attemptNumber);
         attemptSteps.Sort((firstAttemptStep, secondAttemptStep) =>
             firstAttemptStep.ContenderPosition.CompareTo(secondAttemptStep.ContenderPosition));
         return attemptSteps.ConvertAll(attemptStep => attemptStep.Contender.ToContender());

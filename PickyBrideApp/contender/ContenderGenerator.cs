@@ -29,7 +29,7 @@ public class ContenderGenerator : IContenderGenerator
         return GetRandomName() + "ович";
     }
 
-    public List<Contender> GetContenders(int attemptNumber)
+    public async Task<List<Contender>> GetContenders(int attemptNumber)
     {
         if (_numberOfContenders <= 0) throw new ApplicationException(resources.NumberOfContendersShouldBeMoreThenZero);
         var contenders = new List<Contender>();
@@ -50,7 +50,7 @@ public class ContenderGenerator : IContenderGenerator
 
         var random = new Random();
         contenders = contenders.OrderBy(x => random.Next(1, _numberOfContenders)).ToList();
-        _dbController.SaveAllContendersToDb(contenders, attemptNumber);
+        await _dbController.SaveAllContendersToDb(contenders, attemptNumber);
         return contenders;
     }
 }

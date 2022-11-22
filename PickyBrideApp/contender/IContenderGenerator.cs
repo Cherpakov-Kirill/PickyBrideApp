@@ -9,5 +9,5 @@ public interface IContenderGenerator
     /// <returns>
     /// Contender list
     /// </returns>
-    public List<Contender> GetContenders(int attemptNumber);
+    public Task<List<Contender>> GetContenders(int attemptNumber);
 }
