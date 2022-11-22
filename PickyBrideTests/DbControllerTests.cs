@@ -49,7 +49,6 @@ public class DbControllerTests
         attemptRecords.Count.Should().Be(0);
     }
 
-    
     /// <summary>
     /// Test checks right get attempt records by attempt number
     /// </summary>

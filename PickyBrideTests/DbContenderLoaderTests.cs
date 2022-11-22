@@ -26,6 +26,6 @@ public class DbContenderLoaderTests
         var loader = new DbContenderLoader(dbController);
         var contenders = generator.GetContenders(attemptNumber);
         var loadedContenders = loader.GetContenders(attemptNumber);
-        loadedContenders.Should().Equal(contenders);
+        loadedContenders.Should().BeEquivalentTo(contenders);
     }
 }

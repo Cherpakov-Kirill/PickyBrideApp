@@ -3,7 +3,6 @@ using NUnit.Framework;
 using PickyBride;
 using PickyBride.contender;
 using PickyBride.database;
-using PickyBride.database.context;
 using PickyBride.friend;
 using PickyBride.hall;
 using PickyBride.princess;
@@ -35,8 +34,13 @@ public class PrincessTests
     {
         //This test validates princess algorithm.
         //Algorithm relies on random order of contenders in queue.
-        //Princess should get happiness greater than 95 at least.
+        //Princess should get happiness one of {0,100,50,20}.
         var happiness = _princess.FindContender();
-        happiness.Should().BeOneOf(new []{0,100,50,20});
+        happiness.Should().BeOneOf(
+            Princess.DefeatResult,
+            Princess.TwentyResult,
+            Princess.FiftyResult,
+            Princess.HundredResult
+        );
     }
 }
