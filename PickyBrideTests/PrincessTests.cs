@@ -37,6 +37,6 @@ public class PrincessTests
         //Algorithm relies on random order of contenders in queue.
         //Princess should get happiness greater than 95 at least.
         var happiness = _princess.FindContender();
-        happiness.Should().BeGreaterThan(95);
+        happiness.Should().BeOneOf(new []{0,100,50,20});
     }
 }
