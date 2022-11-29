@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using PickyBride.contender;
-using PickyBride.database.context;
-using PickyBride.database.entity;
+using HallWebApi.model.contender;
+using HallWebApi.model.database.context;
+using HallWebApi.model.database.entity;
 
-namespace PickyBride.database;
+namespace HallWebApi.model.database;
 
 public class DbController : IDbController
 {

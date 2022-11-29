@@ -1,8 +1,6 @@
 ﻿using FluentAssertions;
+using HallWebApi.model.friend;
 using NUnit.Framework;
-using PickyBride.contender;
-using PickyBride.friend;
-using PickyBride.hall;
 using PickyBride.princess;
 
 namespace PickyBrideTests;

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PickyBride {
+namespace HallWebApi {
     using System;
     
     
@@ -38,7 +38,7 @@ namespace PickyBride {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PickyBride.resources", typeof(resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HallWebApi.resources", typeof(resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -69,7 +69,7 @@ namespace PickyBride {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AttemptNum {0} | Taken contender : id = {1}, name = &quot;{2} {3}&quot;, prettiness = {4} | .
+        ///   Looks up a localized string similar to AttemptNum {0} | Taken contender : name = &quot;{1} {2}&quot;, prettiness = {3} | .
         /// </summary>
         public static string ChosenContenderInfo {
             get {

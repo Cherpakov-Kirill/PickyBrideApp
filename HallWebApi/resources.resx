@@ -25,7 +25,7 @@
         <value>Princess chose contender with prettiness = {0}  Princess happiness : {1}</value>
     </data>
     <data name="ChosenContenderInfo" xml:space="preserve">
-        <value>AttemptNum {0} | Taken contender : id = {1}, name = "{2} {3}", prettiness = {4} | </value>
+        <value>AttemptNum {0} | Taken contender : name = "{1} {2}", prettiness = {3} | </value>
     </data>
     <data name="ThisContenderDidNotVisit" xml:space="preserve">
         <value>This contender did not visit the Princess</value>

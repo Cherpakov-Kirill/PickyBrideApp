@@ -1,4 +1,4 @@
-namespace PickyBride.database.entity;
+namespace HallWebApi.model.database.entity;
 
 public class AttemptStepEntity
 {

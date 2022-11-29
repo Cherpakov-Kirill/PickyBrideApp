@@ -1,59 +1,32 @@
-using PickyBride.contender;
+using HallWebApi.model.contender;
+using HallWebApi.model.hall;
 
 namespace PickyBride.hall;
 
 public class Hall : IHall
 {
-    private readonly IContenderGenerator _contenderGenerator;
-    private List<Contender> _waitingContenders;
-    private readonly Dictionary<int, Contender> _visitedContenders;
-    private int _attemptNumber;
-
-    public Hall(IContenderGenerator contenderGenerator)
+    public string LetTheNextContenderGoToThePrincess()
     {
-        _contenderGenerator = contenderGenerator;
-        _visitedContenders = new Dictionary<int, Contender>();
-        _waitingContenders = new List<Contender>();
+        throw new NotImplementedException();
     }
 
-    public int LetTheNextContenderGoToThePrincess()
+    public int GetContenderPrettiness(string fullName)
     {
-        if (_waitingContenders.Count == 0)
-        {
-            throw new ApplicationException(resources.NoNewContender);
-        }
-
-        var contender = _waitingContenders[0];
-
-        _waitingContenders.Remove(contender);
-        var contenderPosition = _visitedContenders.Count + 1;
-        _visitedContenders.Add(contenderPosition, contender);
-        
-        return contenderPosition;
+        throw new NotImplementedException();
     }
 
-    public int GetContenderPrettiness(int contenderId)
+    public int SelectContender()
     {
-        var takenContender = GetVisitedContender(contenderId);
-        Console.Write(resources.ChosenContenderInfo, _attemptNumber, contenderId, takenContender.Name,
-            takenContender.Patronymic, takenContender.Prettiness);
-        return takenContender.Prettiness;
+        throw new NotImplementedException();
     }
 
-    public Contender GetVisitedContender(int contenderId)
+    public Contender GetVisitedContender(string fullName)
     {
-        if (!_visitedContenders.ContainsKey(contenderId))
-        {
-            throw new ApplicationException(resources.ThisContenderDidNotVisit);
-        }
-
-        return _visitedContenders[contenderId];
+        throw new NotImplementedException();
     }
 
     public async Task Initialize(int newNumberOfAttempt)
     {
-        _attemptNumber = newNumberOfAttempt;
-        _waitingContenders = await _contenderGenerator.GetContenders(_attemptNumber);
-        _visitedContenders.Clear();
+        throw new NotImplementedException();
     }
 }

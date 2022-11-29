@@ -1,20 +1,11 @@
-using PickyBride.hall;
+using HallWebApi.model.friend;
 
 namespace PickyBride.friend;
 
 public class Friend : IFriend
 {
-    private readonly IHall _hallForFriend;
-
-    public Friend(IHall hallForFriend)
+    public int IsFirstBetterThenSecond(string firstContenderFullName, string secondContenderFullName)
     {
-        _hallForFriend = hallForFriend;
-    }
-
-    public int IsFirstBetterThenSecond(int firstContenderId, int secondContenderId)
-    {
-        var firstContender = _hallForFriend.GetVisitedContender(firstContenderId);
-        var secondContender = _hallForFriend.GetVisitedContender(secondContenderId);
-        return firstContender.CompareTo(secondContender);
+        throw new NotImplementedException();
     }
 }

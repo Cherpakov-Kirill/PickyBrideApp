@@ -1,6 +1,5 @@
-using PickyBride;
-using PickyBride.contender;
-using PickyBride.hall;
+using HallWebApi.model.contender;
+using HallWebApi.model.hall;
 
 namespace PickyBrideTests;
 
@@ -11,7 +10,7 @@ public class MockedHall : IHall
 
     private void GenerateContenderList()
     {
-        for (var i = Program.MaxNumberOfContenders; i >= 1; i--) _waitingContenders.Add(i);
+        for (var i = Convert.ToInt32(PickyBride.Program.MaxNumberOfContenders); i >= 1; i--) _waitingContenders.Add(i);
     }
 
     public MockedHall()
@@ -21,24 +20,31 @@ public class MockedHall : IHall
         GenerateContenderList();
     }
 
-    public int LetTheNextContenderGoToThePrincess()
+    public string? LetTheNextContenderGoToThePrincess()
     {
+        if (_lastVisitedContenderIdx + 1  == PickyBride.Program.MaxNumberOfContenders)
+            return null;
         _lastVisitedContenderIdx++;
-        return _lastVisitedContenderIdx;
+        return $"{_lastVisitedContenderIdx}";
     }
 
-    public int GetContenderPrettiness(int contenderId)
+    public int GetContenderPrettiness(string fullName)
     {
-        var takenContender = GetVisitedContender(contenderId);
+        var takenContender = GetVisitedContender(fullName);
         return takenContender.Prettiness;
     }
 
-    public Contender GetVisitedContender(int contenderId)
+    public int SelectContender()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Contender GetVisitedContender(string fullName)
     {
         return new Contender(
-            $"MockedContenderName{contenderId}",
-            $"MockedContenderPatronymic{contenderId}",
-            _waitingContenders[contenderId]
+            $"MockedContenderName{fullName}",
+            $"MockedContenderPatronymic{fullName}",
+            _waitingContenders[Convert.ToInt32(fullName)]
         );
     }
 

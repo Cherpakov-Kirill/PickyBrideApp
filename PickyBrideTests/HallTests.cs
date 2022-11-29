@@ -1,9 +1,8 @@
 ﻿using FluentAssertions;
+using HallWebApi.model.contender;
+using HallWebApi.model.database;
+using HallWebApi.model.hall;
 using NUnit.Framework;
-using PickyBride.contender;
-using PickyBride.database;
-using PickyBride.database.context;
-using PickyBride.hall;
 
 namespace PickyBrideTests;
 
@@ -24,49 +23,45 @@ public class HallTests
     }
     
     [Test]
-    public void ShouldThrowsErrorWhenNoNewContendersInTheHall()
+    public void ShouldReturnsNullWhenNoNewContendersInTheHall()
     {
         for (var i = 0; i < NumberOfContenders; i++)
         {
             _hall.LetTheNextContenderGoToThePrincess();
         }
 
-        _hall.Invoking(y => y.LetTheNextContenderGoToThePrincess())
-            .Should()
-            .Throw<ApplicationException>()
-            .WithMessage(PickyBride.resources.NoNewContender);
+        _hall.LetTheNextContenderGoToThePrincess().Should().BeNull();
     }
     
     [Test]
     public void ShouldReturnsNextContender()
     {
         var contenderId = _hall.LetTheNextContenderGoToThePrincess();
-        const int expectedContenderId = 1; //hall gives ordering number of visiting contender: from 1 till maxNumberOfContender
-        contenderId.Should().Be(expectedContenderId);
+        contenderId.Should().NotBeNull();
     }
     
     [Test]
     public void ShouldReturnsVisitedContenderData()
     {
-        var contenderId = _hall.LetTheNextContenderGoToThePrincess();
-        _hall.Invoking(y => y.GetVisitedContender(contenderId)).Should().NotThrow<ApplicationException>();
+        var contenderName = _hall.LetTheNextContenderGoToThePrincess();
+        _hall.Invoking(y => y.GetVisitedContender(contenderName!)).Should().NotThrow<ApplicationException>();
     }
     
     [Test]
     public void ShouldThrowsErrorWhenContenderDidNotVisitPrincess()
     {
-        const int contenderId = 1;
-        _hall.Invoking(y => y.GetVisitedContender(contenderId))
+        const string contenderName = "Not visited Contender";
+        _hall.Invoking(y => y.GetVisitedContender(contenderName))
             .Should()
             .Throw<ApplicationException>()
-            .WithMessage(PickyBride.resources.ThisContenderDidNotVisit);
+            .WithMessage(HallWebApi.resources.ThisContenderDidNotVisit);
     }
     
     [Test]
     public void ShouldReturnsCorrectContenderPrettiness()
     {
-        var contenderId = _hall.LetTheNextContenderGoToThePrincess();
-        var contender = _hall.GetVisitedContender(contenderId);
-        contender.Prettiness.Should().Be(_hall.GetContenderPrettiness(contenderId));
+        var contenderName = _hall.LetTheNextContenderGoToThePrincess();
+        var contender = _hall.GetVisitedContender(contenderName!);
+        contender.Prettiness.Should().Be(_hall.GetContenderPrettiness(contenderName!));
     }
 }

@@ -1,10 +1,9 @@
 ﻿using FluentAssertions;
+using HallWebApi.model.contender;
+using HallWebApi.model.database;
+using HallWebApi.model.friend;
+using HallWebApi.model.hall;
 using NUnit.Framework;
-using PickyBride;
-using PickyBride.contender;
-using PickyBride.database;
-using PickyBride.friend;
-using PickyBride.hall;
 using PickyBride.princess;
 
 namespace PickyBrideTests;
@@ -22,7 +21,7 @@ public class PrincessTests
     public async Task SetUpClassStack()
     {
         var dbController = new DbController(new InMemoryDbContext());
-        _generator = new ContenderGenerator(dbController, Program.MaxNumberOfContenders);
+        _generator = new ContenderGenerator(dbController, PickyBride.Program.MaxNumberOfContenders);
         _hall = new Hall(_generator);
         await _hall.Initialize(NumberOfAttempt);
         _friend = new Friend(_hall);
