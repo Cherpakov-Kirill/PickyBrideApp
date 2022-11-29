@@ -13,11 +13,11 @@ public class ContenderGeneratorTests
     [TestCase(1)]
     [TestCase(50)]
     [TestCase(100)]
-    public void ShouldReturnsListWithNeedingSize(int numberOfContenders)
+    public async Task ShouldReturnsListWithNeedingSize(int numberOfContenders)
     {
         var dbController = new DbController(new InMemoryDbContext());
         var generator = new ContenderGenerator(dbController, numberOfContenders);
-        var contenders = generator.GetContenders(1).Result;
+        var contenders = await generator.GetContenders(1);
         contenders.Count.Should().Be(numberOfContenders);
     }
 
@@ -27,18 +27,18 @@ public class ContenderGeneratorTests
     {
         var dbController = new DbController(new InMemoryDbContext());
         var generator = new ContenderGenerator(dbController, numberOfContenders);
-        generator.Invoking(y => y.GetContenders(numberOfContenders).Result)
+        generator.Invoking(async y => await y.GetContenders(numberOfContenders))
             .Should()
-            .Throw<ApplicationException>()
+            .ThrowAsync<ApplicationException>()
             .WithMessage(PickyBride.resources.NumberOfContendersShouldBeMoreThenZero);
     }
 
     [Test]
-    public void ShouldReturnsUniqueNames()
+    public async Task ShouldReturnsUniqueNames()
     {
         var dbController = new DbController(new InMemoryDbContext());
         var generator = new ContenderGenerator(dbController, NumberOfContenders);
-        var contenders = generator.GetContenders(NumberOfContenders).Result;
+        var contenders = await generator.GetContenders(NumberOfContenders);
         contenders.Should().OnlyHaveUniqueItems(x => $"{x.Name} {x.Patronymic}");
     }
 }

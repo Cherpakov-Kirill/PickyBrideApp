@@ -35,5 +35,5 @@ public interface IHall
     /// Initialize all hall's data for starting new attempt
     /// </summary>
     /// <param name="newNumberOfAttempt">new number of attempt</param>
-    void Initialize(int newNumberOfAttempt);
+    Task Initialize(int newNumberOfAttempt);
 }

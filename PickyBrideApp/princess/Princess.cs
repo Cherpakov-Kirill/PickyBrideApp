@@ -15,20 +15,17 @@ public class Princess : IHostedService
 
     private const int NumberOfSkippingContenders = 45;
     private const int NumberOfTheBestContendersInTheEndOfSortedList = 4;
-    private readonly int _numberOfRuns;
     private readonly IHall _hall;
     private readonly IFriend _friend;
     private readonly List<int> _contenders;
     private readonly IHostApplicationLifetime? _appLifetime;
 
-    public Princess(IHostApplicationLifetime? appLifetime, IHall hall, IFriend friend, int numberOfRuns)
+    public Princess(IHostApplicationLifetime? appLifetime, IHall hall, IFriend friend)
     {
         _appLifetime = appLifetime;
-        _appLifetime?.ApplicationStarted.Register(OnStarted);
         _hall = hall;
         _friend = friend;
         _contenders = new List<int>();
-        _numberOfRuns = numberOfRuns;
     }
 
     public Princess(IHall hall, IFriend friend)
@@ -40,7 +37,7 @@ public class Princess : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        return Task.CompletedTask;
+        return OnStarted();
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
@@ -48,17 +45,17 @@ public class Princess : IHostedService
         return Task.CompletedTask;
     }
 
-    private void OnStarted()
+    private async Task OnStarted()
     {
         var sum = 0.0;
-        for (var currentAttemptNumber = 1; currentAttemptNumber <= _numberOfRuns; currentAttemptNumber++)
+        for (var currentAttemptNumber = 1; currentAttemptNumber <= Program.NumberOfAttempts; currentAttemptNumber++)
         {
             _contenders.Clear();
-            _hall.Initialize(currentAttemptNumber);
+            await _hall.Initialize(currentAttemptNumber);
             sum += FindContender();
         }
 
-        var avg = Math.Round(sum / (float)_numberOfRuns, 2);
+        var avg = Math.Round(sum / (float)Program.NumberOfAttempts, 2);
         Console.WriteLine(resources.AvgOfPrincessHappiness, avg);
 
         _appLifetime?.StopApplication();

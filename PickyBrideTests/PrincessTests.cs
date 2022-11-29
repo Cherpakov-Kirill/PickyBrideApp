@@ -19,12 +19,12 @@ public class PrincessTests
     private Princess _princess;
 
     [SetUp]
-    public void SetUpClassStack()
+    public async Task SetUpClassStack()
     {
         var dbController = new DbController(new InMemoryDbContext());
         _generator = new ContenderGenerator(dbController, Program.MaxNumberOfContenders);
         _hall = new Hall(_generator);
-        _hall.Initialize(NumberOfAttempt);
+        await _hall.Initialize(NumberOfAttempt);
         _friend = new Friend(_hall);
         _princess = new Princess(_hall, _friend);
     }

@@ -18,14 +18,14 @@ public class DbContenderLoaderTests
     }
     
     [Test]
-    public void ShouldLoadContenderListFromDbWithNeedingSize()
+    public async Task ShouldLoadContenderListFromDbWithNeedingSize()
     {
         const int attemptNumber = 1;
         var dbController = new DbController(new InMemoryDbContext());
         var generator = new ContenderGenerator(dbController, NumberOfContenders);
         var loader = new DbContenderLoader(dbController);
-        var contenders = generator.GetContenders(attemptNumber).Result;
-        var loadedContenders = loader.GetContenders(attemptNumber).Result;
+        var contenders = await generator.GetContenders(attemptNumber);
+        var loadedContenders = await loader.GetContenders(attemptNumber);
         loadedContenders.Should().BeEquivalentTo(contenders);
     }
 }

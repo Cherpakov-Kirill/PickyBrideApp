@@ -15,12 +15,12 @@ public class HallTests
     private const int NumberOfAttempt = 1;
 
     [SetUp]
-    public void SetUp()
+    public async Task SetUp()
     {
         var dbController = new DbController(new InMemoryDbContext());
         var generator = new ContenderGenerator(dbController, NumberOfContenders);
         _hall = new Hall(generator);
-        _hall.Initialize(NumberOfAttempt);
+        await _hall.Initialize(NumberOfAttempt);
     }
     
     [Test]

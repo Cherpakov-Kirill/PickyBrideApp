@@ -24,11 +24,7 @@ public static class Program
         return Host.CreateDefaultBuilder(args)
             .ConfigureServices((_, services) =>
             {
-                services.AddHostedService(provider => new Princess(
-                    provider.GetRequiredService<IHostApplicationLifetime>(),
-                    provider.GetRequiredService<IHall>(),
-                    provider.GetRequiredService<IFriend>(),
-                    NumberOfAttempts));
+                services.AddHostedService<Princess>();
                 services.AddScoped<BaseDbContext, PostgresqlDbContext>();
                 services.AddScoped<IDbController, DbController>();
                 services.AddScoped<IContenderGenerator, DbContenderLoader>();

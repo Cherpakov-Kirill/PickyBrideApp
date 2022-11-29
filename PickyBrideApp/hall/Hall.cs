@@ -50,10 +50,10 @@ public class Hall : IHall
         return _visitedContenders[contenderId];
     }
 
-    public void Initialize(int newNumberOfAttempt)
+    public async Task Initialize(int newNumberOfAttempt)
     {
         _attemptNumber = newNumberOfAttempt;
-        _waitingContenders = _contenderGenerator.GetContenders(_attemptNumber).Result;
+        _waitingContenders = await _contenderGenerator.GetContenders(_attemptNumber);
         _visitedContenders.Clear();
     }
 }

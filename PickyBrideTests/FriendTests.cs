@@ -17,12 +17,12 @@ public class FriendTests
     private Hall _hall;
 
     [SetUp]
-    public void SetUp()
+    public async Task SetUp()
     {
         var dbController = new DbController(new InMemoryDbContext());
         var generator = new ContenderGenerator(dbController, NumberOfContenders);
         _hall = new Hall(generator);
-        _hall.Initialize(NumberOfAttempt);
+        await _hall.Initialize(NumberOfAttempt);
         _friend = new Friend(_hall);
     }
 
