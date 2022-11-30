@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using PickyBride.contender;
+using PickyBride.database;
 
 namespace PickyBrideTests;
 
@@ -12,10 +13,11 @@ public class ContenderGeneratorTests
     [TestCase(1)]
     [TestCase(50)]
     [TestCase(100)]
-    public void ShouldReturnsListWithNeedingSize(int numberOfContenders)
+    public async Task ShouldReturnsListWithNeedingSize(int numberOfContenders)
     {
-        var generator = new ContenderGenerator();
-        var contenders = generator.GetContenders(numberOfContenders);
+        var dbController = new DbController(new InMemoryDbContext());
+        var generator = new ContenderGenerator(dbController, numberOfContenders);
+        var contenders = await generator.GetContenders(1);
         contenders.Count.Should().Be(numberOfContenders);
     }
 
@@ -23,18 +25,20 @@ public class ContenderGeneratorTests
     [TestCase(0)]
     public void ShouldThrowsErrorWhenNumberOfContendersLessThenOne(int numberOfContenders)
     {
-        var generator = new ContenderGenerator();
-        generator.Invoking(y => y.GetContenders(numberOfContenders))
+        var dbController = new DbController(new InMemoryDbContext());
+        var generator = new ContenderGenerator(dbController, numberOfContenders);
+        generator.Invoking(async y => await y.GetContenders(numberOfContenders))
             .Should()
-            .Throw<ApplicationException>()
+            .ThrowAsync<ApplicationException>()
             .WithMessage(PickyBride.resources.NumberOfContendersShouldBeMoreThenZero);
     }
 
     [Test]
-    public void ShouldReturnsUniqueNames()
+    public async Task ShouldReturnsUniqueNames()
     {
-        var generator = new ContenderGenerator();
-        var contenders = generator.GetContenders(NumberOfContenders);
+        var dbController = new DbController(new InMemoryDbContext());
+        var generator = new ContenderGenerator(dbController, NumberOfContenders);
+        var contenders = await generator.GetContenders(NumberOfContenders);
         contenders.Should().OnlyHaveUniqueItems(x => $"{x.Name} {x.Patronymic}");
     }
 }

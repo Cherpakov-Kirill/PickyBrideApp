@@ -1,3 +1,5 @@
+using PickyBride.database;
+
 namespace PickyBride.contender;
 
 public class ContenderGenerator : IContenderGenerator
@@ -5,11 +7,16 @@ public class ContenderGenerator : IContenderGenerator
     private static readonly string[] Names = { "Виктор", "Владимир", "Владислав", "Петр", "Абрам", "Аввакум", "Август", 
         "Аверьян", "Никифор", "Родион", "Кирилл", "Максим", "Артём", "Роман", "Семён"};
 
-    private readonly Random _random;
+    private readonly int _numberOfContenders;
 
-    public ContenderGenerator()
+    private readonly Random _random;
+    private readonly IDbController _dbController;
+
+    public ContenderGenerator(IDbController dbController, int numberOfContenders)
     {
+        _numberOfContenders = numberOfContenders;
         _random = new Random(DateTime.Now.Millisecond);
+        _dbController = dbController;
     }
 
     private string GetRandomName()
@@ -22,12 +29,13 @@ public class ContenderGenerator : IContenderGenerator
         return GetRandomName() + "ович";
     }
 
-    public List<Contender> GetContenders(int numberOfContenders)
+    public async Task<List<Contender>> GetContenders(int attemptNumber)
     {
-        if (numberOfContenders <= 0) throw new ApplicationException(resources.NumberOfContendersShouldBeMoreThenZero);
+        if (_numberOfContenders <= 0) throw new ApplicationException(resources.NumberOfContendersShouldBeMoreThenZero);
         var contenders = new List<Contender>();
         var usedNames = new HashSet<string>();
-        for (var i = 1; i <= numberOfContenders; i++)
+        
+        for (var i = 1; i <= _numberOfContenders; i++)
         {
             var name = GetRandomName();
             var patronymic = GetPatronymic();
@@ -39,6 +47,10 @@ public class ContenderGenerator : IContenderGenerator
             usedNames.Add(name + " " + patronymic);
             contenders.Add(new Contender(name, patronymic, i));
         }
+
+        var random = new Random();
+        contenders = contenders.OrderBy(x => random.Next(1, _numberOfContenders)).ToList();
+        await _dbController.SaveAllContendersToDb(contenders, attemptNumber);
         return contenders;
     }
 }

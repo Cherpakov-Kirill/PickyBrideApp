@@ -1,31 +1,28 @@
 using PickyBride.friend;
 using PickyBride.hall;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace PickyBride.princess;
 
 public class Princess : IHostedService
 {
     public const int NotTakenResult = 10;
-    private const int DefeatThreshold = 50;
-    private const int DefeatResult = 0;
+    public const int TwentyResult = 20;
+    public const int FiftyResult = 50;
+    public const int HundredResult = 100;
+    public const int DefeatResult = 0;
     private const int PrincessDidNotTakeAnyOne = -1;
 
-    private const int NumberOfSkippingContenders = 50;
+    private const int NumberOfSkippingContenders = 45;
+    private const int NumberOfTheBestContendersInTheEndOfSortedList = 4;
     private readonly IHall _hall;
     private readonly IFriend _friend;
     private readonly List<int> _contenders;
-
-    private readonly ILogger<Princess>? _logger;
     private readonly IHostApplicationLifetime? _appLifetime;
 
-    public Princess(ILogger<Princess>? logger,
-        IHostApplicationLifetime? appLifetime, IHall hall, IFriend friend)
+    public Princess(IHostApplicationLifetime? appLifetime, IHall hall, IFriend friend)
     {
-        _logger = logger;
         _appLifetime = appLifetime;
-        _appLifetime?.ApplicationStarted.Register(OnStarted);
         _hall = hall;
         _friend = friend;
         _contenders = new List<int>();
@@ -40,19 +37,27 @@ public class Princess : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _logger?.LogInformation("Princess : StartAsync has been called.");
-        return Task.CompletedTask;
+        return OnStarted();
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        _logger?.LogInformation("Princess : StopAsync has been called.");
         return Task.CompletedTask;
     }
 
-    private void OnStarted()
+    private async Task OnStarted()
     {
-        FindContender();
+        var sum = 0.0;
+        for (var currentAttemptNumber = 1; currentAttemptNumber <= Program.NumberOfAttempts; currentAttemptNumber++)
+        {
+            _contenders.Clear();
+            await _hall.Initialize(currentAttemptNumber);
+            sum += FindContender();
+        }
+
+        var avg = Math.Round(sum / (float)Program.NumberOfAttempts, 2);
+        Console.WriteLine(resources.AvgOfPrincessHappiness, avg);
+
         _appLifetime?.StopApplication();
     }
 
@@ -70,7 +75,7 @@ public class Princess : IHostedService
 
         var idx = 0;
         var res = 0;
-        while (idx < _contenders.Count - 1)
+        while (idx < _contenders.Count - NumberOfTheBestContendersInTheEndOfSortedList)
         {
             if (_contenders.Count == Program.MaxNumberOfContenders)
                 return ComputePrincessHappiness(PrincessDidNotTakeAnyOne);
@@ -92,11 +97,15 @@ public class Princess : IHostedService
 
         var chosenContenderPrettiness = _hall.GetContenderPrettiness(contenderId);
 
-        if (chosenContenderPrettiness > DefeatThreshold) return chosenContenderPrettiness;
-
-        Console.WriteLine(resources.PrincessChoseThePrinceResult_,
-            chosenContenderPrettiness, DefeatResult);
-        return DefeatResult;
+        var princessHappiness = chosenContenderPrettiness switch
+        {
+            100 => TwentyResult, // if contender prettiness = 100, then princess happiness = 20
+            98 => FiftyResult, // if contender prettiness = 98, then princess happiness = 50 
+            96 => HundredResult, // if contender prettiness = 96, then princess happiness = 100
+            _ => DefeatResult // otherwise princess happiness = 0
+        };
+        Console.WriteLine(resources.PrincessHappinessIs, princessHappiness);
+        return princessHappiness;
     }
 
     private int AddNewContender(int contenderId)

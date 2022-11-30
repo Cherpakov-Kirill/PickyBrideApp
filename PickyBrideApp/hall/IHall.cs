@@ -30,4 +30,10 @@ public interface IHall
     /// </returns>
     /// <exception cref="ApplicationException">throws when contender with this id had not visit the princess yet.</exception>
     public Contender GetVisitedContender(int contenderId);
+
+    /// <summary>
+    /// Initialize all hall's data for starting new attempt
+    /// </summary>
+    /// <param name="newNumberOfAttempt">new number of attempt</param>
+    Task Initialize(int newNumberOfAttempt);
 }

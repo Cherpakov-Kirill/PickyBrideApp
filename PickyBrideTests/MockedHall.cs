@@ -41,4 +41,9 @@ public class MockedHall : IHall
             _waitingContenders[contenderId]
         );
     }
+
+    public Task Initialize(int newNumberOfAttempt)
+    {
+        throw new NotImplementedException();
+    }
 }

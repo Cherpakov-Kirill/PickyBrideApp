@@ -4,24 +4,18 @@ namespace PickyBride.hall;
 
 public class Hall : IHall
 {
-    private readonly List<Contender> _waitingContenders;
+    private readonly IContenderGenerator _contenderGenerator;
+    private List<Contender> _waitingContenders;
     private readonly Dictionary<int, Contender> _visitedContenders;
-    private readonly Random _random;
+    private int _attemptNumber;
 
     public Hall(IContenderGenerator contenderGenerator)
     {
-        _waitingContenders = contenderGenerator.GetContenders(Program.MaxNumberOfContenders);
+        _contenderGenerator = contenderGenerator;
         _visitedContenders = new Dictionary<int, Contender>();
-        _random = new Random(DateTime.Now.Millisecond);
+        _waitingContenders = new List<Contender>();
     }
-    
-    public Hall(IContenderGenerator contenderGenerator, int numberOfContenders)
-    {
-        _waitingContenders = contenderGenerator.GetContenders(numberOfContenders);
-        _visitedContenders = new Dictionary<int, Contender>();
-        _random = new Random(DateTime.Now.Millisecond);
-    }
-    
+
     public int LetTheNextContenderGoToThePrincess()
     {
         if (_waitingContenders.Count == 0)
@@ -29,21 +23,19 @@ public class Hall : IHall
             throw new ApplicationException(resources.NoNewContender);
         }
 
-        var randomValue = _random.Next(0, _waitingContenders.Count - 1);
-        var contender = _waitingContenders[randomValue];
+        var contender = _waitingContenders[0];
 
         _waitingContenders.Remove(contender);
-        var currentNumber = _visitedContenders.Count + 1;
-        _visitedContenders.Add(currentNumber, contender);
-
-        return currentNumber;
+        var contenderPosition = _visitedContenders.Count + 1;
+        _visitedContenders.Add(contenderPosition, contender);
+        
+        return contenderPosition;
     }
 
     public int GetContenderPrettiness(int contenderId)
     {
-        PrintAllVisitedContenders();
         var takenContender = GetVisitedContender(contenderId);
-        Console.WriteLine(resources.ChosenContenderInfo, takenContender.Name,
+        Console.Write(resources.ChosenContenderInfo, _attemptNumber, contenderId, takenContender.Name,
             takenContender.Patronymic, takenContender.Prettiness);
         return takenContender.Prettiness;
     }
@@ -58,13 +50,10 @@ public class Hall : IHall
         return _visitedContenders[contenderId];
     }
 
-    private void PrintAllVisitedContenders()
+    public async Task Initialize(int newNumberOfAttempt)
     {
-        for (var contenderId = 1; contenderId <= _visitedContenders.Count; contenderId++)
-        {
-            var contender = _visitedContenders[contenderId];
-            Console.WriteLine(resources.ContenderInfo,
-                contenderId, contender.Name, contender.Patronymic, contender.Prettiness);
-        }
+        _attemptNumber = newNumberOfAttempt;
+        _waitingContenders = await _contenderGenerator.GetContenders(_attemptNumber);
+        _visitedContenders.Clear();
     }
 }

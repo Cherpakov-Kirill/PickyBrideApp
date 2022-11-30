@@ -27,4 +27,17 @@ public class Contender : IComparable
             return Prettiness.CompareTo(otherContender.Prettiness);
         throw new ArgumentException("Object is not a Contender");
     }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is Contender thatContender)
+        {
+            return Name == thatContender.Name &&
+                   Patronymic == thatContender.Patronymic &&
+                   Prettiness == thatContender.Prettiness;
+        }
+        return false;
+    }
+
+    public override int GetHashCode() => Name.GetHashCode() + Patronymic.GetHashCode() + Prettiness.GetHashCode();
 }
