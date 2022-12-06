@@ -17,8 +17,6 @@ public class HttpController
         _emulatorSession = System.Configuration.ConfigurationManager.AppSettings["EmulatorSession"]!;
     }
     
-    
-
     private Uri CreateUri(string requestUri)
     {
         var uri = new Uri($"{_emulatorUri}{requestUri}");
@@ -54,6 +52,4 @@ public class HttpController
     {
         return await SendPostRequest<T, string>(requestUri, null);
     }
-    
-    
 }

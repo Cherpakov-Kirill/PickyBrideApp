@@ -14,6 +14,7 @@ public class FriendController : Controller
     {
         _friend = friend;
     }
+    
     /// <summary>
     /// Compares two contenders by them names
     /// </summary>

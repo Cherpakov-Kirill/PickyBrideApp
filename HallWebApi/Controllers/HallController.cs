@@ -21,6 +21,7 @@ public class HallController : ControllerBase
         _currentNumberOfAttempt = newAttemptNumber;
         await _hall.Initialize(_currentNumberOfAttempt);
     }
+    
     /// <summary>
     /// Returns next contender name from Hall
     /// </summary>
