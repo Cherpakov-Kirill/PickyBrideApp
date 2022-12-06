@@ -62,6 +62,6 @@ public class HallTests
     {
         var contenderName = _hall.LetTheNextContenderGoToThePrincess();
         var contender = _hall.GetVisitedContender(contenderName!);
-        contender.Prettiness.Should().Be(_hall.GetContenderPrettiness(contenderName!));
+        contender.Prettiness.Should().Be(_hall.SelectContender());
     }
 }

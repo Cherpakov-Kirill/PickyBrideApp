@@ -3,6 +3,7 @@ using HallWebApi.model.hall;
 using Microsoft.Extensions.Hosting;
 using PickyBride.princess;
 using Microsoft.Extensions.DependencyInjection;
+using PickyBride.api;
 
 namespace PickyBride;
 
@@ -21,6 +22,7 @@ public static class Program
             .ConfigureServices((_, services) =>
             {
                 services.AddHostedService<Princess>();
+                services.AddScoped<HttpController>();
                 services.AddScoped<IHall, PickyBride.hall.Hall>();
                 services.AddScoped<IFriend, PickyBride.friend.Friend>();
             });

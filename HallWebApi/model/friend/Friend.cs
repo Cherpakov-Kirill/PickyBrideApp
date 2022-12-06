@@ -11,10 +11,16 @@ public class Friend : IFriend
         _hallForFriend = hallForFriend;
     }
 
-    public int IsFirstBetterThenSecond(string firstContenderFullName, string secondContenderFullName)
+    public string WhoIsBetter(string firstContenderFullName, string secondContenderFullName)
     {
         var firstContender = _hallForFriend.GetVisitedContender(firstContenderFullName);
         var secondContender = _hallForFriend.GetVisitedContender(secondContenderFullName);
-        return firstContender.CompareTo(secondContender);
+        var result = firstContender.CompareTo(secondContender) == 1 ? firstContenderFullName : secondContenderFullName;
+        return result;
+    }
+
+    public void SetAttemptNumber(int newNumberOfAttempt)
+    {
+        throw new NotImplementedException();
     }
 }

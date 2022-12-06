@@ -14,15 +14,6 @@ public interface IHall
     public string? LetTheNextContenderGoToThePrincess();
 
     /// <summary>
-    /// Method returns chosen contender prettiness.
-    /// </summary>
-    /// <param name="fullName"></param>
-    /// <returns>
-    /// Chosen contender prettiness.
-    /// </returns>
-    public int GetContenderPrettiness(string fullName);
-
-    /// <summary>
     /// Method returns last visited contender prettiness
     /// </summary>
     /// <returns>last visited contender prettiness</returns>

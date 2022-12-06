@@ -30,7 +30,7 @@ public class FriendTests
     {
         var firstContender = _hall.LetTheNextContenderGoToThePrincess();
         var secondContender = _hall.LetTheNextContenderGoToThePrincess();
-        _friend.Invoking(y => y.IsFirstBetterThenSecond(firstContender!, secondContender!))
+        _friend.Invoking(y => y.WhoIsBetter(firstContender!, secondContender!))
             .Should()
             .NotThrow();
     }
@@ -40,7 +40,7 @@ public class FriendTests
     {
         var contender = _hall.LetTheNextContenderGoToThePrincess();
         const string notVisitedContender = "Not visited Contender";
-        _friend.Invoking(y => y.IsFirstBetterThenSecond(notVisitedContender, contender!))
+        _friend.Invoking(y => y.WhoIsBetter(notVisitedContender, contender!))
             .Should()
             .Throw<ApplicationException>()
             .WithMessage(HallWebApi.resources.ThisContenderDidNotVisit);
@@ -51,7 +51,7 @@ public class FriendTests
     {
         var contender = _hall.LetTheNextContenderGoToThePrincess();
         const string notVisitedContender = "Not visited Contender";
-        _friend.Invoking(y => y.IsFirstBetterThenSecond(contender!, notVisitedContender))
+        _friend.Invoking(y => y.WhoIsBetter(contender!, notVisitedContender))
             .Should()
             .Throw<ApplicationException>()
             .WithMessage(HallWebApi.resources.ThisContenderDidNotVisit);
@@ -62,7 +62,7 @@ public class FriendTests
     {
         const string firstContendersWithoutVisit = "First Not visited Contender";
         const string secondContendersWithoutVisit = "Second Not visited Contender";
-        _friend.Invoking(y => y.IsFirstBetterThenSecond(secondContendersWithoutVisit, firstContendersWithoutVisit))
+        _friend.Invoking(y => y.WhoIsBetter(secondContendersWithoutVisit, firstContendersWithoutVisit))
             .Should()
             .Throw<ApplicationException>()
             .WithMessage(HallWebApi.resources.ThisContenderDidNotVisit);
@@ -75,7 +75,7 @@ public class FriendTests
         var secondContenderName = _hall.LetTheNextContenderGoToThePrincess();
         var firstContender = _hall.GetVisitedContender(firstContenderName!);
         var secondContender = _hall.GetVisitedContender(secondContenderName!);
-        var result = _friend.IsFirstBetterThenSecond(firstContenderName!, secondContenderName!);
-        result.Should().Be(firstContender.Prettiness.CompareTo(secondContender.Prettiness));
+        var result = _friend.WhoIsBetter(firstContenderName!, secondContenderName!);
+        result.Should().Be(firstContender.Prettiness > secondContender.Prettiness ? firstContenderName : secondContenderName);
     }
 }

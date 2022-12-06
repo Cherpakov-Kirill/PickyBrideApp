@@ -69,7 +69,7 @@ namespace HallWebApi {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AttemptNum {0} | Taken contender : name = &quot;{1} {2}&quot;, prettiness = {3} | .
+        ///   Looks up a localized string similar to AttemptNum {0} | Taken contender : name = &quot;{1} {2}&quot;, prettiness = {3}.
         /// </summary>
         public static string ChosenContenderInfo {
             get {

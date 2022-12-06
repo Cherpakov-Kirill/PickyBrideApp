@@ -1,23 +1,29 @@
 using HallWebApi.model.contender;
 using HallWebApi.model.hall;
+using HallWebApi.model.dto;
+using PickyBride.api;
 
 namespace PickyBride.hall;
 
 public class Hall : IHall
 {
-    public string LetTheNextContenderGoToThePrincess()
+    private int _attemptNumber;
+    private readonly HttpController _httpController;
+
+    public Hall(HttpController httpController)
     {
-        throw new NotImplementedException();
+        _httpController = httpController;
     }
 
-    public int GetContenderPrettiness(string fullName)
+    public string LetTheNextContenderGoToThePrincess()
     {
-        throw new NotImplementedException();
+        var response = _httpController.SendPostRequest<ContenderNameDto>($"/hall/{_attemptNumber}/next").Result;
+        return response!.Name;
     }
 
     public int SelectContender()
     {
-        throw new NotImplementedException();
+        return _httpController.SendPostRequest<ContenderRankDto>($"/hall/{_attemptNumber}/select").Result!.Rank;
     }
 
     public Contender GetVisitedContender(string fullName)
@@ -27,6 +33,6 @@ public class Hall : IHall
 
     public async Task Initialize(int newNumberOfAttempt)
     {
-        throw new NotImplementedException();
+        _attemptNumber = newNumberOfAttempt;
     }
 }

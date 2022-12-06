@@ -8,7 +8,13 @@ public interface IFriend
     /// <param name="firstContenderFullName">full name of the first contender</param>
     /// <param name="secondContenderFullName">full name of the second contender</param>
     /// <returns>
-    /// Result of calling firstContenderPrettiness.CompareTo(secondContenderPrettiness)
+    /// Name of the contender , that better then other contender.
     /// </returns>
-    public int IsFirstBetterThenSecond(string firstContenderFullName, string secondContenderFullName);
+    public string WhoIsBetter(string firstContenderFullName, string secondContenderFullName);
+    
+    /// <summary>
+    /// Sets current attempt number to friend
+    /// </summary>
+    /// <param name="newNumberOfAttempt">new number of attempt</param>
+    public void SetAttemptNumber(int newNumberOfAttempt);
 }

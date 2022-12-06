@@ -14,7 +14,6 @@ public class Hall : IHall
     private readonly Dictionary<string, Contender> _visitedContenders;
     private int _attemptNumber;
     private string _lastContenderFullName;
-    
 
     public Hall(IContenderGenerator contenderGenerator)
     {
@@ -45,13 +44,8 @@ public class Hall : IHall
 
     public int SelectContender()
     {
-        return GetContenderPrettiness(_lastContenderFullName);
-    }
-
-    public int GetContenderPrettiness(string fullName)
-    {
-        var takenContender = GetVisitedContender(fullName);
-        Console.Write(resources.ChosenContenderInfo, _attemptNumber, takenContender.Name,
+        var takenContender = GetVisitedContender(_lastContenderFullName);
+        Console.WriteLine(resources.ChosenContenderInfo, _attemptNumber, takenContender.Name,
             takenContender.Patronymic, takenContender.Prettiness);
         return takenContender.Prettiness;
     }
@@ -68,10 +62,8 @@ public class Hall : IHall
 
     public async Task Initialize(int newNumberOfAttempt)
     {
-        //Console.WriteLine("Hall Initialized!");
         _attemptNumber = newNumberOfAttempt;
         _waitingContenders = await _contenderGenerator.GetContenders(_attemptNumber);
-        Console.WriteLine($"Hall Initialized! size = {_waitingContenders.Count}");
         _visitedContenders.Clear();
     }
 }

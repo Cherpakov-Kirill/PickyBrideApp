@@ -52,6 +52,7 @@ public class Princess : IHostedService
         {
             _contenders.Clear();
             await _hall.Initialize(currentAttemptNumber);
+            _friend.SetAttemptNumber(currentAttemptNumber);
             sum += FindContender();
         }
 
@@ -80,11 +81,6 @@ public class Princess : IHostedService
             var contenderName = _hall.LetTheNextContenderGoToThePrincess();
             if (contenderName == null) return ComputePrincessHappiness(null);
 
-            if (contenderName == "100")
-            {
-                Console.WriteLine(contenderName);
-            }
-            
             idx = AddNewContender(contenderName);
             res = contenderName;
         }
@@ -100,7 +96,7 @@ public class Princess : IHostedService
             return NotTakenResult;
         }
 
-        var chosenContenderPrettiness = _hall.GetContenderPrettiness(contenderName);
+        var chosenContenderPrettiness = _hall.SelectContender();
 
         var princessHappiness = chosenContenderPrettiness switch
         {
@@ -116,8 +112,8 @@ public class Princess : IHostedService
     private int AddNewContender(string contenderName)
     {
         _contenders.Add(contenderName);
-        _contenders.Sort((firstContenderId, secondContenderId) =>
-            _friend.IsFirstBetterThenSecond(firstContenderId, secondContenderId));
+        _contenders.Sort((firstContenderFullName, secondContenderFullName) =>
+            _friend.WhoIsBetter(firstContenderFullName, secondContenderFullName)==firstContenderFullName ? 1 : -1);
         return _contenders.IndexOf(contenderName);
     }
 }
