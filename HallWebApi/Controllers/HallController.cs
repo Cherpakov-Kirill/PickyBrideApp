@@ -16,10 +16,10 @@ public class HallController : ControllerBase
         _hall = hall;
     }
 
-    private async Task InitializeNewAttempt(int newAttemptNumber)
+    private Task InitializeNewAttempt(int newAttemptNumber)
     {
         _currentNumberOfAttempt = newAttemptNumber;
-        await _hall.Initialize(_currentNumberOfAttempt);
+        return _hall.Initialize(_currentNumberOfAttempt);
     }
     
     /// <summary>
