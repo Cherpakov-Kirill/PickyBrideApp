@@ -33,7 +33,7 @@ public class HttpController
         return ub.Uri;
     }
     
-    public async Task<T?> SendPostRequest<T, TR>(string requestUri, TR? content)
+    public async Task<TResponse?> SendPostRequest<TResponse, TContent>(string requestUri, TContent? content)
     {
         HttpContent? httpContent = null;
         if (content != null)
@@ -45,11 +45,11 @@ public class HttpController
         
         var response = await _client.PostAsync(CreateUri(requestUri), httpContent);
         var responseString = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<T>(responseString);
+        return JsonSerializer.Deserialize<TResponse>(responseString);
     }
 
-    public async Task<T?> SendPostRequest<T>(string requestUri)
+    public async Task<TResponse?> SendPostRequest<TResponse>(string requestUri)
     {
-        return await SendPostRequest<T, string>(requestUri, null);
+        return await SendPostRequest<TResponse, string>(requestUri, null);
     }
 }
