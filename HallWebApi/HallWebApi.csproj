@@ -31,4 +31,8 @@
       <None Include="app.config" />
     </ItemGroup>
 
+    <PropertyGroup>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
 </Project>
