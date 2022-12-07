@@ -24,30 +24,31 @@ public class Hall : IHall
         _lastContenderFullName = "";
     }
 
-    public string? LetTheNextContenderGoToThePrincess()
+    public Task<string?> LetTheNextContenderGoToThePrincess()
     {
+        string? fullName;
         if (_waitingContenders.Count == 0)
         {
             Console.WriteLine(resources.NoNewContender);
-            return null;
+            fullName = null;
         }
-
-        var contender = _waitingContenders[0];
-
-        _waitingContenders.Remove(contender);
-        var fullName = MakeKeyForContender(contender.Name, contender.Patronymic);
-        _visitedContenders.Add(fullName, contender);
-        _lastContenderFullName = fullName;
-        
-        return fullName;
+        else
+        {
+            var contender = _waitingContenders[0];
+            _waitingContenders.Remove(contender);
+            fullName = MakeKeyForContender(contender.Name, contender.Patronymic);
+            _visitedContenders.Add(fullName, contender);
+            _lastContenderFullName = fullName;
+        }
+        return Task.FromResult(fullName);
     }
 
-    public int SelectContender()
+    public Task<int> SelectContender()
     {
         var takenContender = GetVisitedContender(_lastContenderFullName);
         Console.WriteLine(resources.ChosenContenderInfo, _attemptNumber, takenContender.Name,
             takenContender.Patronymic, takenContender.Prettiness);
-        return takenContender.Prettiness;
+        return Task.FromResult(takenContender.Prettiness);
     }
 
     public Contender GetVisitedContender(string fullName)

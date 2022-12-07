@@ -15,15 +15,16 @@ public class Hall : IHall
         _httpController = httpController;
     }
 
-    public string LetTheNextContenderGoToThePrincess()
+    public async Task<string?> LetTheNextContenderGoToThePrincess()
     {
-        var response = _httpController.SendPostRequest<ContenderNameDto>($"/hall/{_attemptNumber}/next").Result;
+        var response = await _httpController.SendPostRequest<ContenderNameDto>($"/hall/{_attemptNumber}/next");
         return response!.Name;
     }
 
-    public int SelectContender()
+    public async Task<int> SelectContender()
     {
-        return _httpController.SendPostRequest<ContenderRankDto>($"/hall/{_attemptNumber}/select").Result!.Rank;
+        var response = await _httpController.SendPostRequest<ContenderRankDto>($"/hall/{_attemptNumber}/select");
+        return response!.Rank;
     }
 
     public Contender GetVisitedContender(string fullName)

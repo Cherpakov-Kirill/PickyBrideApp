@@ -20,21 +20,22 @@ public class MockedHall : IHall
         GenerateContenderList();
     }
 
-    public string? LetTheNextContenderGoToThePrincess()
+    public Task<string?> LetTheNextContenderGoToThePrincess()
     {
-        if (_lastVisitedContenderIdx + 1  == PickyBride.Program.MaxNumberOfContenders)
-            return null;
-        _lastVisitedContenderIdx++;
-        return $"{_lastVisitedContenderIdx}";
+        string? fullName;
+        if (_lastVisitedContenderIdx + 1 == PickyBride.Program.MaxNumberOfContenders)
+        {
+            fullName = null;
+        }
+        else
+        {
+            _lastVisitedContenderIdx++;
+            fullName = $"{_lastVisitedContenderIdx}";
+        }
+        return Task.FromResult(fullName);
     }
 
-    public int GetContenderPrettiness(string fullName)
-    {
-        var takenContender = GetVisitedContender(fullName);
-        return takenContender.Prettiness;
-    }
-
-    public int SelectContender()
+    public Task<int> SelectContender()
     {
         throw new NotImplementedException();
     }

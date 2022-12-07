@@ -11,13 +11,13 @@ public interface IHall
     /// if hall has new contenders, than Contender full name = {name patronymic}. 
     /// if hall has not any new contender, than null. 
     /// </returns>
-    public string? LetTheNextContenderGoToThePrincess();
+    public Task<string?> LetTheNextContenderGoToThePrincess();
 
     /// <summary>
     /// Method returns last visited contender prettiness
     /// </summary>
     /// <returns>last visited contender prettiness</returns>
-    public int SelectContender();
+    public Task<int> SelectContender();
     
     /// <summary>
     /// Returns contender object by contenderId.

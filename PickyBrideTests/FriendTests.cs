@@ -26,19 +26,19 @@ public class FriendTests
     }
 
     [Test]
-    public void ShouldNotThrowsErrorWhenBothContendersVisitedThePrincess()
+    public async Task ShouldNotThrowsErrorWhenBothContendersVisitedThePrincess()
     {
-        var firstContender = _hall.LetTheNextContenderGoToThePrincess();
-        var secondContender = _hall.LetTheNextContenderGoToThePrincess();
+        var firstContender = await _hall.LetTheNextContenderGoToThePrincess();
+        var secondContender = await _hall.LetTheNextContenderGoToThePrincess();
         _friend.Invoking(y => y.WhoIsBetter(firstContender!, secondContender!))
             .Should()
             .NotThrow();
     }
 
     [Test]
-    public void ShouldThrowsErrorWhenFirstContenderDidNotVisitedThePrincess()
+    public async Task ShouldThrowsErrorWhenFirstContenderDidNotVisitedThePrincess()
     {
-        var contender = _hall.LetTheNextContenderGoToThePrincess();
+        var contender = await _hall.LetTheNextContenderGoToThePrincess();
         const string notVisitedContender = "Not visited Contender";
         _friend.Invoking(y => y.WhoIsBetter(notVisitedContender, contender!))
             .Should()
@@ -47,9 +47,9 @@ public class FriendTests
     }
     
     [Test]
-    public void ShouldThrowsErrorWhenSecondContenderDidNotVisitedThePrincess()
+    public async Task ShouldThrowsErrorWhenSecondContenderDidNotVisitedThePrincess()
     {
-        var contender = _hall.LetTheNextContenderGoToThePrincess();
+        var contender = await _hall.LetTheNextContenderGoToThePrincess();
         const string notVisitedContender = "Not visited Contender";
         _friend.Invoking(y => y.WhoIsBetter(contender!, notVisitedContender))
             .Should()
@@ -69,10 +69,10 @@ public class FriendTests
     }
 
     [Test]
-    public void ShouldCorrectlyComparesOfContenders()
+    public async Task ShouldCorrectlyComparesOfContenders()
     {
-        var firstContenderName = _hall.LetTheNextContenderGoToThePrincess();
-        var secondContenderName = _hall.LetTheNextContenderGoToThePrincess();
+        var firstContenderName = await _hall.LetTheNextContenderGoToThePrincess();
+        var secondContenderName = await _hall.LetTheNextContenderGoToThePrincess();
         var firstContender = _hall.GetVisitedContender(firstContenderName!);
         var secondContender = _hall.GetVisitedContender(secondContenderName!);
         var result = _friend.WhoIsBetter(firstContenderName!, secondContenderName!);

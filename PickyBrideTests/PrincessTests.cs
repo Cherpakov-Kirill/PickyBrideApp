@@ -29,12 +29,12 @@ public class PrincessTests
     }
 
     [Test]
-    public void ShouldCorrectlyChoosesContenderWithHighPrettiness()
+    public async Task ShouldCorrectlyChoosesContenderWithHighPrettiness()
     {
         //This test validates princess algorithm.
         //Algorithm relies on random order of contenders in queue.
         //Princess should get happiness one of {0,100,50,20}.
-        var happiness = _princess.FindContender();
+        var happiness = await _princess.FindContender();
         happiness.Should().BeOneOf(
             Princess.DefeatResult,
             Princess.TwentyResult,

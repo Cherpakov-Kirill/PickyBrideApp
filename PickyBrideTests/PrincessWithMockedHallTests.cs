@@ -25,8 +25,8 @@ public class PrincessWithMockedHallTests
     /// </summary>
 
     [Test]
-    public void ShouldThrowsErrorWhenContendersVisitsThePrincessInDescendingOrderOfThePrettiness()
+    public async Task ShouldThrowsErrorWhenContendersVisitsThePrincessInDescendingOrderOfThePrettiness()
     {
-        _princess.FindContender().Should().Be(Princess.NotTakenResult);
+        (await _princess.FindContender()).Should().Be(Princess.NotTakenResult);
     }
 }

@@ -34,7 +34,7 @@ public class HallController : ControllerBase
     {
         if (_currentNumberOfAttempt != attemptNumber) await InitializeNewAttempt(attemptNumber);
         
-        var fullName = _hall.LetTheNextContenderGoToThePrincess();
+        var fullName = await _hall.LetTheNextContenderGoToThePrincess();
         return Ok(new ContenderNameDto(fullName!));
     }
     
@@ -47,11 +47,11 @@ public class HallController : ControllerBase
     [HttpPost("{attemptNumber:int}/select")]
     [ProducesResponseType(typeof(ContenderRankDto), 200)]
     [ProducesResponseType(typeof(string), 400)]
-    public IActionResult Select(int attemptNumber, int session)
+    public async Task<IActionResult> Select(int attemptNumber, int session)
     {
         if (_currentNumberOfAttempt != attemptNumber) return BadRequest("Current  Hall attempt not equal with attemptNumber in request");
         
-        var contenderRank = _hall.SelectContender();
+        var contenderRank = await _hall.SelectContender();
         return Ok(new ContenderRankDto(contenderRank));
     }
 }

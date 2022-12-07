@@ -23,14 +23,14 @@ public class HallTests
     }
     
     [Test]
-    public void ShouldReturnsNullWhenNoNewContendersInTheHall()
+    public async Task ShouldReturnsNullWhenNoNewContendersInTheHall()
     {
         for (var i = 0; i < NumberOfContenders; i++)
         {
-            _hall.LetTheNextContenderGoToThePrincess();
+            await _hall.LetTheNextContenderGoToThePrincess();
         }
 
-        _hall.LetTheNextContenderGoToThePrincess().Should().BeNull();
+        (await _hall.LetTheNextContenderGoToThePrincess()).Should().BeNull();
     }
     
     [Test]
@@ -41,9 +41,9 @@ public class HallTests
     }
     
     [Test]
-    public void ShouldReturnsVisitedContenderData()
+    public async Task ShouldReturnsVisitedContenderData()
     {
-        var contenderName = _hall.LetTheNextContenderGoToThePrincess();
+        var contenderName = await _hall.LetTheNextContenderGoToThePrincess();
         _hall.Invoking(y => y.GetVisitedContender(contenderName!)).Should().NotThrow<ApplicationException>();
     }
     
@@ -58,10 +58,10 @@ public class HallTests
     }
     
     [Test]
-    public void ShouldReturnsCorrectContenderPrettiness()
+    public async Task ShouldReturnsCorrectContenderPrettiness()
     {
-        var contenderName = _hall.LetTheNextContenderGoToThePrincess();
+        var contenderName = await _hall.LetTheNextContenderGoToThePrincess();
         var contender = _hall.GetVisitedContender(contenderName!);
-        contender.Prettiness.Should().Be(_hall.SelectContender());
+        contender.Prettiness.Should().Be(await _hall.SelectContender());
     }
 }

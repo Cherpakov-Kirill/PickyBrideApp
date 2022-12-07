@@ -53,7 +53,7 @@ public class Princess : IHostedService
             _contenders.Clear();
             await _hall.Initialize(currentAttemptNumber);
             _friend.SetAttemptNumber(currentAttemptNumber);
-            sum += FindContender();
+            sum += await FindContender();
         }
 
         var avg = Math.Round(sum / (float) Program.NumberOfAttempts, 2);
@@ -66,11 +66,11 @@ public class Princess : IHostedService
     /// Find a contender for marriage.
     /// </summary>
     /// <returns>Level of princess happiness after choose of prince.</returns>
-    public int FindContender()
+    public async Task<int> FindContender()
     {
         for (var i = 0; i < NumberOfSkippingContenders; i++)
         {
-            var contenderName = _hall.LetTheNextContenderGoToThePrincess();
+            var contenderName = await _hall.LetTheNextContenderGoToThePrincess();
             if (contenderName != null) AddNewContender(contenderName);
         }
 
@@ -78,17 +78,20 @@ public class Princess : IHostedService
         var res = "";
         while (idx < _contenders.Count - NumberOfTheBestContendersInTheEndOfSortedList)
         {
-            var contenderName = _hall.LetTheNextContenderGoToThePrincess();
-            if (contenderName == null) return ComputePrincessHappiness(null);
+            var contenderName = await _hall.LetTheNextContenderGoToThePrincess();
+            if (contenderName == null)
+            {
+                return await ComputePrincessHappiness(null);
+            }
 
             idx = AddNewContender(contenderName);
             res = contenderName;
         }
 
-        return ComputePrincessHappiness(res);
+        return await ComputePrincessHappiness(res);
     }
 
-    private int ComputePrincessHappiness(string? contenderName)
+    private async Task<int> ComputePrincessHappiness(string? contenderName)
     {
         if (contenderName == null)
         {
@@ -96,7 +99,7 @@ public class Princess : IHostedService
             return NotTakenResult;
         }
 
-        var chosenContenderPrettiness = _hall.SelectContender();
+        var chosenContenderPrettiness = await _hall.SelectContender();
 
         var princessHappiness = chosenContenderPrettiness switch
         {
