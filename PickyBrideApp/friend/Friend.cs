@@ -14,10 +14,10 @@ public class Friend : IFriend
         _httpController = httpController;
     }
     
-    public string WhoIsBetter(string firstContenderFullName, string secondContenderFullName)
+    public async Task<string> WhoIsBetter(string firstContenderFullName, string secondContenderFullName)
     {
         var content = new CompareContendersDto(firstContenderFullName, secondContenderFullName);
-        return _httpController.SendPostRequest<ContenderNameDto, CompareContendersDto>($"/friend/{_attemptNumber}/compare", content).Result!.Name;
+        return (await _httpController.SendPostRequest<ContenderNameDto, CompareContendersDto>($"/friend/{_attemptNumber}/compare", content))!.Name;
     }
 
     public void SetAttemptNumber(int newNumberOfAttempt)

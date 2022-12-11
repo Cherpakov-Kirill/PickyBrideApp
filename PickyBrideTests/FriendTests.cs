@@ -30,9 +30,9 @@ public class FriendTests
     {
         var firstContender = await _hall.LetTheNextContenderGoToThePrincess();
         var secondContender = await _hall.LetTheNextContenderGoToThePrincess();
-        _friend.Invoking(y => y.WhoIsBetter(firstContender!, secondContender!))
+        await _friend.Invoking(y => y.WhoIsBetter(firstContender!, secondContender!))
             .Should()
-            .NotThrow();
+            .NotThrowAsync();
     }
 
     [Test]
@@ -40,9 +40,9 @@ public class FriendTests
     {
         var contender = await _hall.LetTheNextContenderGoToThePrincess();
         const string notVisitedContender = "Not visited Contender";
-        _friend.Invoking(y => y.WhoIsBetter(notVisitedContender, contender!))
+        await _friend.Invoking(y => y.WhoIsBetter(notVisitedContender, contender!))
             .Should()
-            .Throw<ApplicationException>()
+            .ThrowAsync<ApplicationException>()
             .WithMessage(HallWebApi.resources.ThisContenderDidNotVisit);
     }
     
@@ -51,9 +51,9 @@ public class FriendTests
     {
         var contender = await _hall.LetTheNextContenderGoToThePrincess();
         const string notVisitedContender = "Not visited Contender";
-        _friend.Invoking(y => y.WhoIsBetter(contender!, notVisitedContender))
+        await _friend.Invoking(y => y.WhoIsBetter(contender!, notVisitedContender))
             .Should()
-            .Throw<ApplicationException>()
+            .ThrowAsync<ApplicationException>()
             .WithMessage(HallWebApi.resources.ThisContenderDidNotVisit);
     }
     
@@ -64,7 +64,7 @@ public class FriendTests
         const string secondContendersWithoutVisit = "Second Not visited Contender";
         _friend.Invoking(y => y.WhoIsBetter(secondContendersWithoutVisit, firstContendersWithoutVisit))
             .Should()
-            .Throw<ApplicationException>()
+            .ThrowAsync<ApplicationException>()
             .WithMessage(HallWebApi.resources.ThisContenderDidNotVisit);
     }
 

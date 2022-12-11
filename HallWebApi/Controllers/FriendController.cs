@@ -24,9 +24,9 @@ public class FriendController : Controller
     /// <returns>Returns JSON with contender name</returns>
     [HttpPost("{attemptNumber:int}/compare")]
     [ProducesResponseType(typeof(ContenderNameDto), 200)]
-    public IActionResult Compare(int attemptNumber, CompareContendersDto content, int session)
+    public async Task<IActionResult> Compare(int attemptNumber, CompareContendersDto content, int session)
     {
-        var result = _friend.WhoIsBetter(content.FirstName, content.SecondName);
+        var result = await _friend.WhoIsBetter(content.FirstName, content.SecondName);
         return Ok(new ContenderNameDto(result));
     }
 }

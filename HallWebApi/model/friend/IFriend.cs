@@ -10,7 +10,7 @@ public interface IFriend
     /// <returns>
     /// Name of the contender , that better then other contender.
     /// </returns>
-    public string WhoIsBetter(string firstContenderFullName, string secondContenderFullName);
+    public Task<string> WhoIsBetter(string firstContenderFullName, string secondContenderFullName);
     
     /// <summary>
     /// Sets current attempt number to friend

@@ -112,11 +112,17 @@ public class Princess : IHostedService
         return princessHappiness;
     }
 
+    private async Task<int> Comparison(string firstContenderFullName, string secondContenderFullName)
+    {
+        return await _friend.WhoIsBetter(firstContenderFullName, secondContenderFullName) == firstContenderFullName
+            ? 1
+            : -1;
+    }
+
     private int AddNewContender(string contenderName)
     {
         _contenders.Add(contenderName);
-        _contenders.Sort((firstContenderFullName, secondContenderFullName) =>
-            _friend.WhoIsBetter(firstContenderFullName, secondContenderFullName)==firstContenderFullName ? 1 : -1);
+        _contenders.Sort((firstContenderFullName, secondContenderFullName) => Comparison(firstContenderFullName, secondContenderFullName).Result);
         return _contenders.IndexOf(contenderName);
     }
 }
