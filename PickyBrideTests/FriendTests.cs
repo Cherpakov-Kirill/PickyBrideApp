@@ -75,7 +75,7 @@ public class FriendTests
         var secondContenderName = await _hall.LetTheNextContenderGoToThePrincess();
         var firstContender = _hall.GetVisitedContender(firstContenderName!);
         var secondContender = _hall.GetVisitedContender(secondContenderName!);
-        var result = _friend.WhoIsBetter(firstContenderName!, secondContenderName!);
+        var result = await _friend.WhoIsBetter(firstContenderName!, secondContenderName!);
         result.Should().Be(firstContender.Prettiness > secondContender.Prettiness ? firstContenderName : secondContenderName);
     }
 }
