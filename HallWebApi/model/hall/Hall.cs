@@ -17,7 +17,6 @@ public class Hall : IHall
 
     public Hall(IContenderGenerator contenderGenerator)
     {
-        Console.WriteLine("Hall Created!");
         _contenderGenerator = contenderGenerator;
         _visitedContenders = new Dictionary<string, Contender>();
         _waitingContenders = new List<Contender>();
