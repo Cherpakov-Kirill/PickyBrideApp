@@ -13,13 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 services.AddMassTransit(x =>
 {
-    x.UsingRabbitMq((context,cfg) =>
+    x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("localhost", "/", h =>
-        {
-            h.Username("guest");
-            h.Password("guest");
-        });
+        cfg.Host(System.Configuration.ConfigurationManager.AppSettings["RebbitMQHost"],
+            System.Configuration.ConfigurationManager.AppSettings["RebbitMQVirtualHost"],
+            h =>
+            {
+                h.Username(System.Configuration.ConfigurationManager.AppSettings["RebbitMQUsername"]);
+                h.Password(System.Configuration.ConfigurationManager.AppSettings["RebbitMQPassword"]);
+            }
+        );
         cfg.ConfigureEndpoints(context);
     });
 });

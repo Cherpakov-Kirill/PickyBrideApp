@@ -13,6 +13,7 @@ public static class Program
 {
     public const int NumberOfAttempts = 100;
     public const int MaxNumberOfContenders = 100;
+
     public static void Main(string[] args)
     {
         CreateAttemptsGeneratorHostBuilder(args).Build().Run();
@@ -31,13 +32,16 @@ public static class Program
                 services.AddScoped<IFriend, PickyBride.friend.Friend>();
                 services.AddMassTransit(x =>
                 {
-                    x.UsingRabbitMq((context,cfg) =>
+                    x.UsingRabbitMq((context, cfg) =>
                     {
-                        cfg.Host("localhost", "/", h =>
-                        {
-                            h.Username("guest");
-                            h.Password("guest");
-                        });
+                        cfg.Host(System.Configuration.ConfigurationManager.AppSettings["RebbitMQHost"],
+                            System.Configuration.ConfigurationManager.AppSettings["RebbitMQVirtualHost"],
+                            h =>
+                            {
+                                h.Username(System.Configuration.ConfigurationManager.AppSettings["RebbitMQUsername"]);
+                                h.Password(System.Configuration.ConfigurationManager.AppSettings["RebbitMQPassword"]);
+                            }
+                        );
                         cfg.ConfigureEndpoints(context);
                     });
                     x.AddConsumer<ContenderConsumer>();
