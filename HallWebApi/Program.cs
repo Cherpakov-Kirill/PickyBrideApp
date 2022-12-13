@@ -3,6 +3,7 @@ using HallWebApi.model.database;
 using HallWebApi.model.database.context;
 using HallWebApi.model.friend;
 using HallWebApi.model.hall;
+using MassTransit;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 var services = builder.Services;
+services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context,cfg) =>
+    {
+        cfg.Host("localhost", "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+        cfg.ConfigureEndpoints(context);
+    });
+});
 services.AddControllers();
 services.AddSingleton<BaseDbContext, PostgresqlDbContext>();
 services.AddSingleton<IDbController, DbController>();
@@ -17,8 +30,8 @@ services.AddSingleton<IContenderGenerator, DbContenderLoader>();
 services.AddSingleton<IHall, Hall>();
 services.AddSingleton<IFriend, Friend>();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "HallWebApi - V1", Version = "v1" });
 

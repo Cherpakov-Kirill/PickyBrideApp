@@ -34,8 +34,8 @@ public class HallController : ControllerBase
     {
         if (_currentNumberOfAttempt != attemptNumber) await InitializeNewAttempt(attemptNumber);
         
-        var fullName = await _hall.LetTheNextContenderGoToThePrincess();
-        return Ok(new ContenderNameDto(fullName!));
+        await _hall.LetTheNextContenderGoToThePrincess();
+        return Ok();
     }
     
     /// <summary>

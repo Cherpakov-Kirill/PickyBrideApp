@@ -52,4 +52,9 @@ public class HttpController
     {
         return await SendPostRequest<TResponse, string>(requestUri, null);
     }
+    
+    public async Task<HttpResponseMessage> SendPostRequest(string requestUri)
+    {
+        return await _client.PostAsync(CreateUri(requestUri), null);
+    }
 }

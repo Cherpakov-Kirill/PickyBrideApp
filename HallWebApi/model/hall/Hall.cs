@@ -1,4 +1,6 @@
 using HallWebApi.model.contender;
+using HallWebApi.model.dto;
+using MassTransit;
 
 namespace HallWebApi.model.hall;
 
@@ -10,20 +12,23 @@ public class Hall : IHall
     }
     
     private readonly IContenderGenerator _contenderGenerator;
+    private readonly IBus _bus;
+    
     private List<Contender> _waitingContenders;
     private readonly Dictionary<string, Contender> _visitedContenders;
     private int _attemptNumber;
     private string _lastContenderFullName;
 
-    public Hall(IContenderGenerator contenderGenerator)
+    public Hall(IContenderGenerator contenderGenerator, IBus bus)
     {
         _contenderGenerator = contenderGenerator;
+        _bus = bus;
         _visitedContenders = new Dictionary<string, Contender>();
         _waitingContenders = new List<Contender>();
         _lastContenderFullName = "";
     }
 
-    public Task<string?> LetTheNextContenderGoToThePrincess()
+    public Task LetTheNextContenderGoToThePrincess()
     {
         string? fullName;
         if (_waitingContenders.Count == 0)
@@ -39,7 +44,7 @@ public class Hall : IHall
             _visitedContenders.Add(fullName, contender);
             _lastContenderFullName = fullName;
         }
-        return Task.FromResult(fullName);
+        return _bus.Publish(new ContenderNameDto(fullName));
     }
 
     public Task<int> SelectContender()
