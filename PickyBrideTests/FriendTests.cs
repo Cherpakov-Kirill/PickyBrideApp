@@ -1,10 +1,9 @@
 ﻿using FluentAssertions;
+using HallWebApi.model.contender;
+using HallWebApi.model.database;
+using HallWebApi.model.friend;
+using HallWebApi.model.hall;
 using NUnit.Framework;
-using PickyBride.contender;
-using PickyBride.database;
-using PickyBride.database.context;
-using PickyBride.friend;
-using PickyBride.hall;
 
 namespace PickyBrideTests;
 
@@ -27,56 +26,56 @@ public class FriendTests
     }
 
     [Test]
-    public void ShouldNotThrowsErrorWhenBothContendersVisitedThePrincess()
+    public async Task ShouldNotThrowsErrorWhenBothContendersVisitedThePrincess()
     {
-        var firstContender = _hall.LetTheNextContenderGoToThePrincess();
-        var secondContender = _hall.LetTheNextContenderGoToThePrincess();
-        _friend.Invoking(y => y.IsFirstBetterThenSecond(firstContender, secondContender))
+        var firstContender = await _hall.LetTheNextContenderGoToThePrincess();
+        var secondContender = await _hall.LetTheNextContenderGoToThePrincess();
+        await _friend.Invoking(y => y.WhoIsBetter(firstContender!, secondContender!))
             .Should()
-            .NotThrow();
+            .NotThrowAsync();
     }
 
     [Test]
-    public void ShouldThrowsErrorWhenFirstContenderDidNotVisitedThePrincess()
+    public async Task ShouldThrowsErrorWhenFirstContenderDidNotVisitedThePrincess()
     {
-        var contender = _hall.LetTheNextContenderGoToThePrincess();
-        var notVisitedContender = contender + 1;
-        _friend.Invoking(y => y.IsFirstBetterThenSecond(notVisitedContender, contender))
+        var contender = await _hall.LetTheNextContenderGoToThePrincess();
+        const string notVisitedContender = "Not visited Contender";
+        await _friend.Invoking(y => y.WhoIsBetter(notVisitedContender, contender!))
             .Should()
-            .Throw<ApplicationException>()
-            .WithMessage(PickyBride.resources.ThisContenderDidNotVisit);
+            .ThrowAsync<ApplicationException>()
+            .WithMessage(HallWebApi.resources.ThisContenderDidNotVisit);
     }
     
     [Test]
-    public void ShouldThrowsErrorWhenSecondContenderDidNotVisitedThePrincess()
+    public async Task ShouldThrowsErrorWhenSecondContenderDidNotVisitedThePrincess()
     {
-        var contender = _hall.LetTheNextContenderGoToThePrincess();
-        var notVisitedContender = contender + 1;
-        _friend.Invoking(y => y.IsFirstBetterThenSecond(contender, notVisitedContender))
+        var contender = await _hall.LetTheNextContenderGoToThePrincess();
+        const string notVisitedContender = "Not visited Contender";
+        await _friend.Invoking(y => y.WhoIsBetter(contender!, notVisitedContender))
             .Should()
-            .Throw<ApplicationException>()
-            .WithMessage(PickyBride.resources.ThisContenderDidNotVisit);
+            .ThrowAsync<ApplicationException>()
+            .WithMessage(HallWebApi.resources.ThisContenderDidNotVisit);
     }
     
     [Test]
     public void ShouldThrowsErrorWhenBothContendersDidNotVisitedThePrincess()
     {
-        const int firstContendersWithoutVisit = 1;
-        const int secondContendersWithoutVisit = firstContendersWithoutVisit + 1;
-        _friend.Invoking(y => y.IsFirstBetterThenSecond(secondContendersWithoutVisit, firstContendersWithoutVisit))
+        const string firstContendersWithoutVisit = "First Not visited Contender";
+        const string secondContendersWithoutVisit = "Second Not visited Contender";
+        _friend.Invoking(y => y.WhoIsBetter(secondContendersWithoutVisit, firstContendersWithoutVisit))
             .Should()
-            .Throw<ApplicationException>()
-            .WithMessage(PickyBride.resources.ThisContenderDidNotVisit);
+            .ThrowAsync<ApplicationException>()
+            .WithMessage(HallWebApi.resources.ThisContenderDidNotVisit);
     }
 
     [Test]
-    public void ShouldCorrectlyComparesOfContenders()
+    public async Task ShouldCorrectlyComparesOfContenders()
     {
-        var firstContenderId = _hall.LetTheNextContenderGoToThePrincess();
-        var secondContenderId = _hall.LetTheNextContenderGoToThePrincess();
-        var firstContender = _hall.GetVisitedContender(firstContenderId);
-        var secondContender = _hall.GetVisitedContender(secondContenderId);
-        var result = _friend.IsFirstBetterThenSecond(firstContenderId, secondContenderId);
-        result.Should().Be(firstContender.Prettiness.CompareTo(secondContender.Prettiness));
+        var firstContenderName = await _hall.LetTheNextContenderGoToThePrincess();
+        var secondContenderName = await _hall.LetTheNextContenderGoToThePrincess();
+        var firstContender = _hall.GetVisitedContender(firstContenderName!);
+        var secondContender = _hall.GetVisitedContender(secondContenderName!);
+        var result = await _friend.WhoIsBetter(firstContenderName!, secondContenderName!);
+        result.Should().Be(firstContender.Prettiness > secondContender.Prettiness ? firstContenderName : secondContenderName);
     }
 }

@@ -1,4 +1,4 @@
-namespace PickyBride.contender;
+namespace HallWebApi.model.contender;
 
 public interface IContenderGenerator
 {

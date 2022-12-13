@@ -11,24 +11,16 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0-rc.1.22426.10" />
-      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0-rc.1.22426.10" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0" />
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="resources.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>resources.resx</DependentUpon>
-      </Compile>
+      <ProjectReference Include="..\HallWebApi\HallWebApi.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Update="resources.resx">
-        <Generator>PublicResXFileCodeGenerator</Generator>
-      </EmbeddedResource>
+      <None Include="app.config" />
     </ItemGroup>
 
 </Project>

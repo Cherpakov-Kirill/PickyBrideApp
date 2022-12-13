@@ -1,59 +1,39 @@
-using PickyBride.contender;
+using HallWebApi.model.contender;
+using HallWebApi.model.hall;
+using HallWebApi.model.dto;
+using PickyBride.api;
 
 namespace PickyBride.hall;
 
 public class Hall : IHall
 {
-    private readonly IContenderGenerator _contenderGenerator;
-    private List<Contender> _waitingContenders;
-    private readonly Dictionary<int, Contender> _visitedContenders;
     private int _attemptNumber;
+    private readonly HttpController _httpController;
 
-    public Hall(IContenderGenerator contenderGenerator)
+    public Hall(HttpController httpController)
     {
-        _contenderGenerator = contenderGenerator;
-        _visitedContenders = new Dictionary<int, Contender>();
-        _waitingContenders = new List<Contender>();
+        _httpController = httpController;
     }
 
-    public int LetTheNextContenderGoToThePrincess()
+    public async Task<string?> LetTheNextContenderGoToThePrincess()
     {
-        if (_waitingContenders.Count == 0)
-        {
-            throw new ApplicationException(resources.NoNewContender);
-        }
-
-        var contender = _waitingContenders[0];
-
-        _waitingContenders.Remove(contender);
-        var contenderPosition = _visitedContenders.Count + 1;
-        _visitedContenders.Add(contenderPosition, contender);
-        
-        return contenderPosition;
+        var response = await _httpController.SendPostRequest<ContenderNameDto>($"/hall/{_attemptNumber}/next");
+        return response!.Name;
     }
 
-    public int GetContenderPrettiness(int contenderId)
+    public async Task<int> SelectContender()
     {
-        var takenContender = GetVisitedContender(contenderId);
-        Console.Write(resources.ChosenContenderInfo, _attemptNumber, contenderId, takenContender.Name,
-            takenContender.Patronymic, takenContender.Prettiness);
-        return takenContender.Prettiness;
+        var response = await _httpController.SendPostRequest<ContenderRankDto>($"/hall/{_attemptNumber}/select");
+        return response!.Rank;
     }
 
-    public Contender GetVisitedContender(int contenderId)
+    public Contender GetVisitedContender(string fullName)
     {
-        if (!_visitedContenders.ContainsKey(contenderId))
-        {
-            throw new ApplicationException(resources.ThisContenderDidNotVisit);
-        }
-
-        return _visitedContenders[contenderId];
+        throw new NotImplementedException();
     }
 
     public async Task Initialize(int newNumberOfAttempt)
     {
         _attemptNumber = newNumberOfAttempt;
-        _waitingContenders = await _contenderGenerator.GetContenders(_attemptNumber);
-        _visitedContenders.Clear();
     }
 }

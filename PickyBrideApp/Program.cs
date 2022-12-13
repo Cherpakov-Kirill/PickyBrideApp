@@ -1,19 +1,16 @@
+using HallWebApi.model.friend;
+using HallWebApi.model.hall;
 using Microsoft.Extensions.Hosting;
-using PickyBride.contender;
-using PickyBride.friend;
-using PickyBride.hall;
 using PickyBride.princess;
 using Microsoft.Extensions.DependencyInjection;
-using PickyBride.database;
-using PickyBride.database.context;
+using PickyBride.api;
 
 namespace PickyBride;
 
 public static class Program
 {
-    public const int MaxNumberOfContenders = 100;
     public const int NumberOfAttempts = 100;
-
+    public const int MaxNumberOfContenders = 100;
     public static void Main(string[] args)
     {
         CreateAttemptsGeneratorHostBuilder(args).Build().Run();
@@ -25,11 +22,9 @@ public static class Program
             .ConfigureServices((_, services) =>
             {
                 services.AddHostedService<Princess>();
-                services.AddScoped<BaseDbContext, PostgresqlDbContext>();
-                services.AddScoped<IDbController, DbController>();
-                services.AddScoped<IContenderGenerator, DbContenderLoader>();
-                services.AddScoped<IHall, Hall>();
-                services.AddScoped<IFriend, Friend>();
+                services.AddScoped<HttpController>();
+                services.AddScoped<IHall, PickyBride.hall.Hall>();
+                services.AddScoped<IFriend, PickyBride.friend.Friend>();
             });
     }
 }

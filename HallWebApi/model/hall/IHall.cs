@@ -1,6 +1,6 @@
-using PickyBride.contender;
+using HallWebApi.model.contender;
 
-namespace PickyBride.hall;
+namespace HallWebApi.model.hall;
 
 public interface IHall
 {
@@ -8,28 +8,26 @@ public interface IHall
     /// Returns unique id of next contender in queue for coming to princess.
     /// </summary>
     /// <returns>
-    /// Contender id of next contender.
+    /// if hall has new contenders, than Contender full name = {name patronymic}. 
+    /// if hall has not any new contender, than null. 
     /// </returns>
-    public int LetTheNextContenderGoToThePrincess();
+    public Task<string?> LetTheNextContenderGoToThePrincess();
 
     /// <summary>
-    /// Method returns chosen contender prettiness.
+    /// Method returns last visited contender prettiness
     /// </summary>
-    /// <param name="contenderId"></param>
-    /// <returns>
-    /// Chosen contender prettiness.
-    /// </returns>
-    public int GetContenderPrettiness(int contenderId);
+    /// <returns>last visited contender prettiness</returns>
+    public Task<int> SelectContender();
     
     /// <summary>
     /// Returns contender object by contenderId.
     /// </summary>
-    /// <param name="contenderId">contender id</param>
+    /// <param name="fullName"></param>
     /// <returns>
     /// Contender object.
     /// </returns>
     /// <exception cref="ApplicationException">throws when contender with this id had not visit the princess yet.</exception>
-    public Contender GetVisitedContender(int contenderId);
+    public Contender GetVisitedContender(string fullName);
 
     /// <summary>
     /// Initialize all hall's data for starting new attempt

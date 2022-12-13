@@ -1,7 +1,7 @@
-using PickyBride.contender;
-using PickyBride.database.entity;
+using HallWebApi.model.contender;
+using HallWebApi.model.database.entity;
 
-namespace PickyBride.database;
+namespace HallWebApi.model.database;
 
 public interface IDbController
 {

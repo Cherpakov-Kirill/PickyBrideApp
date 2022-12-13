@@ -1,6 +1,6 @@
-using PickyBride.database;
+using HallWebApi.model.database;
 
-namespace PickyBride.contender;
+namespace HallWebApi.model.contender;
 
 public class DbContenderLoader : IContenderGenerator
 {

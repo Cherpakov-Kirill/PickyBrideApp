@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
+using HallWebApi.model.contender;
+using HallWebApi.model.database;
 using NUnit.Framework;
-using PickyBride.contender;
-using PickyBride.database;
 
 namespace PickyBrideTests;
 
@@ -30,7 +30,7 @@ public class ContenderGeneratorTests
         generator.Invoking(async y => await y.GetContenders(numberOfContenders))
             .Should()
             .ThrowAsync<ApplicationException>()
-            .WithMessage(PickyBride.resources.NumberOfContendersShouldBeMoreThenZero);
+            .WithMessage(HallWebApi.resources.NumberOfContendersShouldBeMoreThenZero);
     }
 
     [Test]

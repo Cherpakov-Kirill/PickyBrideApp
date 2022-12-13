@@ -1,7 +1,7 @@
 using FluentAssertions;
+using HallWebApi.model.contender;
+using HallWebApi.model.database;
 using NUnit.Framework;
-using PickyBride.contender;
-using PickyBride.database;
 
 namespace PickyBrideTests;
 

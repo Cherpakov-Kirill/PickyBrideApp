@@ -1,6 +1,6 @@
-using PickyBride.contender;
+using HallWebApi.model.contender;
 
-namespace PickyBride.database.entity;
+namespace HallWebApi.model.database.entity;
 
 public class ContenderEntity
 {

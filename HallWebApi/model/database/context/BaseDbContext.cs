@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using PickyBride.database.entity;
+using HallWebApi.model.database.entity;
 
-namespace PickyBride.database.context;
+namespace HallWebApi.model.database.context;
 
 public abstract class BaseDbContext : DbContext
 {
