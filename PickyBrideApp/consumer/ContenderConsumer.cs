@@ -23,6 +23,6 @@ public class ContenderConsumer : IConsumer<ContenderNameDto>
     public async Task Consume(ConsumeContext<ContenderNameDto> context)
     {
         var message = context.Message;
-        await _princess.GiveNewContender(message.Name);
+        await _princess.ReceiveNewContender(message.Name);
     }
 }

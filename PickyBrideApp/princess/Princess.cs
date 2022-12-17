@@ -94,7 +94,7 @@ public class Princess : IHostedService
     /// Transfer a new contender from Hall. Check on princess criteria. Continue finding.
     /// </summary>
     /// <param name="contenderName">New contender full name</param>
-    public async Task GiveNewContender(string? contenderName)
+    public async Task ReceiveNewContender(string? contenderName)
     {
         if (contenderName == null)
         {
