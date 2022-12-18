@@ -123,7 +123,7 @@ namespace HallWebApi {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Princess happiness = {0}.
+        ///   Looks up a localized string similar to Attempt number = {0} | Princess happiness = {1}.
         /// </summary>
         public static string PrincessHappinessIs {
             get {

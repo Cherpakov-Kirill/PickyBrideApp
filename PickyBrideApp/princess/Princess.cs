@@ -16,6 +16,7 @@ public class Princess : IHostedService
     private const int NumberOfTheBestContendersInTheEndOfSortedList = 4;
     private readonly IHall _hall;
     private readonly IFriend _friend;
+    private readonly ContenderComparer _contenderComparer;
     private readonly List<string> _contenders;
     private readonly IHostApplicationLifetime? _appLifetime;
     
@@ -27,6 +28,7 @@ public class Princess : IHostedService
         _appLifetime = appLifetime;
         _hall = hall;
         _friend = friend;
+        _contenderComparer = new ContenderComparer(friend);
         _contenders = new List<string>();
         _currentAttemptNumber = 0;
         _princessHappinessSum = 0;
@@ -130,6 +132,7 @@ public class Princess : IHostedService
         }
 
         var chosenContenderPrettiness = await _hall.SelectContender();
+        Console.Write($"Prettiness = {chosenContenderPrettiness} | ");
 
         var princessHappiness = chosenContenderPrettiness switch
         {
@@ -138,21 +141,15 @@ public class Princess : IHostedService
             96 => HundredResult, // if contender prettiness = 96, then princess happiness = 100
             _ => DefeatResult // otherwise princess happiness = 0
         };
-        Console.WriteLine(HallWebApi.resources.PrincessHappinessIs, princessHappiness);
+        Console.WriteLine(HallWebApi.resources.PrincessHappinessIs, _currentAttemptNumber, princessHappiness);
         return princessHappiness;
-    }
-
-    private async Task<int> Comparison(string firstContenderFullName, string secondContenderFullName)
-    {
-        return await _friend.WhoIsBetter(firstContenderFullName, secondContenderFullName) == firstContenderFullName
-            ? 1
-            : -1;
     }
 
     private int AddNewContender(string contenderName)
     {
-        _contenders.Add(contenderName);
-        _contenders.Sort((firstContenderFullName, secondContenderFullName) => Comparison(firstContenderFullName, secondContenderFullName).Result);
+        var index = _contenders.BinarySearch(contenderName, _contenderComparer);
+        if (index < 0) index = ~index;
+        _contenders.Insert(index, contenderName);
         return _contenders.IndexOf(contenderName);
     }
 }

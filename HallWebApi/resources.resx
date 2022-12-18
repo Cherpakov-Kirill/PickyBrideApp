@@ -43,6 +43,6 @@
         <value>The average value of the princess's happiness = {0}</value>
     </data>
     <data name="PrincessHappinessIs" xml:space="preserve">
-        <value>Princess happiness = {0}</value>
+        <value>Attempt number = {0} | Princess happiness = {1}</value>
     </data>
 </root>
