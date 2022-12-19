@@ -1,3 +1,4 @@
+using System.Text;
 using PickyBride.friend;
 using PickyBride.hall;
 using Microsoft.Extensions.Hosting;
@@ -13,12 +14,13 @@ public class Princess : IHostedService
     public const int DefeatResult = 0;
     private const int PrincessDidNotTakeAnyOne = -1;
 
-    private const int NumberOfSkippingContenders = 45;
-    private const int NumberOfTheBestContendersInTheEndOfSortedList = 4;
+    private int NumberOfSkippingContenders;
+    private int NumberOfTheBestContendersInTheEndOfSortedList;
     private readonly IHall _hall;
     private readonly IFriend _friend;
     private readonly List<int> _contenders;
     private readonly IHostApplicationLifetime? _appLifetime;
+    private int _currentAttemptNumber;
 
     public Princess(IHostApplicationLifetime? appLifetime, IHall hall, IFriend friend)
     {
@@ -47,16 +49,42 @@ public class Princess : IHostedService
 
     private async Task OnStarted()
     {
-        var sum = 0.0;
-        for (var currentAttemptNumber = 1; currentAttemptNumber <= Program.NumberOfAttempts; currentAttemptNumber++)
-        {
-            _contenders.Clear();
-            await _hall.Initialize(currentAttemptNumber);
-            sum += FindContender();
-        }
+        var csvFile = new StringBuilder();
 
-        var avg = Math.Round(sum / (float)Program.NumberOfAttempts, 2);
-        Console.WriteLine(resources.AvgOfPrincessHappiness, avg);
+        csvFile.Append("#,1");
+        for (NumberOfTheBestContendersInTheEndOfSortedList = 2;
+             NumberOfTheBestContendersInTheEndOfSortedList <= 20;
+             NumberOfTheBestContendersInTheEndOfSortedList++)
+        {
+            csvFile.Append($",{NumberOfTheBestContendersInTheEndOfSortedList}");
+        }
+        csvFile.Append('\n');
+
+        for (NumberOfSkippingContenders = 71; NumberOfSkippingContenders <= 95; NumberOfSkippingContenders++)
+        {
+            var csvLine = new StringBuilder();
+            csvLine.Append($"{NumberOfSkippingContenders}");
+            
+            for (NumberOfTheBestContendersInTheEndOfSortedList = 1;
+                 NumberOfTheBestContendersInTheEndOfSortedList <= 20;
+                 NumberOfTheBestContendersInTheEndOfSortedList++)
+            {
+                var sum = 0.0;
+                for (_currentAttemptNumber = 1; _currentAttemptNumber <= Program.NumberOfAttempts; _currentAttemptNumber++)
+                {
+                    _contenders.Clear();
+                    await _hall.Initialize(_currentAttemptNumber);
+                    sum += FindContender();
+                }
+
+                var avg = Math.Round(sum / (float)Program.NumberOfAttempts, 2);
+                csvLine.Append($",\"{avg}\"");
+                Console.WriteLine($"skip={NumberOfSkippingContenders}, bestOffset={NumberOfTheBestContendersInTheEndOfSortedList}, avg={avg}");
+            }
+
+            csvFile.AppendLine(csvLine.ToString());
+        }
+        File.WriteAllText(@"C:\Users\cherp\OneDrive\Desktop\out.csv", csvFile.ToString());
 
         _appLifetime?.StopApplication();
     }
@@ -67,23 +95,24 @@ public class Princess : IHostedService
     /// <returns>Level of princess happiness after choose of prince.</returns>
     public int FindContender()
     {
+        int contenderId = 0;
         for (var i = 0; i < NumberOfSkippingContenders; i++)
         {
-            var contenderId = _hall.LetTheNextContenderGoToThePrincess();
+            contenderId = _hall.LetTheNextContenderGoToThePrincess();
             AddNewContender(contenderId);
         }
 
         var idx = 0;
-        var res = 0;
+        var res = contenderId;
         while (idx < _contenders.Count - NumberOfTheBestContendersInTheEndOfSortedList)
         {
             if (_contenders.Count == Program.MaxNumberOfContenders)
                 return ComputePrincessHappiness(PrincessDidNotTakeAnyOne);
-            var contenderId = _hall.LetTheNextContenderGoToThePrincess();
+            contenderId = _hall.LetTheNextContenderGoToThePrincess();
             idx = AddNewContender(contenderId);
             res = _contenders[idx];
         }
-
+        //Console.Write($"NumberOFVisitedConteders = {_contenders.Count} | listIDx = {idx} | ");
         return ComputePrincessHappiness(res);
     }
 
@@ -91,7 +120,7 @@ public class Princess : IHostedService
     {
         if (contenderId == PrincessDidNotTakeAnyOne)
         {
-            Console.WriteLine(resources.PrincessCouldNotChooseAnyContenderResult, NotTakenResult);
+            //Console.WriteLine(resources.PrincessCouldNotChooseAnyContenderResult, NotTakenResult);
             return NotTakenResult;
         }
 
@@ -104,7 +133,7 @@ public class Princess : IHostedService
             96 => HundredResult, // if contender prettiness = 96, then princess happiness = 100
             _ => DefeatResult // otherwise princess happiness = 0
         };
-        Console.WriteLine(resources.PrincessHappinessIs, princessHappiness);
+        //Console.WriteLine(resources.PrincessHappinessIs, princessHappiness);
         return princessHappiness;
     }
 

@@ -35,8 +35,8 @@ public class Hall : IHall
     public int GetContenderPrettiness(int contenderId)
     {
         var takenContender = GetVisitedContender(contenderId);
-        Console.Write(resources.ChosenContenderInfo, _attemptNumber, contenderId, takenContender.Name,
-            takenContender.Patronymic, takenContender.Prettiness);
+        /*Console.Write(resources.ChosenContenderInfo, _attemptNumber, contenderId, takenContender.Name,
+            takenContender.Patronymic, takenContender.Prettiness);*/
         return takenContender.Prettiness;
     }
 
