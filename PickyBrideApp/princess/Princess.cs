@@ -1,3 +1,4 @@
+using HallWebApi;
 using HallWebApi.model.friend;
 using HallWebApi.model.hall;
 using Microsoft.Extensions.Hosting;
@@ -127,12 +128,13 @@ public class Princess : IHostedService
     {
         if (contenderName == null)
         {
-            Console.WriteLine(HallWebApi.resources.PrincessCouldNotChooseAnyContenderResult, NotTakenResult);
+            Console.Write(resources.PrincessCouldNotChooseAnyContenderResult);
+            Console.WriteLine(resources.PrincessHappinessIs, _currentAttemptNumber, NotTakenResult);
             return NotTakenResult;
         }
 
         var chosenContenderPrettiness = await _hall.SelectContender();
-        Console.Write($"Prettiness = {chosenContenderPrettiness} | ");
+        Console.Write(resources.ContenderPrettinessIs, chosenContenderPrettiness);
 
         var princessHappiness = chosenContenderPrettiness switch
         {
@@ -141,7 +143,7 @@ public class Princess : IHostedService
             96 => HundredResult, // if contender prettiness = 96, then princess happiness = 100
             _ => DefeatResult // otherwise princess happiness = 0
         };
-        Console.WriteLine(HallWebApi.resources.PrincessHappinessIs, _currentAttemptNumber, princessHappiness);
+        Console.WriteLine(resources.PrincessHappinessIs, _currentAttemptNumber, princessHappiness);
         return princessHappiness;
     }
 

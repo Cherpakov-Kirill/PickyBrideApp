@@ -87,6 +87,15 @@ namespace HallWebApi {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prettiness = {0} | .
+        /// </summary>
+        public static string ContenderPrettinessIs {
+            get {
+                return ResourceManager.GetString("ContenderPrettinessIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no new contenders for the princess in the hall.
         /// </summary>
         public static string NoNewContender {
@@ -114,7 +123,7 @@ namespace HallWebApi {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Princess could not choose any contender. Princess happiness : {0}.
+        ///   Looks up a localized string similar to Princess could not choose any contender. |.
         /// </summary>
         public static string PrincessCouldNotChooseAnyContenderResult {
             get {
