@@ -5,13 +5,13 @@ namespace HallWebApi.model.hall;
 public interface IHall
 {
     /// <summary>
-    /// Returns unique id of next contender in queue for coming to princess.
+    /// Requests a new contender from hall
     /// </summary>
     /// <returns>
     /// if hall has new contenders, than Contender full name = {name patronymic}. 
     /// if hall has not any new contender, than null. 
     /// </returns>
-    public Task<string?> LetTheNextContenderGoToThePrincess();
+    public Task LetTheNextContenderGoToThePrincess();
 
     /// <summary>
     /// Method returns last visited contender prettiness

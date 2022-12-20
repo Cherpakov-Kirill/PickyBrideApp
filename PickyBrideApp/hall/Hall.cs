@@ -15,10 +15,9 @@ public class Hall : IHall
         _httpController = httpController;
     }
 
-    public async Task<string?> LetTheNextContenderGoToThePrincess()
+    public Task LetTheNextContenderGoToThePrincess()
     {
-        var response = await _httpController.SendPostRequest<ContenderNameDto>($"/hall/{_attemptNumber}/next");
-        return response!.Name;
+        return _httpController.SendPostRequest($"/hall/{_attemptNumber}/next");
     }
 
     public async Task<int> SelectContender()

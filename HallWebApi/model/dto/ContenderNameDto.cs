@@ -5,9 +5,9 @@ namespace HallWebApi.model.dto;
 public class ContenderNameDto
 {
     [JsonPropertyName("name")]
-    public string Name { get; }
+    public string? Name { get; }
  
-    public ContenderNameDto(string name)
+    public ContenderNameDto(string? name)
     {
         Name = name;
     } 
