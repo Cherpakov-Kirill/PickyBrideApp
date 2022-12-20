@@ -13,8 +13,8 @@ public class Princess : IHostedService
     public const int DefeatResult = 0;
     private const int PrincessDidNotTakeAnyOne = -1;
 
-    private const int NumberOfSkippingContenders = 45;
-    private const int NumberOfTheBestContendersInTheEndOfSortedList = 4;
+    private const int NumberOfSkippingContenders = 65;
+    private const int NumberOfTheBestContendersInTheEndOfSortedList = 5;
     private readonly IHall _hall;
     private readonly IFriend _friend;
     private readonly List<int> _contenders;

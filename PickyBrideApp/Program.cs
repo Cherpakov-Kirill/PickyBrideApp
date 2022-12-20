@@ -27,7 +27,7 @@ public static class Program
                 services.AddHostedService<Princess>();
                 services.AddScoped<BaseDbContext, PostgresqlDbContext>();
                 services.AddScoped<IDbController, DbController>();
-                services.AddScoped<IContenderGenerator, DbContenderLoader>();
+                services.AddScoped<IContenderGenerator, ContenderGenerator>(provider => new ContenderGenerator(provider.GetRequiredService<IDbController>(), MaxNumberOfContenders));
                 services.AddScoped<IHall, Hall>();
                 services.AddScoped<IFriend, Friend>();
             });

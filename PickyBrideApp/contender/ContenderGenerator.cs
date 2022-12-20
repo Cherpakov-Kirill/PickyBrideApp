@@ -50,7 +50,7 @@ public class ContenderGenerator : IContenderGenerator
 
         var random = new Random();
         contenders = contenders.OrderBy(x => random.Next(1, _numberOfContenders)).ToList();
-        await _dbController.SaveAllContendersToDb(contenders, attemptNumber);
+        //await _dbController.SaveAllContendersToDb(contenders, attemptNumber);
         return contenders;
     }
 }
